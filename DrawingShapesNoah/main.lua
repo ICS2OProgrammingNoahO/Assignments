@@ -1,4 +1,5 @@
 -- Title: DrawingShapes
+
 -- Name: Noah Ouellette
 -- Course: ICS2O
 -- This program Displays various shapes
@@ -29,7 +30,7 @@ local pentagonText = display.newText("Pentagon", 200, 350, nil, 50)
 pentagonText.strokeWidth = 5
 
 pentagonText:setStrokeColor(1000/255, 0/255, 255/255)
-
+--make it visible
 pentagon.isVisible = true
 pentagonText.isVisible = true
 
@@ -50,11 +51,11 @@ triangle:setFillColor(216/255, 135/255, 240/255)
 
 --creates the text
 local triangleText = display.newText("Triangle", 525, 350, nil, 50)
-
+--sets the text width
 triangleText.strokeWidth = 5
-
+--set the colour
 triangleText:setStrokeColor(1000/255, 0/255, 255/255)
-
+--make it visible
 triangle.isVisible = true
 triangleText.isVisible = true
 
@@ -76,11 +77,11 @@ octagon:setFillColor(255/255, 255/255, 0/255)
 
 --creates the text
 local octagonText = display.newText("Octagon", 550, 700, nil, 50)
-
+-- set the width
 octagonText.strokeWidth = 5
-
+--set the colour
 octagonText:setStrokeColor(1000/255, 0/255, 255/255)
-
+--make it visible
 octagon.isVisible = true
 octagonText.isVisible = true
 
@@ -102,11 +103,11 @@ quadrilateral:setFillColor(25/255, 176/255, 240/255)
 
 --creates the text
 local quadrilateralText = display.newText("Quadrilateral", 200, 700, nil, 50)
-
+--set the width
 quadrilateralText.strokeWidth = 5
-
+--set the colour
 quadrilateralText:setStrokeColor(127/255, 219/255, 178/255)
-
+--make it visible
 quadrilateral.isVisible = true
 quadrilateralText.isVisible = true
 
@@ -114,18 +115,18 @@ quadrilateralText.isVisible = true
 --title1
 -------------------------------------------------------------------------------------------------------------------
 local title1 = display.newText("Normal Coloured Shapes", display.contentWidth/2, 50, nil, 70)
-
+--set fill colour
 title1:setFillColor(0/255, 0/255, 255/255)
-
+--make it visible
 title1.isVisible = true
 
 -------------------------------------------------------------------------------------------------------------------
 --title2
 -------------------------------------------------------------------------------------------------------------------
 local title2 = display.newText("Gradient Coloured Shapes", display.contentWidth/2, 50, nil, 70)
-
+--set fill colour
 title2:setFillColor(0/255, 0/255, 255/255)
-
+--make it visible
 title2.isVisible = false
 
 
@@ -133,9 +134,9 @@ title2.isVisible = false
 --title3
 -------------------------------------------------------------------------------------------------------------------
 local title3 = display.newText("Image Filled Shapes", display.contentWidth/2, 50, nil, 70)
-
+--set fill colour
 title3:setFillColor(0/255, 0/255, 255/255)
-
+--make it visible
 title3.isVisible = false
 -------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------
@@ -144,7 +145,7 @@ title3.isVisible = false
 
 --Creates a variable that has the verticies of the polygon
 
-local pentagonGVerticies = {-60, -120, -120, -60, -60, 60, 60, 60, 120, -60}
+local pentagonGVerticies = {-70, -140, -70, -80, -90, 60, 90, 60, 150, -60}
 
 --display the polygon
 local pentagonG = display.newPolygon(350, 200, pentagonGVerticies)
@@ -152,7 +153,7 @@ local pentagonG = display.newPolygon(350, 200, pentagonGVerticies)
 --Sets border width
 pentagonG.strokeWidth = 5
 --sets border color
-pentagonG:setStrokeColor( 255/255, 0/255, 0/255)
+pentagonG:setStrokeColor( 135/255, 245/255, 034/255)
 
 --creates gradient
 local go4 = { type="gradient", color1={ 0/255, 255/255, 0/255 }, color2={ 0, 0, 255 } }
@@ -161,18 +162,18 @@ pentagonG:setFillColor(go4)
 
 --creates the text
 local pentagonGText = display.newText("Pentagon", 350, 350, nil, 50)
-
+--set width
 pentagonGText.strokeWidth = 5
-
-pentagonGText:setStrokeColor(1000/255, 0/255, 255/255)
-
+--set colour
+pentagonGText:setStrokeColor(135/255, 245/255, 034/255)
+--make it visible
 pentagonG.isVisible = false
 pentagonGText.isVisible = false
 
 -------------------------------------------------------------------------------------------------------------------
 --TRIANGLE
 -------------------------------------------------------------------------------------------------------------------
-local triangleVerticiesG = {-120, 60, 180, -120, 60, 60}
+local triangleVerticiesG = {-40, 60, -120, -120, 60, 60}
 
 --display the polygon
 local triangleG = display.newPolygon(620, 200, triangleVerticiesG)
@@ -180,7 +181,7 @@ local triangleG = display.newPolygon(620, 200, triangleVerticiesG)
 --Sets border width
 triangleG.strokeWidth = 5
 --sets border color
-triangleG:setStrokeColor( 134/255, 11/255, 172/255)
+triangleG:setStrokeColor( 0/255, 255/255, 0/255)
 
 --creates gradient
 local go3 = { type="gradient", color1={ 216/255, 135/255, 240/255 }, color2={ 230/255, 0/255, 150/255 } }
@@ -193,7 +194,7 @@ local triangleGText = display.newText("Triangle", 595, 350, nil, 50)
 triangleGText.strokeWidth = 5
 
 triangleGText:setStrokeColor(100/255, 0/255, 255/255)
-
+--make it visible
 triangleG.isVisible = false
 triangleGText.isVisible = false
 
@@ -201,7 +202,7 @@ triangleGText.isVisible = false
 -------------------------------------------------------------------------------------------------------------------
 --OCTAGON
 -------------------------------------------------------------------------------------------------------------------
-local octagonVerticiesG = {-60, 120, -100, 60, -120, -60, -60, -100, 60, -120, 120, -60, 120, 60, 60, 120}
+local octagonVerticiesG = {-60, 120, -100, 60, -10, -60, -60, -100, 60, -120, 120, -60, 20, 60, 60, 120}
 
 --display the polygon
 local octagonG = display.newPolygon(620, 540, octagonVerticiesG)
@@ -222,7 +223,7 @@ local octagonGText = display.newText("Octagon", 620, 700, nil, 50)
 octagonGText.strokeWidth = 5
 
 octagonGText:setStrokeColor(1000/255, 0/255, 255/255)
-
+--make it visible
 octagonG.isVisible = false
 octagonGText.isVisible = false
 
@@ -250,7 +251,7 @@ local quadrilateralGText = display.newText("Quadrilateral", 350, 700, nil, 50)
 quadrilateralGText.strokeWidth = 5
 
 quadrilateralGText:setStrokeColor(127/255, 219/255, 178/255)
-
+--make it visible
 quadrilateralG.isVisible = false
 quadrilateralGText.isVisible = false
 
@@ -261,7 +262,7 @@ quadrilateralGText.isVisible = false
 
 --Creates a variable that has the verticies of the polygon
 
-local pentagonIVerticies = {-60, -120, -120, -60, -60, 60, 60, 60, 120, -60}
+local pentagonIVerticies = {-60, -120, -120, -60, -60, 60, 60, 60, 120, -90}
 
 --display the polygon
 local pentagonI = display.newPolygon(450, 200, pentagonIVerticies)
@@ -281,14 +282,14 @@ local pentagonIText = display.newText("Pentagon", 450, 350, nil, 50)
 pentagonIText.strokeWidth = 5
 
 pentagonIText:setStrokeColor(0/255, 0/255, 255/255)
-
+--make it visible
 pentagonI.isVisible = false
 pentagonIText.isVisible = false
 
 -------------------------------------------------------------------------------------------------------------------
 --TRIANGLE
 -------------------------------------------------------------------------------------------------------------------
-local triangleVerticiesI = {-120, 60, 180, -120, 60, 60}
+local triangleVerticiesI = {-90, 60, 60, -80, 60, 60}
 
 --display the polygon
 local triangleI = display.newPolygon(800, 200, triangleVerticiesI)
@@ -298,10 +299,8 @@ triangleI.strokeWidth = 5
 --sets border color
 triangleI:setStrokeColor( 134/255, 11/255, 172/255)
 
---creates gradient
-local go3 = { type="gradient", color1={ 216/255, 135/255, 240/255 }, color2={ 230/255, 0/255, 150/255 } }
---sets fill color
-triangleI:setFillColor(go3)
+--fill with image
+triangleI.fill = { type="image", filename="mcgill.jpg" }
 
 --creates the text
 local triangleIText = display.newText("Triangle", 775, 350, nil, 50)
@@ -309,7 +308,7 @@ local triangleIText = display.newText("Triangle", 775, 350, nil, 50)
 triangleIText.strokeWidth = 5
 
 triangleIText:setStrokeColor(100/255, 0/255, 255/255)
-
+--make it visible
 triangleI.isVisible = false
 triangleIText.isVisible = false
 
@@ -317,7 +316,7 @@ triangleIText.isVisible = false
 -------------------------------------------------------------------------------------------------------------------
 --OCTAGON
 -------------------------------------------------------------------------------------------------------------------
-local octagonVerticiesI = {-60, 120, -120, 60, -120, -60, -60, -120, 60, -120, 120, -60, 120, 60, 60, 120}
+local octagonVerticiesI = {-120, 120, -120, 60, -120, -60, -60, -120, 60, -120, 140, -60, 120, 60, 60, 120}
 
 --display the polygon
 local octagonI = display.newPolygon(800, 540, octagonVerticiesI)
@@ -327,10 +326,8 @@ octagonI.strokeWidth = 8
 --sets border color
 octagonI:setStrokeColor( 255/255, 255/255, 255/255)
 
---creates gradient
-local go2 = { type="gradient", color1={ 255/255, 255/255, 0/255 }, color2={ 255, 0, 0 } }
---sets fill color
-octagonI:setFillColor(go2)
+--fill with image
+octagonI.fill = { type="image", filename="galaxy.jpeg" }
 
 --creates the text
 local octagonIText = display.newText("Octagon", 800, 700, nil, 50)
@@ -338,14 +335,14 @@ local octagonIText = display.newText("Octagon", 800, 700, nil, 50)
 octagonIText.strokeWidth = 5
 
 octagonIText:setStrokeColor(1000/255, 0/255, 255/255)
-
+--make it visible
 octagonI.isVisible = false
 octagonIText.isVisible = false
 
 -------------------------------------------------------------------------------------------------------------------
 --Quadrilateral
 -------------------------------------------------------------------------------------------------------------------
-local quadrilateralVerticiesI = {055, 123, 133, -122, -114, -024, -011, 115}
+local quadrilateralVerticiesI = {055, 123, 113, -122, -164, -024, -011, 135}
 
 --display the polygon
 local quadrilateralI = display.newPolygon(450, 550, quadrilateralVerticiesI)
@@ -355,10 +352,8 @@ quadrilateralI.strokeWidth = 5
 --sets border color
 quadrilateralI:setStrokeColor( 255/255, 255/255, 57/255)
 
---creates gradient
-local go1 = { type="gradient", color1={ 25/255, 176/255, 240/255 }, color2={ 230, 0, 255 } }
---sets fill color
-quadrilateralI:setFillColor(go1)
+--fill with image
+quadrilateralI.fill = { type="image", filename="abbeyroad.jpg" }
 
 --creates the text
 local quadrilateralIText = display.newText("Quadrilateral", 450, 700, nil, 50)
@@ -366,7 +361,7 @@ local quadrilateralIText = display.newText("Quadrilateral", 450, 700, nil, 50)
 quadrilateralIText.strokeWidth = 5
 
 quadrilateralIText:setStrokeColor(127/255, 219/255, 178/255)
-
+--make it visible
 quadrilateralI.isVisible = false
 quadrilateralIText.isVisible = false
 
