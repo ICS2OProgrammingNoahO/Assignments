@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1130.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="csrf-token" content="vxgU2LwWZXyWHhlfefXaRWjkRXXApU5DsrgFB8mE">
+<meta name="tz" content="2019-10-09 17:20:16">
+<title>Pixilart - 8-Bit Question Block by Anonymous </title>
+<meta name="description" content="Pixilart, free online drawing editor and social platform for all ages. Create game sprites, make pixel art, animated GIFs, share artwork and socialize online.">
+<meta property="og:description" content="Pixilart, free online drawing editor and social platform for all ages. Create game sprites, make pixel art, animated GIFs, share artwork and socialize online." />
+<link rel="canonical" href="http://www.pixilart.com/art/8-bit-question-block-301627c9d1fff3e" itemprop="url">
+<meta name="keywords" content="pixilart, pixelart, pixel art, pixel, art, drawing, pixel drawing, online drawing, pixel drawing online, make pixel art, make pixil art, pixil, social pixel">
+<meta name="copyright" content="Copyright 2019 Pixilart, LLC">
+
+<link rel="dns-prefetch" href="//fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,400,500,900" rel="stylesheet">
+<link href="/css/font-feather.css" rel="stylesheet" type="text/css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+<meta property="og:title" content="Pixilart - 8-Bit Question Block ">
+<meta property="og:site_name" content="Pixilart">
+<meta property="og:description" content="">
+<meta name="twitter:title" content="8-Bit Question Block">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://art.pixilart.com/301627c9d1fff3e.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="1200">
+<meta property="og:image" content="https://art.pixilart.com/301627c9d1fff3e.png">
+
+<meta property="fb:app_id" content="421508937871104" />
+<meta property="og:url" content="http://www.pixilart.com/art/8-bit-question-block-301627c9d1fff3e" />
+<meta property="og:type" content="application" />
+<meta property="og:site_name" content="Pixilart" />
+<meta property="fb:admins" content="244937025609196" />
+<meta name="is_restricted" content='1'>
+<meta name="user_meta" content='{"first_name":"","last_name":"","username":"Anonymous","profile_picture":"\/images\/user\/default_profile.png?ver=2.1","is_anon":true,"is_online":1412875216}'>
+<meta name="check_logged_in" content="">
+
+
+<script src="/js/pixshop.js?v=1.5.2.4.4" defer></script>
+<script src="/js/app.js?v=1.4.6.5.6" defer></script>
+<script src="//www.google-analytics.com/analytics.js"></script> <link href="/css/app.css?ver=1.8.1.8.8" rel="stylesheet">
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=jw6qNMPWjl">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png?v=jw6qNMPWz4">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png?v=jw6qNMPWjl">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-chrome-192x192.png?v=jw6qNMPWjl">
+<link rel="manifest" href="/images/favicon/site.webmanifest?v=gw6qNMPWjl">
+<link rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg?v=jw6qNMPWjl" color="#e74d3c">
+<meta name="apple-mobile-web-app-title" content="Pixilart">
+<meta name="application-name" content="Pixilart">
+<meta name="theme-color" content="#FFFFFF">
+<script>
+        // cdn placements
+        var _cdn = 'https://cdn.pixil.digital'; //https://cdn.pixilart.com';
+        var _cdn_art = 'https://art.pixilart.com'; //'https://art.pixilart.com';
+        var do_cdn = 'https://pixil.nyc3.digitaloceanspaces.com'; // 'https://pixil.nyc3.digitaloceanspaces.com'
+    </script>
+
+<meta name="google-site-verification" content="XLfESLCOwTg9ekpy5ozJHe2ooDxloKDFiSc5xeeheJo" />
+
+<meta name="msvalidate.01" content="F66B99A94EB4AB287B2EFFB912F599AB" />
+<script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Website",
+          "name": "Pixilart",
+          "url": "http://www.pixilart.com/art/8-bit-question-block-301627c9d1fff3e",
+          "sameAs": [
+            "https://www.facebook.com/pixilart",
+            "https://www.instagram.com/pixilart",
+            "https://www.twitter.com/pixil_art"
+          ],
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.pixilart.com/search?term={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+    </script>
+
+<script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '496731427340901'); // Insert your pixel ID here.
+        fbq('track', 'PageView');
+    </script>
+<noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=496731427340901&ev=PageView&noscript=1"
+    /></noscript>
+<script>
+        /***************************
+        * Google Tracking
+        ***************************/
+        // Function to load and initiate the Analytics tracker
+        function gaTracker(id) {
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            ga('create', id, 'auto');
+            ga('send', 'pageview');
+        }
+
+        window.gaTrack = function(path, title) {
+            ga('set', { page: path, title: title });
+            ga('send', 'pageview');
+        }
+
+        gaTracker('UA-40962823-3');
+    </script>
+</head><body class="sidebar-always image-dk  ">
+<div id="app">
+<nav class="navbar navbar-custom fixed-top navbar-expand-md navbar-light navbar-boxs">
+<div class="container max text-center">
+<div class="left full d-flex">
+<button class="home-nav-btn btn btn-light bt-light-dk btn-menu mr-3" type="button">
+<i class="ft ft-icon-menu" aria-hidden="true"></i>
+</button>
+<ul class="navbar-nav lf left-align d-none d-lg-block">
+<li class="nav-item nav-icon-inline mr-2">
+<a href="/" class="nav-link">
+<i class="ft ft-icon-home f-md" aria-hidden="true"></i>
+</a>
+</li>
+</ul>
+<a class="navbar-brand d-md-none full" href="/">
+<img src="/images/public/logo_pixilart_simple_black.png" alt="Pixilart" class="pp" />
+</a>
+<navbar-search></navbar-search>
+<button class="btn btn-light bt-light-dk search-nav-btn btn-menu ml-3 d-md-none" type="button">
+<i class="ft ft-icon-search" aria-hidden="true"></i>
+</button>
+</div>
+<div class="center full d-none d-md-block">
+<a class="navbar-brand" href="http://www.pixilart.com">
+<img src="/images/public/logo-plain-lg.png" alt="Pixilart" height="30px" class="pp" />
+</a>
+</div>
+<div class="right full d-none d-md-inline">
+<ul class="navbar-nav rt right-align">
+
+<li class="nav-item nav-icon-inline mr-1 d-flex align-items-center">
+<a href="/draw" class="nav-link f-lg navbar-drawing up">
+<i class="ft ft-icon-edit-2 mr-1" aria-hidden="true"></i> <span class="f-sm ttu">Start Drawing</span>
+</a>
+</li>
+<li class="nav-item nav-icon-inline hide-tb">
+<a href="/mobile" class="nav-link">
+<i class="ft ft-icon-smartphone" aria-hidden="true"></i> <span class="f-sm ttu item-text">Mobile</span>
+</a>
+</li>
+<li class="nav-item nav-icon-inline hide-tb">
+<a href="/gallery" class="nav-link">
+<i class="ft ft-icon-image" aria-hidden="true"></i> <span class="f-sm ttu item-text">Gallery</span>
+</a>
+</li>
+<li class="nav-item nav-icon-inline hide-tb">
+<a href="/shop" class="nav-link">
+<i class="ft ft-icon-shopping-cart" aria-hidden="true"></i> <span class="f-sm ttu item-text">Shop</span>
+</a>
+</li>
+<li class="nav-item nav-icon-inline  d-flex  ">
+<text-login :icon="true" :header="true" :cla="'nav-link f-lg'"></text-login>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<div class="sidebar-cancel-wrapper"></div>
+<aside class="app-nav">
+<div class="app-nav-wrapper sb">
+<div class="user-setup">
+<div class="d-flex justify-content-center pt-3 pb-4 text-center">
+<div class="sidebar-new-user-section">
+<img src="/images/user/default_profile.png?ver=2.1" width="80px" class="profile-image circle" alt="login/sign up" />
+<div class="mt-2 f-lg">
+<text-login class="d-block" :icon="false" :header="false" :add="true"></text-login>
+</div>
+</div>
+</div>
+</div>
+<ul class="app-nav-list mb-0">
+
+<li class="d-block d-md-none">
+<a href="/draw" class="bg-drawing color-white">
+<i class="ft ft-icon-edit-2" aria-hidden="true"></i> Start Drawing
+</a>
+</li>
+<li class="d-block d-md-none">
+<div class="divider"></div>
+</li>
+
+<li>
+<a href="/">
+<i class="ft ft-icon-home" aria-hidden="true"></i> Home
+</a>
+</li>
+<li>
+<a href="/gallery" class="active">
+<i class="ft ft-icon-image" aria-hidden="true"></i> Gallery
+</a>
+</li>
+<li>
+<a href="/online" class="d-none d-lg-block  ">
+<i class="ft ft-icon-users" aria-hidden="true"></i> Online
+</a>
+</li>
+<li>
+<a href="/contests">
+<i class="ft ft-icon-award" aria-hidden="true"></i> Contests
+</a>
+</li>
+<li>
+<a href="/groups">
+<i class="ft ft-icon-users" aria-hidden="true"></i> Groups
+</a>
+</li>
+<li>
+<a href="/requests">
+<i class="ft ft-icon-check-square" aria-hidden="true"></i> Requests
+</a>
+</li>
+<li>
+<a href="/forum">
+<i class="ft ft-icon-message-circle" aria-hidden="true"></i> Forums
+</a>
+</li>
+<li>
+<a href="/digital">
+<i class="ft ft-icon-image" aria-hidden="true"></i> Digital Art
+</a>
+</li>
+<li>
+<div class="divider"></div>
+</li>
+<li>
+<a href="/shop">
+<i class="ft ft-icon-shopping-cart" aria-hidden="true"></i> Shop
+<shop-cart-count class="badge badge-primary float-right" :count="0"></shop-cart-count>
+</a>
+</li>
+<li>
+<div class="divider"></div>
+</li>
+</ul>
+<ul class="app-nav-list-small mb-0">
+<li>
+<a href="/challenges" class="active">
+Challenges
+</a>
+</li>
+<li>
+<a href="/tutorials" class="active">
+Tutorials
+</a>
+</li>
+<li>
+<a href="/about" class="active">
+About
+</a>
+</li>
+<li>
+<a href="/help/contact" class="active">
+Contact Us
+</a>
+</li>
+<li>
+<a href="/mobile" class="active">
+Mobile App
+</a>
+</li>
+<li>
+<a href="/help" class="active">
+Help
+</a>
+</li>
+<li>
+<a href="/help/parents" class="active">
+Parents &amp; Teachers
+</a>
+</li>
+<li>
+<a href="/privacy" class="active">
+Privacy Policy
+</a>
+</li>
+<li>
+<a href="/terms" class="active">
+Terms of Use
+</a>
+</li>
+<li>
+<a href="/shop/status" class="active">
+Shop Order Lookup
+</a>
+</li>
+<li>
+<div class="divider"></div>
+</li>
+<li class="norm">
+Copyright 2019 Pixilart, LLC
+</li>
+<li>
+<div class="divider"></div>
+</li>
+</ul> </div>
+</aside>
+<main class="py-4 nav-t main-content ignore-py ">
+<div class="container image-page-template rep">
+<div class="loading-takover page abs">
+<loading :type="'bar'" :getter="'image/loaded'"></loading>
+</div>
+<art-template :id="1630395" :preview="{&quot;id&quot;:1630395,&quot;unqid&quot;:&quot;301627c9d1fff3e&quot;,&quot;user_id&quot;:-1,&quot;width&quot;:16,&quot;height&quot;:16,&quot;pixel_size&quot;:75,&quot;views&quot;:165,&quot;edits&quot;:3,&quot;photo_status&quot;:2,&quot;title&quot;:&quot;8-Bit Question Block&quot;,&quot;description&quot;:&quot;&quot;,&quot;is_user&quot;:0,&quot;is_gif&quot;:0,&quot;last_updated&quot;:&quot;0000-00-00 00:00:00&quot;,&quot;is_deleted&quot;:&quot;0&quot;,&quot;can_edit&quot;:1,&quot;is_collab&quot;:0,&quot;is_traced&quot;:0,&quot;edit_id&quot;:null,&quot;lock_comments&quot;:0,&quot;is_approved&quot;:1,&quot;created_at&quot;:&quot;2018-10-09 16:53:06&quot;,&quot;updated_at&quot;:&quot;2018-10-09 16:53:06&quot;,&quot;is_shoppable&quot;:1,&quot;is_public_shop&quot;:1,&quot;group_id&quot;:0,&quot;image_id&quot;:&quot;301627c9d1fff3e&quot;,&quot;has_replay&quot;:1,&quot;app_id&quot;:0,&quot;image_url&quot;:&quot;https:\/\/art.pixilart.com\/301627c9d1fff3e.png&quot;,&quot;has_edits&quot;:0,&quot;liked&quot;:false,&quot;likes_count&quot;:0,&quot;comments_count&quot;:0,&quot;default_picture&quot;:&quot;\/images\/user\/default_profile.png?ver=2.1&quot;,&quot;next_id&quot;:1630396,&quot;previous_id&quot;:1630394,&quot;is_pinned&quot;:false,&quot;edit_drawing_url&quot;:&quot;\/draw\/8-bit-question-block-301627c9d1fff3e&quot;,&quot;featured&quot;:null,&quot;next_url&quot;:&quot;\/art\/facundo-8751dce70b22dd4&quot;,&quot;previous_url&quot;:&quot;\/art\/that-frog-on-a-unicycle-b6f5a7237150418&quot;,&quot;url&quot;:&quot;https:\/\/www.pixilart.com\/art\/8-bit-question-block-301627c9d1fff3e&quot;,&quot;link_url&quot;:&quot;https:\/\/www.pixilart.com\/art\/8-bit-question-block-301627c9d1fff3e&quot;,&quot;ip_edit&quot;:false,&quot;replay_url&quot;:&quot;http:\/\/spaces.pixilart.com\/images\/art\/replay\/301627c9d1fff3e.gif&quot;,&quot;user&quot;:null,&quot;edit_art&quot;:null}" :page="true"></art-template>
+</div>
+<div class="d-block d-lg-none brt">
+<footer class="bg-white footer-sticky">
+<div class="main-section pt-5 pb-5">
+<div class="container">
+<div class="row">
+<div class="col-12 col-sm-6 col-md-8 col-lg-4 offset-sm-0 offset-md-2 offset-lg-0 pb-5 pb-md-0 mb-md-5 mb-lg-0 text-center text-lg-left">
+<a class="navbar-brand" href="http://www.pixilart.com">
+<img src="/images/public/logo_pixilart_simple_black.png" alt="Pixilart" class="pp" />
+</a>
+<div class="mt-3 pr-0 pr-lg-5">
+<div class="f-sm color-pblue">Pixilart is a <a href="/help/parents">social platform for all ages</a>. Please be respectful and understand that children use this website.</div>
+</div>
+<div class="mt-3 d-flex align-items-center justify-content-center justify-content-lg-start footer-social-icon-list">
+<a href="https://www.pixilart.com/pixilart" target="_blank" class="social-icon color-black mr-2"><i class="fa fa-heart" aria-hidden="true"></i></a>
+<a href="https://www.facebook.com/pixilart" target="_blank" class="social-icon color-black mr-2"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+<a href="https://www.twitter.com/pixil_art" target="_blank" class="social-icon color-black mr-2"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+<a href="https://www.instagram.com/pixilart" target="_blank" class="social-icon color-black mr-2"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+<a href="https://www.youtube.com/c/pixilart" target="_blank" class="social-icon color-black"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+</div>
+<div class="mt-5">
+<a href="https://play.google.com/store/apps/details?id=com.pixilart.app&hl=en" target="_blank" class="up">
+<img src="/images/public/google-play-badge.png" width="120px" alt="google play store">
+</a>
+<a href="https://itunes.apple.com/us/app/pixilart/id1440580518" target="_blank" class="ml-2 up">
+<img src="/images/public/badge-example-preferred.png" width="120px" alt="app store">
+</a>
+</div>
+</div>
+<div class="col-6 col-md-3 col-lg-2 mb-mt-lg">
+<h5 class="mb-3 f-ttu f-sm bld s">About</h5>
+<ul class="mb-0 list-unstyled foot-nav-list">
+<li><a href="/about">About</a></li>
+<li><a href="/help/contact">Contact Us</a></li>
+<li><a href="/terms">Terms of Use</a></li>
+<li><a href="/privacy">Privacy Policy</a></li>
+<li><a href="/help/parents?ref=footer">Parents & Teachers</a></li>
+</ul>
+</div>
+<div class="col-6 col-md-3 col-lg-2 mb-mt-lg">
+<h5 class="mb-3 f-ttu f-sm bld s">Drawing</h5>
+<ul class="mb-0 list-unstyled foot-nav-list">
+<li><a href="/draw">Start Drawing</a></li>
+<li><a href="/features">Drawing Features</a></li>
+<li><a href="/online">Draw Online</a></li>
+<li><a href="/mobile">Mobile App</a></li>
+</ul>
+</div>
+<div class="col-6 col-md-3 col-lg-2 mb-mt-lg">
+<h5 class="mb-3 f-ttu f-sm bld s">Explore</h5>
+<ul class="mb-0 list-unstyled foot-nav-list">
+<li><a href="/gallery">Gallery</a></li>
+<li><a href="/digital">Digital/Traditional Art</a></li>
+<li><a href="/contests">Contests</a></li>
+<li><a href="/groups">Groups</a></li>
+<li><a href="/forum">Forums</a></li>
+<li><a href="/tutorials">Tutorials</a></li>
+</ul>
+</div>
+<div class="col-6 col-md-3 col-lg-2 mb-mt-lg">
+<h5 class="mb-3 f-ttu f-sm bld s">Shop</h5>
+<ul class="mb-0 list-unstyled foot-nav-list">
+<li><a href="/shop">Pixilart Shop</a></li>
+<li><a href="/shop/status">Order Status</a></li>
+<li><a href="/shop/marketplace">Marketplace</a></li>
+<li><a href="/help/returns">Shipping & Returns</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="main-section pt-3 pb-3">
+<div class="container">
+<div class="row ">
+<div class="col-sm-12 col-md-6">
+© 2019 Pixilart, LLC - Coded with love in Fargo, ND<br>
+</div>
+<div class="col-sm-12 col-md-6 text-right mb-text-left mb-mt">
+<a href="/privacy" class="color-black">Privacy Policy</a> ·
+<a href="/terms" class="color-black">Terms of Use</a> ·
+<a href="/about" class="color-black">About</a>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+<div class="mobile-listing d-block d-lg-none">
+<div class="mobile-fixed-footer ckie" data-cookie-number="true" data-cookie-type="show" data-cookie="mobile-footer" data-cookie-value="1" style="display:none">
+<div class="mobile-footer-wrapper d-flex justify-content-center f-nm">
+<div class="mobile-footer-content">
+<div class="d-flex align-items-center">
+<a href="/mobile" class="mp mobile-link">
+Get the mobile app!
+</a>
+<div class="ckie-close mp" data-parent=".mobile-fixed-footer">
+<i class="ft ft-icon-x" aria-hidden="true"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<response-error></response-error>
+<response-success></response-success>
+
+<modal-report></modal-report>
+<modal-image></modal-image>
+<modal-likes></modal-likes>
+<modal-replay></modal-replay>
+<modal-auth></modal-auth>
+
+<user-card></user-card>
+</div>
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"6eae353a0d","applicationID":"20127417","transactionName":"ZlxSZkJWWhdZAEJZWV8WcVFEXlsKFyJGQGp5TURCbHRbCkwRWVxaVEtDbmdSVjh5EUJzWV9NQl1cW1EWeApYVFNJ","queueTime":0,"applicationTime":124,"atts":"ShtREApMSRk=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>
