@@ -126,7 +126,7 @@ local function marioVisable( event )
 end
 
 
---changes marios size
+--Changes marios size
 	local function SizeMario(event)
 		-- add the scroll speed to the y-value of the ship
 		mario.xScale = mario.xScale+0.02
