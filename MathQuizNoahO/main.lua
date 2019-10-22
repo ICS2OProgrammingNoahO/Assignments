@@ -34,10 +34,12 @@ local correctAnswer1
 local lives = 4
 local livesText
 local realAnswer
-local rightSound = audio.loadSound( "beep.mp3")
-local wrongSound = audio.loadSound( "wrong.mp3")
+local rightSound = audio.loadSound( "Sounds/saber.mp3")
+local wrongSound = audio.loadSound( "Sounds/blaster.mp3")
+local gameOverSound = audio.loadSound( "Sounds/r2d2.mp3")
 local channel1
 local channel2
+local channel3
 local totalSeconds = 10
 local secondsLeft = 10
 local countDownTimer
@@ -59,9 +61,6 @@ local stroke = 3
 
 
 local function AskQuestion()
-	  
-	 
-	
 	--generate a random number between 1 and 4 and declare it's variable
 	randomOperator = math.random(1, 7)
 
@@ -105,13 +104,7 @@ local function AskQuestion()
 	--create question in text object
 	questionObject.text = correctAnswer1 .. "/" .. randomNumber3 .. "="
 
---elseif (randomOperator == 5) then
-	
-	--correctAnswer = randomNumber5 ^ randomNumber6
-	
 
-	--create question in text object
-	--questionObject.text = correctAnswer5 .. "^" .. randomNumber6 .. "="
 	end
 end
 
@@ -150,9 +143,10 @@ local function 	UpdateTime()
 			numericfield.isVisible = false
 			pointsText.isVisible = false
 			livesText.isVisible = false
+			channel2 = audio.play(wrongSound)
 			timer.cancel(countDownTimer)
 			clockText.isVisible = false
-			channel2 = audio.play(wrongSound)
+			
 			
 		end
 
@@ -250,7 +244,7 @@ local function NumericFeildListener( event )
 			livesText.isVisible = false
 			timer.cancel(countDownTimer)
 			clockText.isVisible = false
-			channel2 = audio.play(wrongSound)
+			channel3 = audio.play(gameOverSound)
 				
 				
 			end
