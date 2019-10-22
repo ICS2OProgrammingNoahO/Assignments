@@ -51,6 +51,7 @@ local clockText
 local clockObject
 local bottomBorder
 local stroke = 3
+local speeder
 
 
 
@@ -171,7 +172,7 @@ local function HideCorrect()
 	correctObject.isVisible = false
 	incorrectObject.isVisible = false
 	realAnswer.isVisible = false
-	AskQuestion()
+	
 
 end 
 
@@ -194,6 +195,7 @@ local function NumericFeildListener( event )
 			timer.performWithDelay(700, HideCorrect)
 			channel1 = audio.play(rightSound)
 			secondsLeft = 10
+			AskQuestion()
 			
 			
 
@@ -211,6 +213,8 @@ local function NumericFeildListener( event )
 				numericfield.isVisible = false
 				pointsText.isVisible = false
 				livesText.isVisible = false
+				timer.cancel(countDownTimer)
+				clockText.isVisible = false
 				
 			end
 		
@@ -223,6 +227,7 @@ local function NumericFeildListener( event )
 			points_ = points_ + 1
 			 lives = lives - 1
 			 secondsLeft = 10
+			 AskQuestion()
 
 			-- update it in display object
 				livesText.text = "Lives = " .. lives
@@ -256,6 +261,10 @@ local function NumericFeildListener( event )
 	end
 end
 
+local function MoveSpeeder( event )
+	speeder.x = speeder.x - 2
+	speeder.y = 
+end
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- OBJECT CREATION
@@ -329,6 +338,11 @@ numericfield:addEventListener( "userInput", NumericFeildListener)
 clockText = display.newText( secondsLeft, 100, 720, nil, 50)
 clockText:setFillColor(255/255, 0/255, 0/255)
 
+speeder = display.newImageRect("Images/snowspeeder.png", 300, 200)
+speeder.x = display.contentWidth - 200
+speeder.y = display.contentHeight - 700
+speeder.rotation = -45
+
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- FUNCTION CALLS
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -337,5 +351,7 @@ clockText:setFillColor(255/255, 0/255, 0/255)
 
 AskQuestion()
  StartTimer()
+
+
 
 
