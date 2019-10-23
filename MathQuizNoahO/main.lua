@@ -61,7 +61,7 @@ local speeder
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-local function AskQuestion()
+function AskQuestion()
 	--generate a random number between 1 and 4 and declare it's variable
 	randomOperator = math.random(1, 7)
 
@@ -167,7 +167,7 @@ end
 
 
 
-local function HideCorrect()
+function HideCorrect()
 
 	correctObject.isVisible = false
 	incorrectObject.isVisible = false
@@ -261,10 +261,6 @@ local function NumericFeildListener( event )
 	end
 end
 
-local function MoveSpeeder( event )
-	speeder.x = speeder.x - 2
-	speeder.y = 
-end
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- OBJECT CREATION
