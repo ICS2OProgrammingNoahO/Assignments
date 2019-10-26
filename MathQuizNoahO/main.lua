@@ -36,10 +36,14 @@ local livesText
 local realAnswer
 local rightSound = audio.loadSound( "Sounds/saber.mp3")
 local wrongSound = audio.loadSound( "Sounds/blaster.mp3")
-local gameOverSound = audio.loadSound( "Sounds/r2d2.mp3")
+local gameOverSound = audio.loadSound( "Sounds/darth.mp3")
+local youWinSound = audio.loadStream("Sounds/r2d2.mp3")
+local music = audio.loadStream("Sounds/music.mp3")
 local channel1
 local channel2
 local channel3
+local channel4
+local channel5
 local totalSeconds = 10
 local secondsLeft = 10
 local countDownTimer
@@ -52,6 +56,8 @@ local clockObject
 local bottomBorder
 local stroke = 3
 local speeder
+local border2
+local tie
 
 
 
@@ -60,18 +66,23 @@ local speeder
 -- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+local function SoundTrack()
+	channel4 = audio.play(music, {loop = -1})
+end
+
 
 local function AskQuestion()
 	--generate a random number between 1 and 4 and declare it's variable
-	randomOperator = math.random(1, 7)
+	randomOperator = math.random(1, 6)
 
 	--generate 2 random numbers between a max. a min. number
 	randomNumber1 = math.random(0, 10)
 	randomNumber2 = math.random(0, 10)
 	randomNumber3 = math.random(2, 12)
 	randomNumber4 = math.random(2, 12)
-	--randomNumber5 = math.random(1, 4)
-	--randomNumber6 = math.random(1, 4)
+	randomNumber5 = math.random(1, 4)
+	randomNumber6 = math.random(1, 4)
+	randomNumber7 = 4
 	
  
 	if (randomOperator == 1) then
@@ -105,10 +116,47 @@ local function AskQuestion()
 	--create question in text object
 	questionObject.text = correctAnswer1 .. "/" .. randomNumber3 .. "="
 
+	elseif (randomOperator == 5)then
+		correctAnswer = randomNumber5 ^ randomNumber6
+		
+
+		--create question in text object
+		questionObject.text = randomNumber5 .. "^" .. randomNumber6 .. "="
+
+	elseif (randomOperator == 6)then
+		correctAnswer1 = randomNumber5 * randomNumber5
+		correctAnswer = correctAnswer1 / randomNumber5
+
+
+		--create question in text object
+		questionObject.text = "√" .. correctAnswer1 ..  "="
+
+	elseif (randomOperator == 7)then
+		correctAnswer = ((randomNumber7 * (randomNumber7 - 1) * (randomNumber7 - 2)) * (randomNumber7 - 3))
+
+		questionObject.text = randomNumber7 .. "!" .. "="
+
+
+
 
 	end
 end
 
+
+local function MoveSpeeder( event )
+	speeder.x =speeder.x - 12
+	speeder.y =speeder.y + 5
+	speeder:rotate(0.4)
+	
+end
+
+local function MoveTie( event )
+	tie.x =tie.x - 12
+	tie.y =tie.y + 5
+	tie:rotate(0.4)
+	tie.isVisible = true
+	
+end
 
 
 local function 	UpdateTime()
@@ -123,6 +171,11 @@ local function 	UpdateTime()
 		secondsLeft = totalSeconds
 		lives = lives - 1
 		livesText.text = "Lives = " .. lives
+		realAnswer.text = "The real answer is " .. correctAnswer
+			realAnswer.isVisible = true
+			timer.performWithDelay(700, HideCorrect)
+			channel2 = audio.play(wrongSound)
+			realAnswer.isVisible = false
 		AskQuestion()
 		
 				
@@ -147,6 +200,12 @@ local function 	UpdateTime()
 			channel2 = audio.play(wrongSound)
 			timer.cancel(countDownTimer)
 			clockText.isVisible = false
+			channel3 = audio.play(gameOverSound)
+			border2.isVisible = false
+			audio.stop(channel4)
+			Runtime:addEventListener("enterFrame", MoveTie)
+			Runtime:addEventListener("enterFrame", MoveSpeeder)
+			
 			
 			
 		end
@@ -165,6 +224,17 @@ end
 
 
 
+local function MoveWin ( event )
+	youWin.xScale = youWin.xScale + 0.009
+	youWin.yScale = youWin.yScale + 0.009
+
+end
+
+local function MoveLose ( event )
+	youLose.xScale = youLose.xScale + 0.009
+	youLose.yScale = youLose.yScale + 0.009
+
+end
 
 
 local function HideCorrect()
@@ -215,6 +285,13 @@ local function NumericFeildListener( event )
 				livesText.isVisible = false
 				timer.cancel(countDownTimer)
 				clockText.isVisible = false
+				speeder.isVisible = true
+				channel5 = audio.play(youWinSound)
+				audio.stop(channel4)
+				border2.isVisible = false
+				Runtime:addEventListener("enterFrame", MoveSpeeder)
+				Runtime:addEventListener("enterFrame", MoveWin)
+				
 				
 			end
 		
@@ -250,6 +327,10 @@ local function NumericFeildListener( event )
 			timer.cancel(countDownTimer)
 			clockText.isVisible = false
 			channel3 = audio.play(gameOverSound)
+			border2.isVisible = false
+			audio.stop(channel4)
+			Runtime:addEventListener("enterFrame", MoveLose)
+			Runtime:addEventListener("enterFrame", MoveTie)
 				
 				
 			end
@@ -261,11 +342,12 @@ local function NumericFeildListener( event )
 	end
 end
 
-local function MoveSpeeder( event )
-	speeder.x = speeder.x - 2
-	speeder.y = 
-end
 
+local function MoveSpeeder( event )
+	speeder.x =speeder.x + 2.2
+	speeder.y =speeder.y + 1.5
+	
+end
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- OBJECT CREATION
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -274,6 +356,11 @@ bottomBorder = display.newRect(500 , 730 , display.contentWidth + 100, 120)
 bottomBorder:setFillColor(148/255, 148/255, 148/255)
 bottomBorder.strokeWidth = 3
 bottomBorder:setStrokeColor(1, 1, 1)
+
+border2 = display.newRect(500 , display.contentHeight/2 , 480, 120)
+border2:setFillColor(148/255, 148/255, 148/255)
+border2.strokeWidth = 3
+border2:setStrokeColor(1, 1, 1)
 --create the hearts
 heart1 = display.newImageRect("Images/lifeImage.png", 100, 100)
 heart1.x = display.contentWidth * 6 / 8
@@ -297,7 +384,7 @@ realAnswer = display.newText("", display.contentWidth/2, display.contentHeight/9
 --displays a question and sets the color
 --questionObject = display.newText( "", display.contentWidth/2, display.contentHeight/2, nil, 50 )
 questionObject = display.newText( "", display.contentWidth*1/3, display.contentHeight/2, nil, 50)
-questionObject:setTextColor(177/255, 20/255, 255/255)
+questionObject:setTextColor(255/255, 255/255, 0/255)
 
 
 --create the correct text object and make it invisable
@@ -323,9 +410,10 @@ youLose.y = display.contentHeight/2
 youLose.isVisible = false
 
 --create win text
-youWin = display.newText( "You Win!", display.contentWidth/2, display.contentHeight*2/3, nil, 70)
+youWin = display.newImageRect( "Images/youwin.png", 200, 200)
+youWin.x = display.contentWidth/2
+youWin.y = display.contentHeight/2
 youWin.isVisible = false
-
 --create lives text
 livesText = display.newText("Lives =" .. lives, display.contentWidth/2, display.contentHeight/3, nil, 50)
 livesText:setFillColor(255/255, 255/255, 0/255)
@@ -339,9 +427,16 @@ clockText = display.newText( secondsLeft, 100, 720, nil, 50)
 clockText:setFillColor(255/255, 0/255, 0/255)
 
 speeder = display.newImageRect("Images/snowspeeder.png", 300, 200)
-speeder.x = display.contentWidth - 200
-speeder.y = display.contentHeight - 700
+speeder.x = display.contentWidth 
+speeder.y = display.contentHeight - 900
 speeder.rotation = -45
+speeder.isVisible = false
+
+tie = display.newImageRect("Images/tie.png", 300, 200)
+tie.x = display.contentWidth 
+tie.y = display.contentHeight - 900
+tie.rotation = -45
+tie.isVisible = false
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- FUNCTION CALLS
@@ -350,8 +445,7 @@ speeder.rotation = -45
 --call the functions
 
 AskQuestion()
- StartTimer()
-
-
+StartTimer()
+SoundTrack()
 
 
