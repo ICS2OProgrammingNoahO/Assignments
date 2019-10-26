@@ -71,7 +71,7 @@ local function SoundTrack()
 end
 
 
-local function AskQuestion()
+function AskQuestion()
 	--generate a random number between 1 and 4 and declare it's variable
 	randomOperator = math.random(1, 6)
 
@@ -237,7 +237,7 @@ local function MoveLose ( event )
 end
 
 
-local function HideCorrect()
+function HideCorrect()
 
 	correctObject.isVisible = false
 	incorrectObject.isVisible = false
@@ -343,11 +343,7 @@ local function NumericFeildListener( event )
 end
 
 
-local function MoveSpeeder( event )
-	speeder.x =speeder.x + 2.2
-	speeder.y =speeder.y + 1.5
-	
-end
+
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- OBJECT CREATION
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -414,6 +410,7 @@ youWin = display.newImageRect( "Images/youwin.png", 200, 200)
 youWin.x = display.contentWidth/2
 youWin.y = display.contentHeight/2
 youWin.isVisible = false
+
 --create lives text
 livesText = display.newText("Lives =" .. lives, display.contentWidth/2, display.contentHeight/3, nil, 50)
 livesText:setFillColor(255/255, 255/255, 0/255)
