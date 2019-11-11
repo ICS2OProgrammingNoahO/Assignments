@@ -64,9 +64,9 @@ end
 
 
  local function MoveLogo2( )
-    logo2.y = logo2.y + 2
+    logo2.y = logo2.y + 4
      title.isVisible = true
-     if (logo2.y == display.contentHeight/2)then
+     if (logo2.y > display.contentHeight/2)then
         logo2.isVisible = false
         MoveLogo3()
      end
