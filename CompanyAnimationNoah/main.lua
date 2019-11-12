@@ -1,10 +1,7 @@
------------------------------------------------------------------------------------------
---
--- 
--- 
--- 
--- 
---
+-- main.lua
+-- Created by:  Noah Ouellette
+-- Date: November 11, 2019
+-- Description: This calls the splash screen scene and hides the status bar
 -----------------------------------------------------------------------------------------
 
 -- Hiding Status Bar
