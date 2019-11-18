@@ -46,7 +46,7 @@ local music-- = audio.loadStream("Sounds/bensound-hipjazz.mp3")
 
 -- Creating Transition Function to Credits Page
 local function InstructionsTransition( )       
-   composer.gotoScene( "instructions", {effect = "zoomOutIn", time = 500})
+   composer.gotoScene( "instructions", {effect = "slideUp", time = 500})
 end 
 
 
@@ -54,7 +54,7 @@ end
 
 -- Creating Transition to Level1 Screen
 local function Level1ScreenTransition( )
-    composer.gotoScene( "level1_screen", {effect = "zoomOutInRotate", time = 1000})
+    composer.gotoScene( "level1_screen", {effect = "zoomOutIn", time = 1000})
     audio.stop()
 end    
 
@@ -83,17 +83,74 @@ function scene:create( event )
    background = display.newRect(display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight)
    background:setFillColor(0/255, 255/255, 0/255)
 
-   playButton = display.newRect(display.contentWidth/2, display.contentHeight/1.2, 100, 100)
-   playButton:setFillColor(0/255, 255/255, 255/255) 
-
-   instructionsButton = display.newRect(display.contentWidth/5, display.contentHeight/1.2, 100, 100)
-   instructionsButton:setFillColor(0/255, 255/255, 255/255) 
-
-   creditsButton = display.newRect(display.contentWidth - 200 , display.contentHeight/1.2, 100, 100)
-   creditsButton:setFillColor(0/255, 255/255, 255/255) 
     -- Associating display objects with this scene 
     sceneGroup:insert( background )
    
+    -----------------------------------------------------------------------------------------
+    -- BUTTON WIDGETS
+    -----------------------------------------------------------------------------------------   
+
+    -- Creating Play Button
+    playButton = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/2,
+            y = display.contentHeight*1/8,
+            
+
+            -- Insert the images here
+            defaultFile = "Images/CompanyLogoNoah@2x.png",
+            overFile = "Images/CompanyLogoNoah@2x.png",
+
+            -- When the button is released, call the Level1 screen transition function
+            onRelease = Level1ScreenTransition          
+        } )
+        playButton.width = 200
+        playButton.height = 100
+    -----------------------------------------------------------------------------------------
+    -- Creating Credits Button
+    creditsButton = widget.newButton( 
+        {
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth*7/8,
+            y = display.contentHeight*1/8,
+
+            -- Insert the images here
+            defaultFile = "Images/CompanyLogoNoah@2x.png",
+            overFile = "Images/CompanyLogoNoah@2x.png",
+
+            -- When the button is released, call the Credits transition function
+            onRelease = CreditsTransition
+        } ) 
+   
+        creditsButton.width = 200
+        creditsButton.height = 100 
+    -- ADD INSTRUCTIONS BUTTON WIDGET
+
+
+    -- Creating instructions Button
+    instructionsButton = widget.newButton( 
+        {
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth  - 900,
+            y = display.contentHeight*1/8,
+
+            -- Insert the images here
+            defaultFile = "Images/CompanyLogoNoah@2x.png",
+            overFile = "Images/CompanyLogoNoah@2x.png",
+
+            -- When the button is released, call the Credits transition function
+            onRelease = InstructionsTransition
+        } ) 
+        instructionsButton.width = 200
+        instructionsButton.height = 100
+    -----------------------------------------------------------------------------------------
+
+    -- Associating button widgets with this scene
+    sceneGroup:insert( playButton )
+    sceneGroup:insert( creditsButton )
+    sceneGroup:insert( instructionsButton )
+
     -- Send the background image to the back layer so all other objects can be on top
   
     background:toBack()
