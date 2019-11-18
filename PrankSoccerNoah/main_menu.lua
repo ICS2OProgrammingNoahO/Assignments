@@ -46,12 +46,9 @@ local music-- = audio.loadStream("Sounds/bensound-hipjazz.mp3")
 
 -- Creating Transition Function to Credits Page
 local function InstructionsTransition( )       
-    composer.gotoScene( "instructions", {effect = "zoomOutIn", time = 500})
-    return scene
-
- 
-     audio.stop()
+   composer.gotoScene( "instructions", {effect = "zoomOutIn", time = 500})
 end 
+
 
 -----------------------------------------------------------------------------------------
 
@@ -63,7 +60,7 @@ end
 
 -- INSERT LOCAL FUNCTION DEFINITION THAT GOES TO INSTRUCTIONS SCREEN 
 
--- Creating Transition Function to Instructions Page
+--Creating Transition Function to Instructions Page
 local function CreditsTransition( )       
     composer.gotoScene( "credits_screen", {effect = "slideUp", time = 500})
     audio.stop()
@@ -82,23 +79,25 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
 
-    border = display.newRect(display.contentCenterX , 0 , display.contentWidth, 400)
-    border:setFillColor(144/255, 254/255, 243/255)
-
     -- Insert the background image and set it to the center of the screen
-    background = display.newImage("Images/main_menu.png")
-    background.x = display.contentCenterX
-    background.y = display.contentCenterY + 200
-    background.width = display.contentWidth
-    background.height = display.contentHeight
+   background = display.newRect(display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight)
+   background:setFillColor(0/255, 255/255, 0/255)
 
+   playButton = display.newRect(display.contentWidth/2, display.contentHeight/1.2, 100, 100)
+   playButton:setFillColor(0/255, 255/255, 255/255) 
 
+   instructionsButton = display.newRect(display.contentWidth/5, display.contentHeight/1.2, 100, 100)
+   instructionsButton:setFillColor(0/255, 255/255, 255/255) 
+
+   creditsButton = display.newRect(display.contentWidth - 200 , display.contentHeight/1.2, 100, 100)
+   creditsButton:setFillColor(0/255, 255/255, 255/255) 
     -- Associating display objects with this scene 
-    sceneGroup:insert( bkg_image )
-    sceneGroup:insert( border )
+    sceneGroup:insert( background )
+   
     -- Send the background image to the back layer so all other objects can be on top
+  
     background:toBack()
-    border:toBack()
+
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
@@ -185,3 +184,12 @@ end -- function scene:destroy( event )
 -----------------------------------------------------------------------------------------
 -- EVENT LISTENERS
 -----------------------------------------------------------------------------------------
+-- Adding Event Listeners
+scene:addEventListener( "create", scene )
+scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
+scene:addEventListener( "destroy", scene )
+
+
+
+return scene

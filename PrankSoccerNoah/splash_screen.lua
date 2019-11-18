@@ -138,10 +138,9 @@ local function KickLogoDelay( )
 end
 
 -- The function that will go to the main menu 
-local function gotoMainMenu()
-    composer.gotoScene( "main_menu" )
-end
-
+local function gotoMainMenu( )       
+   composer.gotoScene( "main_menu", {effect = "crossFade", time = 1000})
+end 
 
 --begins the code       
 KickLogoDelay()
@@ -240,7 +239,7 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-         timer.performWithDelay ( 3000, gotoMainMenu)  
+         timer.performWithDelay ( 5500, gotoMainMenu)  
     end
 
 end
@@ -292,6 +291,7 @@ function scene:destroy( event )
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
 end
+
 
 -----------------------------------------------------------------------------------------
 -- EVENT LISTENERS
