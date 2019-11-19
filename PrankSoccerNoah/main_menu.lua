@@ -44,25 +44,20 @@ local music-- = audio.loadStream("Sounds/bensound-hipjazz.mp3")
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
--- Creating Transition Function to Credits Page
-local function InstructionsTransition( )       
-    composer.gotoScene( "instructions", {effect = "zoomOutIn", time = 500})
 
- 
-     audio.stop()
-end 
+
 
 -----------------------------------------------------------------------------------------
 
 -- Creating Transition to Level1 Screen
 local function Level1ScreenTransition( )
-    composer.gotoScene( "level1_screen", {effect = "zoomOutInRotate", time = 1000})
+    composer.gotoScene( "level1_screen", {effect = "zoomOutIn", time = 1000})
     audio.stop()
 end    
 
 -- INSERT LOCAL FUNCTION DEFINITION THAT GOES TO INSTRUCTIONS SCREEN 
 
--- Creating Transition Function to Instructions Page
+--Creating Transition Function to Instructions Page
 local function CreditsTransition( )       
     composer.gotoScene( "credits_screen", {effect = "slideUp", time = 500})
     audio.stop()
@@ -81,23 +76,82 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
 
-    border = display.newRect(display.contentCenterX , 0 , display.contentWidth, 400)
-    border:setFillColor(144/255, 254/255, 243/255)
-
     -- Insert the background image and set it to the center of the screen
-    background = display.newImage("Images/main_menu.png")
-    background.x = display.contentCenterX
-    background.y = display.contentCenterY + 200
-    background.width = display.contentWidth
-    background.height = display.contentHeight
-
+   background = display.newRect(display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight)
+   background:setFillColor(0/255, 255/255, 0/255)
 
     -- Associating display objects with this scene 
-    sceneGroup:insert( bkg_image )
-    sceneGroup:insert( border )
+    sceneGroup:insert( background )
+   
+    -----------------------------------------------------------------------------------------
+    -- BUTTON WIDGETS
+    -----------------------------------------------------------------------------------------   
+
+    -- Creating Play Button
+    playButton = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/2,
+            y = display.contentHeight*1/8,
+            
+
+            -- Insert the images here
+            defaultFile = "Images/CompanyLogoNoah@2x.png",
+            overFile = "Images/CompanyLogoNoah@2x.png",
+
+            -- When the button is released, call the Level1 screen transition function
+            onRelease = Level1ScreenTransition          
+        } )
+        playButton.width = 200
+        playButton.height = 100
+    -----------------------------------------------------------------------------------------
+    -- Creating Credits Button
+    creditsButton = widget.newButton( 
+        {
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth*7/8,
+            y = display.contentHeight*1/8,
+
+            -- Insert the images here
+            defaultFile = "Images/CompanyLogoNoah@2x.png",
+            overFile = "Images/CompanyLogoNoah@2x.png",
+
+            -- When the button is released, call the Credits transition function
+            onRelease = CreditsTransition
+        } ) 
+   
+        creditsButton.width = 200
+        creditsButton.height = 100 
+    -- ADD INSTRUCTIONS BUTTON WIDGET
+
+
+    -- Creating instructions Button
+    instructionsButton = widget.newButton( 
+        {
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth  - 900,
+            y = display.contentHeight*1/8,
+
+            -- Insert the images here
+            defaultFile = "Images/CompanyLogoNoah@2x.png",
+            overFile = "Images/CompanyLogoNoah@2x.png",
+
+            -- When the button is released, call the Credits transition function
+            onRelease = InstructionsTransition
+        } ) 
+        instructionsButton.width = 200
+        instructionsButton.height = 100
+    -----------------------------------------------------------------------------------------
+
+    -- Associating button widgets with this scene
+    sceneGroup:insert( playButton )
+    sceneGroup:insert( creditsButton )
+    sceneGroup:insert( instructionsButton )
+
     -- Send the background image to the back layer so all other objects can be on top
+  
     background:toBack()
-    border:toBack()
+
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
@@ -184,4 +238,14 @@ end -- function scene:destroy( event )
 -----------------------------------------------------------------------------------------
 -- EVENT LISTENERS
 -----------------------------------------------------------------------------------------
+
+-- Adding Event Listeners
+scene:addEventListener( "create", scene )
+scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
+scene:addEventListener( "destroy", scene )
+
+
+
 return scene
+
