@@ -47,7 +47,6 @@ local music-- = audio.loadStream("Sounds/bensound-hipjazz.mp3")
 -- Creating Transition Function to Credits Page
 local function InstructionsTransition( )       
     composer.gotoScene( "instructions", {effect = "zoomOutIn", time = 500})
-    return scene
 
  
      audio.stop()
@@ -185,3 +184,4 @@ end -- function scene:destroy( event )
 -----------------------------------------------------------------------------------------
 -- EVENT LISTENERS
 -----------------------------------------------------------------------------------------
+return scene
