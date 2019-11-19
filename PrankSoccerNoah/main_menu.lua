@@ -44,10 +44,7 @@ local music-- = audio.loadStream("Sounds/bensound-hipjazz.mp3")
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
--- Creating Transition Function to Credits Page
-local function InstructionsTransition( )       
-   composer.gotoScene( "instructions", {effect = "slideUp", time = 500})
-end 
+
 
 
 -----------------------------------------------------------------------------------------
@@ -80,8 +77,10 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Insert the background image and set it to the center of the screen
-   background = display.newRect(display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight)
-   background:setFillColor(0/255, 255/255, 0/255)
+   background = display.newImageRect("Images/FakeMainMenuNoah@2x.png", display.contentWidth, display.contentHeight)
+   background.x = display.contentCenterX
+   background.y = display.contentCenterY
+  
 
     -- Associating display objects with this scene 
     sceneGroup:insert( background )
@@ -95,12 +94,12 @@ function scene:create( event )
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth/2,
-            y = display.contentHeight*1/8,
+            y = display.contentHeight - 300,
             
 
             -- Insert the images here
-            defaultFile = "Images/CompanyLogoNoah@2x.png",
-            overFile = "Images/CompanyLogoNoah@2x.png",
+            defaultFile = "Images/PlayButtonUnpressedDaniel@2x.png",
+            overFile = "Images/PlayButtonPressedDaniel@2x.png",
 
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level1ScreenTransition          
@@ -113,11 +112,11 @@ function scene:create( event )
         {
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth*7/8,
-            y = display.contentHeight*1/8,
+            y = display.contentHeight - 300,
 
             -- Insert the images here
-            defaultFile = "Images/CompanyLogoNoah@2x.png",
-            overFile = "Images/CompanyLogoNoah@2x.png",
+            defaultFile = "Images/CreditsButtonUnpressedNoah@2x.png",
+            overFile = "Images/CreditsButtonPressedNoah@2x.png",
 
             -- When the button is released, call the Credits transition function
             onRelease = CreditsTransition
@@ -133,11 +132,11 @@ function scene:create( event )
         {
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth  - 900,
-            y = display.contentHeight*1/8,
+            y = display.contentHeight - 300,
 
             -- Insert the images here
-            defaultFile = "Images/CompanyLogoNoah@2x.png",
-            overFile = "Images/CompanyLogoNoah@2x.png",
+            defaultFile = "Images/InstructionsButtonUnpressedNoah@2x.png",
+            overFile = "Images/InstructionsButtonPressedNoah@2x.png",
 
             -- When the button is released, call the Credits transition function
             onRelease = InstructionsTransition
@@ -241,6 +240,7 @@ end -- function scene:destroy( event )
 -----------------------------------------------------------------------------------------
 -- EVENT LISTENERS
 -----------------------------------------------------------------------------------------
+
 -- Adding Event Listeners
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
@@ -250,3 +250,4 @@ scene:addEventListener( "destroy", scene )
 
 
 return scene
+
