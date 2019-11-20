@@ -35,4 +35,8 @@ local scene = composer.newScene( sceneName )
 local background
 
 
+background = display.newImageRect("Images/Noah@2x.png", display.contentWidth, display.contentHeight)
+   background.x = display.contentCenterX
+   background.y = display.contentCenterY
+
 return scene

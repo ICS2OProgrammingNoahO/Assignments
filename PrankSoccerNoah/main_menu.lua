@@ -57,6 +57,13 @@ end
 
 -- INSERT LOCAL FUNCTION DEFINITION THAT GOES TO INSTRUCTIONS SCREEN 
 
+-- Creating Transition to Level1 Screen
+local function InstructionsTransition( )
+    composer.gotoScene( "instructions", {effect = "slideUp", time = 1000})
+    audio.stop()
+end    
+
+
 --Creating Transition Function to Instructions Page
 local function CreditsTransition( )       
     composer.gotoScene( "credits_screen", {effect = "slideUp", time = 500})
@@ -93,8 +100,8 @@ function scene:create( event )
     playButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth/2,
-            y = display.contentHeight - 300,
+            x = display.contentWidth - 800,
+            y = display.contentHeight - 100,
             
 
             -- Insert the images here
@@ -131,7 +138,7 @@ function scene:create( event )
     instructionsButton = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth  - 900,
+            x = display.contentWidth  - 800,
             y = display.contentHeight - 300,
 
             -- Insert the images here

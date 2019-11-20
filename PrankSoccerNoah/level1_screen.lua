@@ -21,7 +21,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "instructions"
+sceneName = "level1_screen"
 
 -----------------------------------------------------------------------------------------
 
@@ -33,12 +33,6 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 
 local background
-
-background = display.newImageRect("Images/InstructionsScreenNoah@2x.png", display.contentWidth, display.contentHeight)
-   background.x = display.contentCenterX
-   background.y = display.contentCenterY
-
-      sceneGroup:insert( background )
 
 
 return scene
