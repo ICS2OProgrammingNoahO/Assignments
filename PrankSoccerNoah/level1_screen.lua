@@ -68,8 +68,9 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------   background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 
-    background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-	background:setFillColor(0/255, 255/255, 0/255)
+    background = display.newImageRect("Images/level1ScreenTestNoah@2x.png", display.contentWidth, display.contentHeight)
+   background.x = display.contentCenterX
+   background.y = display.contentCenterY
 
       sceneGroup:insert( background )
     -----------------------------------------------------------------------------------------
@@ -81,7 +82,7 @@ function scene:create( event )
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth - 910,
-            y = display.contentHeight - 70,
+            y = display.contentHeight - 710,
             
 
             -- Insert the images here
