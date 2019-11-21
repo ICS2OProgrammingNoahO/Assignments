@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
 -- main_menu.lua
--- Created by: Your Name
--- Date: Month Day, Year
--- Description: This is the main menu, displaying the credits, instructions & play buttons.
+-- Created by: Noah
+-- Date: November 20th, 2019
+-- Description: This is the main menu, displaying the credits, instructions, play buttons and mute button.
 -----------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 -----------------------------------------------------------------------------------------
@@ -36,38 +36,62 @@ local background
 local playButton
 local creditsButton
 local instructionsButton
+local muteButton
+local unmuteButton
 local border
+
+-- audio variables
 local channel
-local music-- = audio.loadStream("Sounds/bensound-hipjazz.mp3")
+local channel2
+local transitionSound = audio.loadStream("Sounds/jump.mp3")
+local music = audio.loadStream("Sounds/mainMusic.mp3")
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
 
+-- Creating Mute function to pause audio
 
+local function Mute( )
+    
+    audio.pause(channel)
+    muteButton.isVisible = false
+    unmuteButton.isVisible = true
+    channel2 = audio.play(transitionSound)
+end    
 
------------------------------------------------------------------------------------------
+-- creating unmute function to resume audio
+
+local function UnMute( )
+    
+    audio.resume(channel)
+    channel2 = audio.play(transitionSound)
+    muteButton.isVisible = true
+    unmuteButton.isVisible = false
+
+end    
 
 -- Creating Transition to Level1 Screen
 local function Level1ScreenTransition( )
     composer.gotoScene( "level1_screen", {effect = "zoomOutIn", time = 1000})
     audio.stop()
+    channel2 = audio.play(transitionSound)
 end    
 
--- INSERT LOCAL FUNCTION DEFINITION THAT GOES TO INSTRUCTIONS SCREEN 
-
--- Creating Transition to Level1 Screen
+-- Creating Transition to Instructions screen
 local function InstructionsTransition( )
     composer.gotoScene( "instructions", {effect = "slideUp", time = 1000})
     audio.stop()
+    channel2 = audio.play(transitionSound)
 end    
 
 
---Creating Transition Function to Instructions Page
+--Creating Transition Function to Credits Page
 local function CreditsTransition( )       
-    composer.gotoScene( "credits_screen", {effect = "slideUp", time = 500})
+    composer.gotoScene( "credits_screen", {effect = "slideLeft", time = 500})
     audio.stop()
+    channel2 = audio.play(transitionSound)
 end 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -83,18 +107,57 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
 
-    -- Insert the background image and set it to the center of the screen
+    -- Creating background and setting the image
    background = display.newImageRect("Images/FakeMainMenuNoah@2x.png", display.contentWidth, display.contentHeight)
    background.x = display.contentCenterX
    background.y = display.contentCenterY
   
-
+  
     -- Associating display objects with this scene 
     sceneGroup:insert( background )
+
    
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
+
+ -- Creating Mute Button
+    muteButton = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth - 100,
+            y = display.contentHeight - 100 ,
+            
+
+            -- Insert the images here
+            defaultFile = "Images/audio.png",
+            overFile = "Images/audio.png",
+
+            -- When the button is released, call the Mute function
+            onRelease = Mute          
+        } )
+        muteButton.width = 100
+        muteButton.height = 100
+
+-- Creating unMute Button (Unmute Button)
+    unmuteButton = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth - 100,
+            y = display.contentHeight - 100,
+            
+
+            -- Insert the images here
+            defaultFile = "Images/audio.png",
+            overFile = "Images/audio.png",
+
+            -- When the button is released, call the unMute function
+            onRelease = UnMute          
+        } )
+        unmuteButton.width = 100
+        unmuteButton.height = 100
+       
+
 
     -- Creating Play Button
     playButton = widget.newButton( 
@@ -145,7 +208,7 @@ function scene:create( event )
             defaultFile = "Images/InstructionsButtonUnpressedNoah@2x.png",
             overFile = "Images/InstructionsButtonPressedNoah@2x.png",
 
-            -- When the button is released, call the Credits transition function
+            -- When the button is released, call the Instructions transition function
             onRelease = InstructionsTransition
         } ) 
         instructionsButton.width = 200
@@ -156,18 +219,14 @@ function scene:create( event )
     sceneGroup:insert( playButton )
     sceneGroup:insert( creditsButton )
     sceneGroup:insert( instructionsButton )
+    sceneGroup:insert( muteButton )
+    sceneGroup:insert( unmuteButton )
 
     -- Send the background image to the back layer so all other objects can be on top
   
     background:toBack()
 
 
-    -----------------------------------------------------------------------------------------
-    -- BUTTON WIDGETS
-    -----------------------------------------------------------------------------------------   
-
-    
-    -- INSERT INSTRUCTIONS BUTTON INTO SCENE GROUP
 
 end -- function scene:create( event )   
 
@@ -180,7 +239,8 @@ function scene:show( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-    --channel = audio.play(music, {loop = -1})
+    --plays background music loop
+    channel = audio.play(music, {loop = -1})
 
     -----------------------------------------------------------------------------------------
 
