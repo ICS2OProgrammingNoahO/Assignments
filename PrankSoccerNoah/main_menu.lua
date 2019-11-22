@@ -53,24 +53,7 @@ local music = audio.loadStream("Sounds/mainMusic.mp3")
 
 -- Creating Mute function to pause audio
 
-local function Mute( )
-    
-    audio.pause(channel)
-    muteButton.isVisible = false
-    unmuteButton.isVisible = true
-    channel2 = audio.play(transitionSound)
-end    
 
--- creating unmute function to resume audio
-
-local function UnMute( )
-    
-    audio.resume(channel)
-    channel2 = audio.play(transitionSound)
-    muteButton.isVisible = true
-    unmuteButton.isVisible = false
-
-end    
 
 -- Creating Transition to Level1 Screen
 local function Level1ScreenTransition( )
@@ -96,7 +79,25 @@ end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
+function Mute( )
+    
+    audio.pause(channel)
+    muteButton.isVisible = false
+    unmuteButton.isVisible = true
+    channel2 = audio.play(transitionSound)
+    
+end    
 
+-- creating unmute function to resume audio
+
+function UnMute( )
+    
+    audio.resume(channel)
+    channel2 = audio.play(transitionSound)
+    muteButton.isVisible = true
+    unmuteButton.isVisible = false
+
+end    
 -- The function called when the screen doesn't exist
 function scene:create( event )
 
