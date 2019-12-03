@@ -13,6 +13,9 @@ display.setStatusBar(display.HiddenStatusBar)
 -- Use Composer Library
 local composer = require( "composer" )
 
+-- load physics
+local physics = require("physics")
+
 -----------------------------------------------------------------------------------------
 
 -- Use Widget Library
@@ -38,14 +41,36 @@ local channel
 local music = audio.loadStream("Sounds/creditsMusic.mp3")
 local channel2
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
+local leftNet
+local rightNet
+local platform1
+local bottomBorder
+local character
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
+local function AddPhysicsBodies()
+    --add to the physics engine
+    physics.addBody( leftNet, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( rightNet, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( bottomBorder, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( character, "dynamic", { density=0, friction=0.5, bounce=2, rotation=0 } )
+   
+end
 
+local function RemovePhysicsBodies()
+    
+      physics.removeBody( leftNet )
+      physics.removeBody( rightNet )
+      physics.removeBody( bottomBorder )
+      physics.removeBody( character )
+end
 
-
+local function Rotate()
+    character:rotate (15)
+end
 -----------------------------------------------------------------------------------------
 
 -- Creating Transition to Level1 Screen
@@ -73,6 +98,32 @@ function scene:create( event )
    background.y = display.contentCenterY
 
       sceneGroup:insert( background )
+
+   leftNet = display.newImageRect("Images/net1.png",150, 150)
+   leftNet.x = display.contentCenterX - 450
+   leftNet.y = display.contentCenterY + 200
+
+   rightNet = display.newImageRect("Images/net2.png",150, 150)
+   rightNet.x = display.contentCenterX + 450
+   rightNet.y = display.contentCenterY + 200
+
+    sceneGroup:insert( leftNet )
+    sceneGroup:insert( rightNet )
+
+   bottomBorder = display.newRect(display.contentWidth/2, 708, display.contentWidth, 100)
+
+    sceneGroup:insert( bottomBorder )
+
+   character = display.newImageRect("Images/CharacterNoah@2x.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY
+
+    sceneGroup:insert( character )
+
+    -- prevent character from being able to tip over
+   -- character.isFixedRotation = true
+
+
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
@@ -103,9 +154,6 @@ function scene:create( event )
     -- Associating button widgets with this scene
    
 
-    -- Send the background image to the back layer so all other objects can be on top
-  
-    background:toBack()
 
 
     -----------------------------------------------------------------------------------------
@@ -137,14 +185,19 @@ function scene:show( event )
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
        
+         -- start physics
+        physics.start()
+        Rotate()
+        -- set gravity
+        physics.setGravity( 0, GRAVITY )
     -----------------------------------------------------------------------------------------
 
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
-        
-
+           AddPhysicsBodies()
+   
     end
 
 end -- function scene:show( event )
@@ -167,11 +220,19 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
+        RemovePhysicsBodies()
 
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+             --RemoveCollisionListeners()
+        
+
+        physics.stop()
+       -- RemoveArrowEventListeners()
+        --RemoveRuntimeListeners()
+       
     end
 
 end -- function scene:hide( event )
