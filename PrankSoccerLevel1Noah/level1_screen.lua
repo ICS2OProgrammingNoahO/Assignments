@@ -45,7 +45,11 @@ local leftNet
 local rightNet
 local platform1
 local bottomBorder
+local topBorder
+local rightBorder
+local leftBorder
 local character
+
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -55,8 +59,11 @@ local function AddPhysicsBodies()
     --add to the physics engine
     physics.addBody( leftNet, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( rightNet, "static", { density=1.0, friction=0.3, bounce=0.2 } )
-    physics.addBody( bottomBorder, "static", { density=1.0, friction=0.3, bounce=0.2 } )
-    physics.addBody( character, "dynamic", { density=0, friction=0.5, bounce=2, rotation=0 } )
+    physics.addBody( bottomBorder, "static", { density=1.0, friction=1, bounce=0 } )
+    physics.addBody( topBorder, "static", { density=1.0, friction=1, bounce=0 } )
+    physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.5, rotation=0 } )
+    physics.addBody( rightBorder, "static", { density=1.0, friction=1, bounce=0 } )
+    physics.addBody( leftBorder,  "static", { density=1.0, friction=1, bounce=0 } )
    
 end
 
@@ -64,8 +71,11 @@ local function RemovePhysicsBodies()
     
       physics.removeBody( leftNet )
       physics.removeBody( rightNet )
-      physics.removeBody( bottomBorder )
       physics.removeBody( character )
+      physics.removeBody( bottomBorder )
+      physics.removeBody( topBorder )
+      physics.removeBody( rightBorder )
+      physics.removeBody( leftBorder )
 end
 
 local function Rotate()
@@ -111,8 +121,22 @@ function scene:create( event )
     sceneGroup:insert( rightNet )
 
    bottomBorder = display.newRect(display.contentWidth/2, 708, display.contentWidth, 100)
+   bottomBorder.alpha = 0
 
     sceneGroup:insert( bottomBorder )
+
+
+  topBorder = display.newRect(display.contentWidth/2, -90, display.contentWidth, 100)
+
+    sceneGroup:insert( topBorder )
+
+  rightBorder = display.newRect(display.contentWidth, display.contentHeight/2, 100, display.contentHeight)
+
+    sceneGroup:insert( rightBorder )
+ 
+ leftBorder = display.newRect(0, display.contentHeight/2, 100, display.contentHeight)
+
+    sceneGroup:insert( leftBorder )
 
    character = display.newImageRect("Images/CharacterNoah@2x.png",75, 125)
    character.x = display.contentCenterX
