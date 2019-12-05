@@ -55,6 +55,8 @@ local numUp = 0
 local platform1
 local platform2
 local platform3
+local ball1
+local goalie
 
 
 
@@ -74,6 +76,7 @@ local function AddPhysicsBodies()
     physics.addBody( platform1,  "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody( platform2,  "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody( platform3,  "static", { density=1.0, friction=1, bounce=0 } )
+    physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.9, radius=25})
    
 end
 
@@ -89,6 +92,7 @@ local function RemovePhysicsBodies()
       physics.removeBody( platform1 )
       physics.removeBody( platform2 )
       physics.removeBody( platform3 )
+      physics.removeBody( ball1)
 end
 
 
@@ -114,12 +118,12 @@ end
 
 local function MoveCharacterRight()
 character:rotate (10)
-character:setLinearVelocity( 120, -60 )
+character:setLinearVelocity( 120, 10 )
 end
 
 local function MoveCharacterLeft()
 character:rotate (-10)
-character:setLinearVelocity( -120, -60 )
+character:setLinearVelocity( -120, 10 )
 end
 -----------------------------------------------------------------------------------------
 
@@ -181,7 +185,7 @@ function scene:create( event )
 
     sceneGroup:insert( leftBorder )
 
-   character = display.newImageRect("Images/CharacterNoah@2x.png",75, 125)
+   character = display.newImageRect("Images/character.png",75, 125)
    character.x = display.contentCenterX
    character.y = display.contentCenterY
 
@@ -211,6 +215,17 @@ function scene:create( event )
     sceneGroup:insert( platform3 )
 
     
+  ball1 = display.newImage("Images/BallNoah@2x.png", display.contentWidth/2, 100)
+  ball1.yScale = 0.125
+  ball1.xScale = 0.125
+
+
+    sceneGroup:insert( ball1 )
+
+goalie = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
+   goalie.x = display.contentCenterX + 300
+   goalie.y = display.contentCenterY + 200
+
 
 
 
@@ -253,7 +268,7 @@ function scene:create( event )
             -- When the button is released, call the Level1 screen transition function
             onRelease = MoveCharacterUp          
         } )
-        upButton.width = 200
+        upButton.width = 100
         upButton.height = 100
 
         sceneGroup:insert( upButton )
@@ -272,7 +287,7 @@ function scene:create( event )
             -- When the button is released, call the Level1 screen transition function
             onRelease = MoveCharacterRight          
         } )
-        rightButton.width = 200
+        rightButton.width = 100
         rightButton.height = 100
 
         sceneGroup:insert( rightButton )
@@ -291,7 +306,7 @@ function scene:create( event )
             -- When the button is released, call the Level1 screen transition function
             onRelease = MoveCharacterLeft         
         } )
-        leftButton.width = 200
+        leftButton.width = 100
         leftButton.height = 100
 
         sceneGroup:insert( leftButton )
