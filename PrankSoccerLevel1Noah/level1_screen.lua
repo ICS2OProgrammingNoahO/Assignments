@@ -49,6 +49,13 @@ local topBorder
 local rightBorder
 local leftBorder
 local character
+local upButton
+local verticalSpeed = 200
+local numUp = 0
+local platform1
+local platform2
+local platform3
+
 
 
 -----------------------------------------------------------------------------------------
@@ -61,9 +68,12 @@ local function AddPhysicsBodies()
     physics.addBody( rightNet, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( bottomBorder, "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody( topBorder, "static", { density=1.0, friction=1, bounce=0 } )
-    physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.5, rotation=0 } )
+    physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.6, rotation=0 } )
     physics.addBody( rightBorder, "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody( leftBorder,  "static", { density=1.0, friction=1, bounce=0 } )
+    physics.addBody( platform1,  "static", { density=1.0, friction=1, bounce=0 } )
+    physics.addBody( platform2,  "static", { density=1.0, friction=1, bounce=0 } )
+    physics.addBody( platform3,  "static", { density=1.0, friction=1, bounce=0 } )
    
 end
 
@@ -76,10 +86,40 @@ local function RemovePhysicsBodies()
       physics.removeBody( topBorder )
       physics.removeBody( rightBorder )
       physics.removeBody( leftBorder )
+      physics.removeBody( platform1 )
+      physics.removeBody( platform2 )
+      physics.removeBody( platform3 )
 end
 
-local function Rotate()
-    character:rotate (15)
+
+
+  
+local function Stop(  )
+  numUp = 0
+end
+
+
+local function MoveCharacterUp()
+if (numUp == 5) then
+  character.y = character.y
+  timer.performWithDelay(500, Stop)
+
+else
+character:setLinearVelocity( 0, -verticalSpeed )
+numUp = numUp + 1
+end
+
+
+end
+
+local function MoveCharacterRight()
+character:rotate (10)
+character:setLinearVelocity( 120, -60 )
+end
+
+local function MoveCharacterLeft()
+character:rotate (-10)
+character:setLinearVelocity( -120, -60 )
 end
 -----------------------------------------------------------------------------------------
 
@@ -127,14 +167,17 @@ function scene:create( event )
 
 
   topBorder = display.newRect(display.contentWidth/2, -90, display.contentWidth, 100)
+     topBorder.alpha = 0
 
     sceneGroup:insert( topBorder )
 
-  rightBorder = display.newRect(display.contentWidth, display.contentHeight/2, 100, display.contentHeight)
+  rightBorder = display.newRect(display.contentWidth + 60, display.contentHeight/2, 100, display.contentHeight)
+   rightBorder.alpha = 0
 
     sceneGroup:insert( rightBorder )
  
- leftBorder = display.newRect(0, display.contentHeight/2, 100, display.contentHeight)
+ leftBorder = display.newRect(-60, display.contentHeight/2, 100, display.contentHeight)
+   leftBorder.alpha = 0
 
     sceneGroup:insert( leftBorder )
 
@@ -142,10 +185,33 @@ function scene:create( event )
    character.x = display.contentCenterX
    character.y = display.contentCenterY
 
+   character.isFixedRotation = true
+
     sceneGroup:insert( character )
 
-    -- prevent character from being able to tip over
-   -- character.isFixedRotation = true
+  platform1 = display.newImageRect("Images/platform.png",200, 25)
+   platform1.x = display.contentCenterX
+   platform1.y = display.contentCenterY
+
+    
+    sceneGroup:insert( platform1 )
+
+  platform2 = display.newImageRect("Images/platform.png",200, 25)
+   platform2.x = display.contentCenterX + 300
+   platform2.y = display.contentCenterY - 200
+
+    
+    sceneGroup:insert( platform2 )
+
+  platform3 = display.newImageRect("Images/platform.png",200, 25)
+   platform3.x = display.contentCenterX - 300
+   platform3.y = display.contentCenterY - 200
+
+    
+    sceneGroup:insert( platform3 )
+
+    
+
 
 
     -----------------------------------------------------------------------------------------
@@ -171,6 +237,64 @@ function scene:create( event )
         backButton.height = 100
 
         sceneGroup:insert( backButton )
+
+
+         upButton = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/2,
+            y = 700,
+            
+
+            -- Insert the images here
+            defaultFile = "Images/upButtonUnpressedNoah@2x.png",
+            overFile = "Images/upButtonPressedNoah@2x.png",
+
+            -- When the button is released, call the Level1 screen transition function
+            onRelease = MoveCharacterUp          
+        } )
+        upButton.width = 200
+        upButton.height = 100
+
+        sceneGroup:insert( upButton )
+
+          rightButton = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/2 + 300,
+            y = 700,
+            
+
+            -- Insert the images here
+            defaultFile = "Images/clockwiseButtonUnpressedNoah@2x.png",
+            overFile = "Images/clockwiseButtonPressedNoah@2x - Copy.png",
+
+            -- When the button is released, call the Level1 screen transition function
+            onRelease = MoveCharacterRight          
+        } )
+        rightButton.width = 200
+        rightButton.height = 100
+
+        sceneGroup:insert( rightButton )
+
+          leftButton = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/2 - 300,
+            y = 700,
+            
+
+            -- Insert the images here
+            defaultFile = "Images/counterclockwiseButtonUnpressedNoah@2x - Copy.png",
+            overFile = "Images/counterclockwiseButtonPressedNoah@2x - Copy - Copy.png",
+
+            -- When the button is released, call the Level1 screen transition function
+            onRelease = MoveCharacterLeft         
+        } )
+        leftButton.width = 200
+        leftButton.height = 100
+
+        sceneGroup:insert( leftButton )
     -----------------------------------------------------------------------------------------
     
     -----------------------------------------------------------------------------------------
@@ -208,12 +332,11 @@ function scene:show( event )
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
-       
-         -- start physics
+                -- start physics
         physics.start()
-        Rotate()
+        --Rotate()
         -- set gravity
-        physics.setGravity( 0, GRAVITY )
+        physics.setGravity( 0, 20 )
     -----------------------------------------------------------------------------------------
 
     -- Called when the scene is now on screen.
