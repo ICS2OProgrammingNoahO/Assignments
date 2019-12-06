@@ -61,6 +61,8 @@ local netBorder
 local netBorder2
 local netBorder3
 local netBorder4
+local characterRolling
+local characterJumping
 
 
 
@@ -104,7 +106,19 @@ local function RemovePhysicsBodies()
 end
 
 
-
+local function Change2( )
+  characterJumping.isVisible = false
+  character.isVisible = true
+end
+local function Change(  )
+  characterJumping.isVisible = true
+  character.isVisible = false
+end
+local function Character( event )
+  characterJumping.x = character.x
+  characterJumping.y = character.y
+  characterJumping.rotation = character.rotation
+end
   
 local function Stop(  )
   numUp = 0
@@ -112,6 +126,8 @@ end
 
 
 local function MoveCharacterUp()
+Change()
+timer.performWithDelay(500, Change2)
 if (numUp == 5) then
   character.y = character.y
   timer.performWithDelay(500, Stop)
@@ -192,6 +208,12 @@ function scene:create( event )
 
     sceneGroup:insert( character )
 
+    characterJumping = display.newImageRect("Images/characterRolling.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+
   platform1 = display.newImageRect("Images/platform.png",200, 25)
    platform1.x = display.contentCenterX
    platform1.y = display.contentCenterY
@@ -214,7 +236,7 @@ function scene:create( event )
     sceneGroup:insert( platform3 )
 
     
-  ball1 = display.newImage("Images/BallNoah@2x.png", display.contentWidth/2, 100)
+  ball1 = display.newImage("Images/BallNoah@2x.png",  display.contentCenterX + 300, 100)
   ball1.yScale = 0.125
   ball1.xScale = 0.125
 
@@ -228,18 +250,22 @@ goalie = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
    sceneGroup:insert( goalie)
 
 netBorder = display.newRect(display.contentCenterX + 450,515,150,10)
+ netBorder.alpha = 0
 
    sceneGroup:insert( netBorder)
 
 netBorder2 = display.newRect(display.contentCenterX - 450,515,150,10)
+ netBorder2.alpha = 0
 
    sceneGroup:insert( netBorder2)
 
 netBorder3 = display.newRect(display.contentCenterX + 486,580,150,10)
+ netBorder3.alpha = 0
 netBorder3:rotate (62)
    sceneGroup:insert( netBorder3)
 
 netBorder4 = display.newRect(display.contentCenterX - 486,580,150,10)
+ netBorder4.alpha = 0
 netBorder4:rotate (-62)
    sceneGroup:insert( netBorder4)
 
@@ -378,6 +404,7 @@ function scene:show( event )
         --Rotate()
         -- set gravity
         physics.setGravity( 0, 20 )
+        Runtime:addEventListener("enterFrame", Character)
     -----------------------------------------------------------------------------------------
 
     -- Called when the scene is now on screen.
