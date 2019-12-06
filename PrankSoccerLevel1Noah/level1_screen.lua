@@ -38,7 +38,7 @@ local scene = composer.newScene( sceneName )
 local background
 local backButton
 local channel
-local music = audio.loadStream("Sounds/creditsMusic.mp3")
+local music = audio.loadStream("Sounds/level1Music.mp3")
 local channel2
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local leftNet
@@ -57,6 +57,10 @@ local platform2
 local platform3
 local ball1
 local goalie
+local netBorder
+local netBorder2
+local netBorder3
+local netBorder4
 
 
 
@@ -66,8 +70,10 @@ local goalie
 
 local function AddPhysicsBodies()
     --add to the physics engine
-    physics.addBody( leftNet, "static", { density=1.0, friction=0.3, bounce=0.2 } )
-    physics.addBody( rightNet, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( netBorder2, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( netBorder3, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( netBorder4, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( netBorder, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody( bottomBorder, "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody( topBorder, "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.6, rotation=0 } )
@@ -82,8 +88,10 @@ end
 
 local function RemovePhysicsBodies()
     
-      physics.removeBody( leftNet )
-      physics.removeBody( rightNet )
+      physics.removeBody( netBorder2 )
+      physics.removeBody( netBorder )
+      physics.removeBody( netBorder3 )
+      physics.removeBody( netBorder4 )
       physics.removeBody( character )
       physics.removeBody( bottomBorder )
       physics.removeBody( topBorder )
@@ -153,16 +161,7 @@ function scene:create( event )
 
       sceneGroup:insert( background )
 
-   leftNet = display.newImageRect("Images/net1.png",150, 150)
-   leftNet.x = display.contentCenterX - 450
-   leftNet.y = display.contentCenterY + 200
-
-   rightNet = display.newImageRect("Images/net2.png",150, 150)
-   rightNet.x = display.contentCenterX + 450
-   rightNet.y = display.contentCenterY + 200
-
-    sceneGroup:insert( leftNet )
-    sceneGroup:insert( rightNet )
+   
 
    bottomBorder = display.newRect(display.contentWidth/2, 708, display.contentWidth, 100)
    bottomBorder.alpha = 0
@@ -226,8 +225,35 @@ goalie = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
    goalie.x = display.contentCenterX + 300
    goalie.y = display.contentCenterY + 200
 
+   sceneGroup:insert( goalie)
+
+netBorder = display.newRect(display.contentCenterX + 450,515,150,10)
+
+   sceneGroup:insert( netBorder)
+
+netBorder2 = display.newRect(display.contentCenterX - 450,515,150,10)
+
+   sceneGroup:insert( netBorder2)
+
+netBorder3 = display.newRect(display.contentCenterX + 486,580,150,10)
+netBorder3:rotate (62)
+   sceneGroup:insert( netBorder3)
+
+netBorder4 = display.newRect(display.contentCenterX - 486,580,150,10)
+netBorder4:rotate (-62)
+   sceneGroup:insert( netBorder4)
 
 
+   leftNet = display.newImageRect("Images/net1.png",150, 150)
+   leftNet.x = display.contentCenterX - 450
+   leftNet.y = display.contentCenterY + 200
+
+   rightNet = display.newImageRect("Images/net2.png",150, 150)
+   rightNet.x = display.contentCenterX + 450
+   rightNet.y = display.contentCenterY + 200
+
+    sceneGroup:insert( leftNet )
+    sceneGroup:insert( rightNet )
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
