@@ -43,7 +43,6 @@ local channel2
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local leftNet
 local rightNet
-local platform1
 local bottomBorder
 local topBorder
 local rightBorder
@@ -57,18 +56,74 @@ local platform2
 local platform3
 local ball1
 local goalie
+local bad1
+local bad2
 local netBorder
 local netBorder2
 local netBorder3
 local netBorder4
 local characterRolling
 local characterJumping
+local goal = 0
+local goal_ = 0
+
 
 
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+local function onCollision( self, event )
+    if  (event.target.myName == "bad1") or
+            (event.target.myName == "bad2") then
+            
+
+            -- get the ball that the user hit
+            --theBall = event.target
+
+            -- stop the character from moving
+            verticalSpeed = 0
+
+            -- make the character invisible
+            character.isVisible = false
+            platform1.isVisible = false
+            platform2.isVisible = false
+            platform3.isVisible = false
+            ball1.isVisible = false
+            goalie.isVisible = false
+            bad1.isVisible = false
+            bad2.isVisible = false
+            leftNet.isVisible = false
+            rightNet.isVisible = false
+
+
+
+            
+
+            -- show overlay with math question
+            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 500})
+
+            -- Increment questions answered
+            --questionsAnswered = questionsAnswered + 1
+        end
+end
+
+
+local function AddCollisionListeners()
+     
+    bad1.collision = onCollision
+    bad1:addEventListener( "collision" )
+    bad2.collision = onCollision
+    bad2:addEventListener( "collision" )
+ 
+end
+
+local function RemoveCollisionListeners()
+
+    bad1:removeEventListener( "collision" )
+    bad2:removeEventListener( "collision" )
+    
+  end
 
 local function AddPhysicsBodies()
     --add to the physics engine
@@ -85,6 +140,8 @@ local function AddPhysicsBodies()
     physics.addBody( platform2,  "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody( platform3,  "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.9, radius=25})
+    physics.addBody(bad1, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(bad2, "static",  {density=0, friction=0, bounce=0} )
    
 end
 
@@ -106,18 +163,38 @@ local function RemovePhysicsBodies()
 end
 
 
+
+local function Change3( )
+  characterRolling.isVisible = false
+  character.isVisible = true
+end
+local function Change4(  )
+  characterRolling.isVisible = true
+  characterJumping.isVisible = false
+  character.isVisible = false
+  timer.performWithDelay(400, Change3)
+end
+
 local function Change2( )
   characterJumping.isVisible = false
+  characterRolling.isVisible = false
   character.isVisible = true
 end
 local function Change(  )
   characterJumping.isVisible = true
+  characterRolling.isVisible = false
   character.isVisible = false
+  timer.performWithDelay(650, Change2)
 end
 local function Character( event )
   characterJumping.x = character.x
   characterJumping.y = character.y
   characterJumping.rotation = character.rotation
+end
+local function Character2( event )
+  characterRolling.x = character.x
+  characterRolling.y = character.y
+  characterRolling.rotation = character.rotation
 end
   
 local function Stop(  )
@@ -127,7 +204,7 @@ end
 
 local function MoveCharacterUp()
 Change()
-timer.performWithDelay(500, Change2)
+
 if (numUp == 5) then
   character.y = character.y
   timer.performWithDelay(500, Stop)
@@ -141,20 +218,28 @@ end
 end
 
 local function MoveCharacterRight()
+  Change4()
 character:rotate (10)
+
 character:setLinearVelocity( 120, 10 )
 end
 
 local function MoveCharacterLeft()
+  Change4()
 character:rotate (-10)
+
 character:setLinearVelocity( -120, 10 )
 end
+
+
 -----------------------------------------------------------------------------------------
 
 -- Creating Transition to Level1 Screen
 local function MainMenuTransition( )
-    composer.gotoScene( "main_menu", {effect = "slideRight", time = 1000})
+    composer.gotoScene( "main_menu", {effect = "fade", time = 1000})
     audio.stop()
+    character.isVisible = false
+    ball1.isVisible = false
     channel2 = audio.play(transitionSound)
 end    
 ----------------------------------------------------------------------------------------
@@ -213,30 +298,37 @@ function scene:create( event )
     characterJumping.y = character.y
     characterJumping.isVisible = false
 
+     characterRolling = display.newImageRect("Images/characterJumping.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
+     sceneGroup:insert( characterRolling )
+    sceneGroup:insert( characterJumping )
 
   platform1 = display.newImageRect("Images/platform.png",200, 25)
    platform1.x = display.contentCenterX
-   platform1.y = display.contentCenterY
+   platform1.y = display.contentCenterY - 200
 
     
     sceneGroup:insert( platform1 )
 
   platform2 = display.newImageRect("Images/platform.png",200, 25)
    platform2.x = display.contentCenterX + 300
-   platform2.y = display.contentCenterY - 200
+   platform2.y = display.contentCenterY 
 
     
     sceneGroup:insert( platform2 )
 
   platform3 = display.newImageRect("Images/platform.png",200, 25)
    platform3.x = display.contentCenterX - 300
-   platform3.y = display.contentCenterY - 200
+   platform3.y = display.contentCenterY 
 
     
     sceneGroup:insert( platform3 )
 
     
-  ball1 = display.newImage("Images/BallNoah@2x.png",  display.contentCenterX + 300, 100)
+  ball1 = display.newImage("Images/BallNoah@2x.png",  display.contentCenterX, 100)
   ball1.yScale = 0.125
   ball1.xScale = 0.125
 
@@ -248,6 +340,19 @@ goalie = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
    goalie.y = display.contentCenterY + 200
 
    sceneGroup:insert( goalie)
+
+bad1 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
+  bad1.x = display.contentCenterX - 300
+  bad1.y = display.contentCenterY - 75
+  bad1.myName = "bad1"
+
+bad2 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
+  bad2.x = display.contentCenterX + 300
+  bad2.y = display.contentCenterY - 75
+  bad2.myName = "bad2"
+
+  sceneGroup:insert( bad1 )
+  sceneGroup:insert( bad2 )
 
 netBorder = display.newRect(display.contentCenterX + 450,515,150,10)
  netBorder.alpha = 0
@@ -389,8 +494,7 @@ function scene:show( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-       channel = audio.play(music, {loop = -1})
-
+       
     -----------------------------------------------------------------------------------------
 
     local phase = event.phase
@@ -405,6 +509,10 @@ function scene:show( event )
         -- set gravity
         physics.setGravity( 0, 20 )
         Runtime:addEventListener("enterFrame", Character)
+        Runtime:addEventListener("enterFrame", Character2)
+        if ( soundOn == true) then
+          channel = audio.play(music, {loop = -1})
+        end
     -----------------------------------------------------------------------------------------
 
     -- Called when the scene is now on screen.
@@ -412,6 +520,7 @@ function scene:show( event )
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
            AddPhysicsBodies()
+          AddCollisionListeners()
    
     end
 

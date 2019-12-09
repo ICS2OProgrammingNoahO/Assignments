@@ -32,10 +32,14 @@ local scene = composer.newScene( sceneName )
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 
+
+
 local background
 local backButton
 local channel
 local channel2
+local muteButton
+local unMuteButton
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local music = audio.loadStream("Sounds/instructionsMusic.mp3")
 
@@ -43,11 +47,32 @@ local music = audio.loadStream("Sounds/instructionsMusic.mp3")
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
+-- Creating Mute function to pause audio
+local function Mute2( touch )
+    if (touch.phase == "ended") then
+        audio.pause(channel)
+        soundOn = false
+        muteButton.isVisible = false
+        unMuteButton.isVisible = true
+    end
+end
+
+
+-- Creating Mute function to pause audio
+local function UnMute3( touch )
+    if (touch.phase == "ended") then
+        audio.resume(channel)
+        soundOn = true
+        muteButton.isVisible = true
+        unMuteButton.isVisible = false
+    end
+end
+
 
 -- Creating Transition to Main Menu Screen
 local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "slideDown", time = 1000})
-    audio.stop()
+    
 
     channel2 = audio.play(transitionSound)
 end    
@@ -70,6 +95,22 @@ function scene:create( event )
    background.y = display.contentCenterY
 
       sceneGroup:insert( background )
+
+
+
+    muteButton = display.newImageRect("Images/MuteButtonUnpressedNoah@2x.png", 100, 100)
+    muteButton.x = 900
+    muteButton.y = 620
+    muteButton.isVisible = true
+
+      unMuteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
+    unMuteButton.x = 900
+    unMuteButton.y = 620
+    unMuteButton.isVisible = false
+    
+
+    sceneGroup:insert( muteButton )
+    sceneGroup:insert( unMuteButton )
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
@@ -114,7 +155,7 @@ function scene:show( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-    channel = audio.play(music, {loop = -1})
+   
 
     -----------------------------------------------------------------------------------------
 
@@ -130,8 +171,17 @@ function scene:show( event )
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
-    elseif ( phase == "did" ) then       
-        
+    elseif ( phase == "did" ) then 
+         if (soundOn == true) then
+            channel = audio.play(music, {loop = -1})
+            unMuteButton.isVisible = false
+            muteButton.isVisible = true
+        elseif(soundOn == false) then
+            muteButton.isVisible = false
+            unMuteButton.isVisible = true
+            end
+        muteButton:addEventListener("touch", Mute2)
+        unMuteButton:addEventListener("touch", UnMute3)
 
     end
 
@@ -160,6 +210,9 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+        muteButton:removeEventListener("touch", Mute2)
+        unMuteButton:removeEventListener("touch", UnMute3)
+        audio.stop(channel)
     end
 
 end -- function scene:hide( event )

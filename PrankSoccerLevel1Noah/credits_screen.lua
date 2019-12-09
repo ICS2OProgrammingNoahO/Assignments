@@ -117,8 +117,8 @@ function scene:show( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-      --background music loop
-       channel = audio.play(music, {loop = -1})
+      
+    
 
     -----------------------------------------------------------------------------------------
 
@@ -128,7 +128,9 @@ function scene:show( event )
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
-       
+       if ( soundOn == true) then
+          channel = audio.play(music, {loop = -1})
+        end
     -----------------------------------------------------------------------------------------
 
     -- Called when the scene is now on screen.
