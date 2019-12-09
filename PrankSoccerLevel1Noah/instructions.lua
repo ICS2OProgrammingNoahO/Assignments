@@ -173,12 +173,13 @@ function scene:show( event )
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then 
          if (soundOn == true) then
-            channel = audio.play(music, {loop = -1})
+            channel = audio.play(music, {channel=2, loop = -1})
             unMuteButton.isVisible = false
             muteButton.isVisible = true
-        elseif(soundOn == false) then
+        else
             muteButton.isVisible = false
             unMuteButton.isVisible = true
+            audio.pause(channel)
             end
         muteButton:addEventListener("touch", Mute2)
         unMuteButton:addEventListener("touch", UnMute3)
@@ -212,7 +213,7 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
         muteButton:removeEventListener("touch", Mute2)
         unMuteButton:removeEventListener("touch", UnMute3)
-        audio.stop(channel)
+        audio.pause(channel)
     end
 
 end -- function scene:hide( event )

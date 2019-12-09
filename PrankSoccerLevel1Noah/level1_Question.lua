@@ -15,7 +15,7 @@ local physics = require( "physics")
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "level1_question"
+sceneName = "level1_Question"
 
 -----------------------------------------------------------------------------------------
 
@@ -39,6 +39,8 @@ local X1 = display.contentWidth*2/7
 local X2 = display.contentWidth*4/7
 local Y1 = display.contentHeight*1/2
 local Y2 = display.contentHeight*5.5/7
+
+
 local userAnswer
 local textTouched = false
 local answerBox
@@ -58,7 +60,8 @@ local questionBox
 local function BackToLevel1() 
     
  answerText1.isVisible = false
-    --composer.hideOverlay("crossFade", 400)
+composer.hideOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
+
     
     
 end 

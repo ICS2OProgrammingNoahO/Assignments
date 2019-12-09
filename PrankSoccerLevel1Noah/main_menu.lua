@@ -129,7 +129,7 @@ function scene:create( event )
     muteButton.y = 620
     muteButton.isVisible = true
 
-      unMuteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
+    unMuteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
     unMuteButton.x = 900
     unMuteButton.y = 620
     unMuteButton.isVisible = false
@@ -241,12 +241,14 @@ function scene:show( event )
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
         if (soundOn == true) then
-            channel = audio.play(music, {loop = -1})
+            channel = audio.play(music, {channel=1, loop = -1})
             unMuteButton.isVisible = false
             muteButton.isVisible = true
-        elseif(soundOn == false) then
+        else
             unMuteButton.isVisible = true
             muteButton.isVisible = false
+            audio.pause(channel)
+
             end
         muteButton:addEventListener("touch", Mute)
         unMuteButton:addEventListener("touch", UnMute)
@@ -280,7 +282,7 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
         muteButton:removeEventListener("touch", Mute)
         unMuteButton:removeEventListener("touch", UnMute)
-        audio.stop(channel)
+        audio.pause(channel)
     end
 
 end -- function scene:hide( event )
