@@ -37,10 +37,12 @@ local background
 local backButton
 
 -- creating variables for audio such as background music
-local channel
-local channel2
+
+
 local music = audio.loadStream("Sounds/creditsMusic.mp3")
+local musicChannel
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
+local TransitionSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -129,7 +131,7 @@ function scene:show( event )
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
        if ( soundOn == true) then
-          channel = audio.play(music, {loop = -1})
+          musicChannel = audio.play(music, {channel = 2, loop = -1})
         end
     -----------------------------------------------------------------------------------------
 

@@ -66,6 +66,8 @@ local characterRolling
 local characterJumping
 local goal = 0
 local goal_ = 0
+local goalText 
+local goal_text
 
 
 
@@ -73,6 +75,34 @@ local goal_ = 0
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+local function Level3Transition()
+
+    composer.gotoScene( "level3_screen", {effect = "crossFade", time = 1000})
+  
+end
+
+local function ChangeScore2( event )
+  if (goal_ == 1)then
+    goal_text.text = "1"
+  elseif (goal_ == 2)then
+    goal_text.text = "2"
+  elseif (goal_ == 3)then
+    goal_text.text = "3"
+  end
+end
+
+local function ChangeScore( event )
+  if (goal == 1)then
+    goalText.text = "1"
+  elseif (goal == 2)then
+    goalText.text = "2"
+  elseif (goal == 3)then
+    goalText.text = "3"
+    Level3Transition()
+
+  end
+end
+
 local function onCollision( self, event )
     if  (event.target.myName == "bad1") or
             (event.target.myName == "bad2") then
@@ -82,7 +112,7 @@ local function onCollision( self, event )
             --theBall = event.target
 
             -- stop the character from moving
-            verticalSpeed = 0
+            --verticalSpeed = 0
 
             -- make the character invisible
             character.isVisible = false
@@ -95,6 +125,8 @@ local function onCollision( self, event )
             bad2.isVisible = false
             leftNet.isVisible = false
             rightNet.isVisible = false
+
+
 
 
 
@@ -245,6 +277,62 @@ end
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
+function ResumeGame()
+            character.isVisible = true
+          
+            ball1.isVisible = true
+            ball1.x = display.contentWidth/2 + 150
+            goalie.isVisible = true
+            leftNet.isVisible = true
+            rightNet.isVisible = true
+            --platform1.isVisible = true
+           -- platform2.isVisible = true
+            --platform3.isVisible = true
+            --bad1.isVisible = true
+           -- bad2.isVisible = true
+           -- physics.removeBody( character )
+           -- physics.removeBody( ball1 )
+            character.x = display.contentWidth/2
+            character.y = display.contentHeight/2 + 200
+            character.rotation = 0
+            goal = goal + 1
+            upButton.isVisible = true
+            rightButton.isVisible = true
+            leftButton.isVisible = true
+            ChangeScore()
+
+
+end
+
+
+function ResumeGame2()
+            character.isVisible = true
+          
+            ball1.isVisible = true
+            ball1.x = display.contentWidth/2 + 150
+            goalie.isVisible = true
+            leftNet.isVisible = true
+            rightNet.isVisible = true
+             -- platform1.isVisible = true
+           -- platform2.isVisible = true
+           -- platform3.isVisible = true
+            --bad1.isVisible = true
+            --bad2.isVisible = true
+            --physics.removeBody( character )
+            --physics.removeBody( ball1 )
+            character.x = display.contentWidth/2
+            character.y = display.contentHeight/2 + 200
+            character.rotation = 0
+            goal_ = goal_ + 1
+            upButton.isVisible = true
+            rightButton.isVisible = true
+            leftButton.isVisible = true
+            ChangeScore2()
+
+
+end
+
+
 
 -- The function called when the screen doesn't exist
 function scene:create( event )
@@ -262,7 +350,16 @@ function scene:create( event )
 
       sceneGroup:insert( background )
 
+   goalText = display.newText("0", display.contentWidth/1.5 + 20 , display.contentHeight/7 + 10 , nil, 150 )
+   goalText:setFillColor(255/255, 0/255, 0/255)
+   sceneGroup:insert( goalText )
    
+
+
+
+   goal_text = display.newText("-0", display.contentWidth/1.5 + 160 , display.contentHeight/7 + 10 , nil, 150 )
+   goal_text:setFillColor(255/255, 0/255, 0/255)
+   sceneGroup:insert( goal_text)
 
    bottomBorder = display.newRect(display.contentWidth/2, 708, display.contentWidth, 100)
    bottomBorder.alpha = 0

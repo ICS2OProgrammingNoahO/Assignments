@@ -47,11 +47,16 @@ local muteButton
 local unMuteButton
 local border
 
+-----------------------------------------------------------------------------------------
+-- LOCAL SOUNDS
+-----------------------------------------------------------------------------------------
+
+
 -- audio variables
-local channel
-local channel2
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
+local transitionSoundChannel
 local music = audio.loadStream("Sounds/mainMusic.mp3")
+local musicChannel = audio.play(music, {channel=1, loop = -1})
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -61,7 +66,7 @@ local music = audio.loadStream("Sounds/mainMusic.mp3")
 -- Creating Mute function to pause audio
 local function Mute( touch )
     if (touch.phase == "ended") then
-        audio.pause(channel)
+        audio.pause(musicChannel)
         soundOn = false
         muteButton.isVisible = false
         unMuteButton.isVisible = true
@@ -72,7 +77,7 @@ end
 -- Creating Mute function to pause audio
 local function UnMute( touch )
     if (touch.phase == "ended") then
-        audio.resume(channel)
+        audio.resume(musicChannel)
         soundOn = true
         muteButton.isVisible = true
         unMuteButton.isVisible = false
@@ -86,20 +91,20 @@ end
 local function Level1ScreenTransition( )
     composer.gotoScene( "level1_screen", {effect = "fade", time = 1000})
     
-    channel2 = audio.play(transitionSound)
+    transitionSoundChannel = audio.play(transitionSound)
 end    
 
 -- Creating Transition to Instructions screen
 local function InstructionsTransition( )
     composer.gotoScene( "instructions", {effect = "slideUp", time = 1000})
-    channel2 = audio.play(transitionSound)
+    transitionSoundChannel = audio.play(transitionSound)
 end    
 
 
 --Creating Transition Function to Credits Page
 local function CreditsTransition( )       
     composer.gotoScene( "credits_screen", {effect = "slideLeft", time = 500})
-    channel2 = audio.play(transitionSound)
+    transitionSoundChannel = audio.play(transitionSound) 
 end 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -149,7 +154,8 @@ function scene:create( event )
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth - 800,
             y = display.contentHeight - 100,
-            
+            width = 200,
+            height = 100,            
 
             -- Insert the images here
             defaultFile = "Images/PlayButtonUnpressedDaniel@2x.png",
@@ -158,8 +164,7 @@ function scene:create( event )
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level1ScreenTransition          
         } )
-        playButton.width = 200
-        playButton.height = 100
+    
     -----------------------------------------------------------------------------------------
     -- Creating Credits Button
     creditsButton = widget.newButton( 
@@ -203,12 +208,6 @@ function scene:create( event )
     sceneGroup:insert( playButton )
     sceneGroup:insert( creditsButton )
     sceneGroup:insert( instructionsButton )
-    
-
-    -- Send the background image to the back layer so all other objects can be on top
-  
-    background:toBack()
-
 
 
 end -- function scene:create( event )   
@@ -240,16 +239,17 @@ function scene:show( event )
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
+        
         if (soundOn == true) then
-            channel = audio.play(music, {channel=1, loop = -1})
+            audio.resume(musicChannel)
             unMuteButton.isVisible = false
             muteButton.isVisible = true
         else
             unMuteButton.isVisible = true
             muteButton.isVisible = false
-            audio.pause(channel)
+            audio.pause(musicChannel)
 
-            end
+        end
         muteButton:addEventListener("touch", Mute)
         unMuteButton:addEventListener("touch", UnMute)
 
@@ -282,7 +282,7 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
         muteButton:removeEventListener("touch", Mute)
         unMuteButton:removeEventListener("touch", UnMute)
-        audio.pause(channel)
+        audio.pause(musicChannel)
     end
 
 end -- function scene:hide( event )

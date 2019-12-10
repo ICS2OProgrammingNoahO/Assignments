@@ -31,26 +31,29 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
-
-
-
 local background
 local backButton
-local channel
-local channel2
+
 local muteButton
 local unMuteButton
+
+-----------------------------------------------------------------------------------------
+-- LOCAL SOUNDS
+-----------------------------------------------------------------------------------------
+
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
+local transitionSoundChannel
 local music = audio.loadStream("Sounds/instructionsMusic.mp3")
+local musicChannel = audio.play(music, {channel=4, loop = -1})
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
 -- Creating Mute function to pause audio
-local function Mute2( touch )
+local function Mute( touch )
     if (touch.phase == "ended") then
-        audio.pause(channel)
+        audio.pause(musicChannel)
         soundOn = false
         muteButton.isVisible = false
         unMuteButton.isVisible = true
@@ -59,9 +62,9 @@ end
 
 
 -- Creating Mute function to pause audio
-local function UnMute3( touch )
+local function UnMute( touch )
     if (touch.phase == "ended") then
-        audio.resume(channel)
+        audio.resume(musicChannel)
         soundOn = true
         muteButton.isVisible = true
         unMuteButton.isVisible = false
@@ -74,7 +77,7 @@ local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "slideDown", time = 1000})
     
 
-    channel2 = audio.play(transitionSound)
+    transitionChannel = audio.play(transitionSound)
 end    
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -90,11 +93,11 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
   -- creating the background
-   background = display.newImageRect("Images/InstructionsScreenNoah@2x.png", display.contentWidth, display.contentHeight)
-   background.x = display.contentCenterX
-   background.y = display.contentCenterY
+    background = display.newImageRect("Images/InstructionsScreenNoah@2x.png", display.contentWidth, display.contentHeight)
+    background.x = display.contentCenterX
+    background.y = display.contentCenterY
 
-      sceneGroup:insert( background )
+    sceneGroup:insert( background )
 
 
 
@@ -103,7 +106,7 @@ function scene:create( event )
     muteButton.y = 620
     muteButton.isVisible = true
 
-      unMuteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
+    unMuteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
     unMuteButton.x = 900
     unMuteButton.y = 620
     unMuteButton.isVisible = false
@@ -137,12 +140,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
     
     -----------------------------------------------------------------------------------------
- sceneGroup:insert( backButton )
-
-    -- Send the background image to the back layer so all other objects can be on top
-  
-    background:toBack()
-
+    sceneGroup:insert( backButton )
 
 end  
 
@@ -172,17 +170,18 @@ function scene:show( event )
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then 
-         if (soundOn == true) then
-            channel = audio.play(music, {channel=2, loop = -1})
+        
+        if (soundOn == true) then
+            audio.resume(musicChannel)
             unMuteButton.isVisible = false
             muteButton.isVisible = true
         else
+            audio.pause(musicChannel)
             muteButton.isVisible = false
-            unMuteButton.isVisible = true
-            audio.pause(channel)
-            end
-        muteButton:addEventListener("touch", Mute2)
-        unMuteButton:addEventListener("touch", UnMute3)
+            unMuteButton.isVisible = true            
+        end
+        muteButton:addEventListener("touch", Mute)
+        unMuteButton:addEventListener("touch", UnMute)
 
     end
 
@@ -211,9 +210,9 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-        muteButton:removeEventListener("touch", Mute2)
-        unMuteButton:removeEventListener("touch", UnMute3)
-        audio.pause(channel)
+        muteButton:removeEventListener("touch", Mute)
+        unMuteButton:removeEventListener("touch", UnMute)
+        audio.pause(musicChannel)
     end
 
 end -- function scene:hide( event )

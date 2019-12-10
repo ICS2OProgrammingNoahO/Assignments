@@ -59,13 +59,21 @@ local questionBox
 --making transition to next scene
 local function BackToLevel1() 
     
- answerText1.isVisible = false
+
 composer.hideOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
 
-    
-    
+          
+    ResumeGame()
 end 
 
+local function BackToLevel12() 
+    
+
+composer.hideOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
+
+          
+    ResumeGame2()
+end 
 -----------------------------------------------------------------------------------------
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerAnswer(touch)
@@ -84,7 +92,7 @@ local function TouchListenerWrongAnswer(touch)
     
     if (touch.phase == "ended") then
         
-        BackToLevel1( )
+        BackToLevel12( )
         
         
     end 
@@ -96,7 +104,7 @@ local function TouchListenerWrongAnswer2(touch)
     
     if (touch.phase == "ended") then
 
-        BackToLevel1( )
+        BackToLevel12( )
         
     end 
 end
@@ -107,7 +115,7 @@ local function TouchListenerWrongAnswer3(touch)
     
     if (touch.phase == "ended") then
 
-        BackToLevel1( )
+        BackToLevel12( )
         
     end 
 end
@@ -220,7 +228,8 @@ function scene:create( event )
     cover:setFillColor(255/255, 255/255, 255/255)
     cover.strokeWidth = 9
     cover:setStrokeColor( 255/255, 0/255, 0/255)
-sceneGroup:insert(bkg)
+    
+    sceneGroup:insert(bkg)
     sceneGroup:insert(cover)
 
     questionBox = display.newRect(display.contentCenterX, 250, 500, 100)
@@ -241,6 +250,7 @@ sceneGroup:insert(bkg)
     sceneGroup:insert(answerBox2)
     sceneGroup:insert(answerBox3)
     sceneGroup:insert(answerBox4)
+    sceneGroup:insert(questionBox)
 
     
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 55)
