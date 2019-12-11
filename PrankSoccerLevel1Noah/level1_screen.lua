@@ -88,11 +88,6 @@ local youHit
 local home
 local away
 
-
-
-
-
-
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -165,6 +160,7 @@ local function Reset( )
   ball1.y = 100
   ball1.isVisible = false
   goalSoundChannel = audio.play(goalSound)
+  physics.removeBody(ball1)
   
 
 end
@@ -417,7 +413,7 @@ end
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
-function ResumeGame()
+function ResumeGameLevel1()
             
 
             physics.removeBody( ball1)
@@ -441,7 +437,7 @@ function ResumeGame()
 end
 
 
-function ResumeGame2()
+function ResumeGame2Level1()
             
 
             physics.removeBody( ball1)

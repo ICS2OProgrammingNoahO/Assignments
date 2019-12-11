@@ -41,7 +41,19 @@ local channel
 local music = audio.loadStream("Sounds/level1Music.mp3")
 local channel2
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
+local goalSound = audio.loadStream("Sounds/win.mp3")
+local goalSoundChannel
+local kickSound = audio.loadStream("Sounds/kick.mp3")
+local kickSoundChannel
+local winSound = audio.loadStream("Sounds/winwin.mp3")
+local winSoundChannel
+local jumpSound = audio.loadStream("Sounds/jump2.mp3")
+local jumpSoundChannel
 local leftNet
+local jumpSound2 = audio.loadStream("Sounds/jump3.mp3")
+local jumpSound2Channel
+local badSound
+local badSoundChannel
 local rightNet
 local bottomBorder
 local topBorder
@@ -58,6 +70,7 @@ local ball1
 local goalie
 local bad1
 local bad2
+local bad3
 local netBorder
 local netBorder2
 local netBorder3
@@ -72,6 +85,8 @@ local netBlock
 local titleShoot
 local youMiss
 local youHit
+local home
+local away
 
 
 
@@ -81,7 +96,7 @@ local youHit
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
-local function Level3Transition()
+local function EndTransition()
 
     composer.gotoScene( "level3_screen", {effect = "crossFade", time = 1000})
   
@@ -104,6 +119,7 @@ local function AddPhysicsBodies()
     physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
     physics.addBody(bad1, "static",  {density=0, friction=0, bounce=0} )
     physics.addBody(bad2, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(bad3, "static",  {density=0, friction=0, bounce=0} )
    
 end
 
@@ -136,6 +152,7 @@ local function Reset( )
   goalie.isVisible = true
   bad1.isVisible = true
   bad2.isVisible = true
+  bad3.isVisible = true
   leftNet.isVisible = true
   rightNet.isVisible = true
   rightButton.isVisible = true
@@ -146,8 +163,9 @@ local function Reset( )
   character.rotation = 0
   ball1.x = display.contentCenterX
   ball1.y = 100
-  --physics.addBody(character)
-  --physics.addBody(ball1)
+  ball1.isVisible = false
+  goalSoundChannel = audio.play(goalSound)
+  
 
 end
 
@@ -167,6 +185,7 @@ local function ChangeScore2( )
     goal_text.text = "-2"
   elseif (goal_ == 6)then
     goal_text.text = "-3"
+     composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
   end
 end
 
@@ -183,7 +202,7 @@ local function ChangeScore( )
     goalText.text = "2"
   elseif (goal1 == 3)then
     goalText.text = "3"
-    timer.performWithDelay(2000, Level3Transition)
+    timer.performWithDelay(2000, EndTransition)
     
 
   end
@@ -191,16 +210,11 @@ end
 
 local function onCollision( self, event )
     if  (event.target.myName == "bad1") or
-            (event.target.myName == "bad2") then
+            (event.target.myName == "bad2")or 
+            (event.target.myName == "bad3")then
             
 
-            -- get the ball that the user hit
-            --theBall = event.target
-
-            -- stop the character from moving
-            --verticalSpeed = 0
-
-            -- make the character invisible
+            kickSoundChannel = audio.play(kickSound)
             character.isVisible = false
             platform1.isVisible = false
             platform2.isVisible = false
@@ -209,6 +223,7 @@ local function onCollision( self, event )
             goalie.isVisible = false
             bad1.isVisible = false
             bad2.isVisible = false
+            bad3.isVisible = false
             leftNet.isVisible = false
             rightNet.isVisible = false
             rightButton.isVisible = false
@@ -228,10 +243,14 @@ end
 
 local function ballCollision( self, event )
     goal_ = goal_ + 1
+    --badSoundChannel = audio.play(badSound)
     if  (event.target.myName == "netBlock") then
         
-        
+        ball1.x = display.contentCenterX
+      ball1.isVisible = false
         youMiss.isVisible = true
+        
+        
         timer.performWithDelay(500, ChangeScore2)
 
         timer.performWithDelay(1500, Reset)
@@ -247,16 +266,19 @@ end
 local function Goal( )
   
   if (ball1.x > 895)and
-    (ball1.y < 700)then
+    (ball1.y > 600)then
+    
       
       youHit.isVisible = true
-      --physics.removeBody( character )
-      --physics.removeBody( ball1 )
+     winSoundChannel = audio.play(winSound)
+      
      
       timer.performWithDelay(500, ChangeScore)
 
       timer.performWithDelay(1500, Reset)
-      --Runtime:removeEventListener(Goal)
+
+      Runtime:removeEventListener("enterFrame", Goal)
+      
 
     end
 end
@@ -352,7 +374,7 @@ end
 
 local function MoveCharacterUp()
 Change()
-
+jumpSoundChannel = audio.play(jumpSound)
 if (numUp == 5) then
   character.y = character.y
   timer.performWithDelay(500, Stop)
@@ -367,6 +389,7 @@ end
 
 local function MoveCharacterRight()
   Change4()
+jumpSoundChannel2 = audio.play(jumpSound2)
 character:rotate (10)
 
 character:setLinearVelocity( 120, 10 )
@@ -374,6 +397,7 @@ end
 
 local function MoveCharacterLeft()
   Change4()
+  jumpSoundChannel2 = audio.play(jumpSound2)
 character:rotate (-10)
 
 character:setLinearVelocity( -120, 10 )
@@ -393,7 +417,7 @@ end
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
-function ResumeGame()
+function ResumeGameLevel3()
             
 
             physics.removeBody( ball1)
@@ -409,6 +433,7 @@ function ResumeGame()
             character.y = display.contentHeight/2 + 200
             character.rotation = 0
             titleShoot.isVisible = true
+            Runtime:addEventListener("enterFrame", Goal)
             timer.performWithDelay(1000, Shoot2)
             
 
@@ -416,7 +441,7 @@ function ResumeGame()
 end
 
 
-function ResumeGame2()
+function ResumeGame2Level3()
             
 
             physics.removeBody( ball1)
@@ -456,31 +481,39 @@ function scene:create( event )
 
       sceneGroup:insert( background )
 
-   goalText = display.newText("0", display.contentWidth/1.5 + 20 , display.contentHeight/7 + 10 , nil, 150 )
+   goalText = display.newText("0", display.contentWidth/1.5 + 20 , display.contentHeight/7  , nil, 125 )
    goalText:setFillColor(255/255, 0/255, 0/255)
    sceneGroup:insert( goalText )
    
 
 
 
-   goal_text = display.newText("-0", display.contentWidth/1.5 + 160 , display.contentHeight/7 + 10 , nil, 150 )
+   goal_text = display.newText("-0", display.contentWidth/1.5 + 160 , display.contentHeight/7  , nil, 125 )
    goal_text:setFillColor(255/255, 0/255, 0/255)
    sceneGroup:insert( goal_text)
 
    titleShoot = display.newText("Shoot!", display.contentWidth/2 , display.contentHeight/2 , nil, 300 )
-   titleShoot:setFillColor(0/255, 0/255, 0/255)
+   titleShoot:setFillColor(255/255, 255/255, 51/255)
    titleShoot.isVisible = false
    sceneGroup:insert( titleShoot)
 
-   youMiss = display.newText("Saved!", display.contentWidth/2 , display.contentHeight/1.5 , nil, 80 )
+   youMiss = display.newText("Saved!", display.contentWidth/2 , display.contentHeight/1.5 , nil, 250 )
    youMiss:setFillColor(0/255, 0/255, 200/255)
    youMiss.isVisible = false
    sceneGroup:insert( youMiss)
 
-   youHit = display.newText("Goal!", display.contentWidth/2 , display.contentHeight/1.5 , nil, 80 )
+   youHit = display.newText("Goal!", display.contentWidth/2 , display.contentHeight/1.5 , nil, 250 )
    youHit:setFillColor(0/255, 0/255, 200/255)
    youHit.isVisible = false
    sceneGroup:insert( youHit)
+
+   away = display.newText("Away", display.contentWidth/2 + 358, display.contentHeight/2 - 220 , nil, 20 )
+   away:setFillColor(255/255, 0/255, 0/255)
+   sceneGroup:insert( away)
+
+   home = display.newText("Home", display.contentWidth/2 + 192 , display.contentHeight/2 - 220, nil, 20 )
+   home:setFillColor(255/255, 0/255, 0/255)
+   sceneGroup:insert( home)
 
    bottomBorder = display.newRect(display.contentWidth/2, 708, display.contentWidth, 100)
    bottomBorder.alpha = 0
@@ -552,6 +585,7 @@ function scene:create( event )
   ball1 = display.newImage("Images/BallNoah@2x.png",  display.contentCenterX, 100)
   ball1.yScale = 0.125
   ball1.xScale = 0.125
+  ball1.isVisible = false
   ball1.myName = "ball"
 
 
@@ -573,8 +607,13 @@ bad2 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
   bad2.y = display.contentCenterY - 75
   bad2.myName = "bad2"
 
+bad3 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
+  bad3.x = display.contentCenterX 
+  bad3.y = display.contentCenterY - 275
+  bad3.myName = "bad3"
   sceneGroup:insert( bad1 )
   sceneGroup:insert( bad2 )
+  sceneGroup:insert( bad3 )
 
 netBorder = display.newRect(display.contentCenterX + 450,515,150,10)
  netBorder.alpha = 0
@@ -732,7 +771,7 @@ function scene:show( event )
         physics.setGravity( 0, 20 )
         Runtime:addEventListener("enterFrame", Character)
         Runtime:addEventListener("enterFrame", Character2)
-        Runtime:addEventListener("enterFrame", Goal)
+        
         if ( soundOn == true) then
           channel = audio.play(music, {loop = -1})
         end
@@ -775,7 +814,7 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
              RemoveCollisionListeners()
              --RemovePhysicsBodies()
-        
+        audio.pause(channel2)
 
         physics.stop()
 
