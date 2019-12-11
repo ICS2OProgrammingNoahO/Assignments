@@ -64,8 +64,16 @@ local netBorder3
 local netBorder4
 local characterRolling
 local characterJumping
-local goal = 0
+local goal1 = 0
 local goal_ = 0
+local goalText 
+local goal_text
+local netBlock
+local titleShoot
+local youMiss
+local youHit
+
+
 
 
 
@@ -73,57 +81,11 @@ local goal_ = 0
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
-local function onCollision( self, event )
-    if  (event.target.myName == "bad1") or
-            (event.target.myName == "bad2") then
-            
+local function Level3Transition()
 
-            -- get the ball that the user hit
-            --theBall = event.target
-
-            -- stop the character from moving
-            verticalSpeed = 0
-
-            -- make the character invisible
-            character.isVisible = false
-            platform1.isVisible = false
-            platform2.isVisible = false
-            platform3.isVisible = false
-            ball1.isVisible = false
-            goalie.isVisible = false
-            bad1.isVisible = false
-            bad2.isVisible = false
-            leftNet.isVisible = false
-            rightNet.isVisible = false
-
-
-
-            
-
-            -- show overlay with math question
-            composer.showOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
-
-            -- Increment questions answered
-            --questionsAnswered = questionsAnswered + 1
-        end
+    composer.gotoScene( "level3_screen", {effect = "crossFade", time = 1000})
+  
 end
-
-
-local function AddCollisionListeners()
-     
-    bad1.collision = onCollision
-    bad1:addEventListener( "collision" )
-    bad2.collision = onCollision
-    bad2:addEventListener( "collision" )
- 
-end
-
-local function RemoveCollisionListeners()
-
-    bad1:removeEventListener( "collision" )
-    bad2:removeEventListener( "collision" )
-    
-  end
 
 local function AddPhysicsBodies()
     --add to the physics engine
@@ -139,7 +101,7 @@ local function AddPhysicsBodies()
     physics.addBody( platform1,  "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody( platform2,  "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody( platform3,  "static", { density=1.0, friction=1, bounce=0 } )
-    physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.9, radius=25})
+    physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
     physics.addBody(bad1, "static",  {density=0, friction=0, bounce=0} )
     physics.addBody(bad2, "static",  {density=0, friction=0, bounce=0} )
    
@@ -160,7 +122,193 @@ local function RemovePhysicsBodies()
       physics.removeBody( platform2 )
       physics.removeBody( platform3 )
       physics.removeBody( ball1)
+     
 end
+
+
+
+local function Reset( )
+  youMiss.isVisible = false
+  youHit.isVisible = false
+  platform1.isVisible = true
+  platform2.isVisible = true
+  platform3.isVisible = true
+  goalie.isVisible = true
+  bad1.isVisible = true
+  bad2.isVisible = true
+  leftNet.isVisible = true
+  rightNet.isVisible = true
+  rightButton.isVisible = true
+  leftButton.isVisible = true
+  upButton.isVisible = true
+  character.x = display.contentCenterX
+  character.y = display.contentCenterY + 50
+  character.rotation = 0
+  ball1.x = display.contentCenterX
+  ball1.y = 100
+  --physics.addBody(character)
+  --physics.addBody(ball1)
+
+end
+
+
+
+
+local function ChangeScore2( )
+ 
+  if (goal_ == 2)then
+    goal_text.text = "-1"
+    upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+    
+
+  elseif (goal_ == 4)then
+    goal_text.text = "-2"
+  elseif (goal_ == 6)then
+    goal_text.text = "-3"
+  end
+end
+
+local function ChangeScore( )
+  
+  if (goal1 == 1)then
+    goalText.text = "1"
+    upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
+   
+
+  elseif (goal1 == 2)then
+    goalText.text = "2"
+  elseif (goal1 == 3)then
+    goalText.text = "3"
+    timer.performWithDelay(2000, Level3Transition)
+    
+
+  end
+end
+
+local function onCollision( self, event )
+    if  (event.target.myName == "bad1") or
+            (event.target.myName == "bad2") then
+            
+
+            -- get the ball that the user hit
+            --theBall = event.target
+
+            -- stop the character from moving
+            --verticalSpeed = 0
+
+            -- make the character invisible
+            character.isVisible = false
+            platform1.isVisible = false
+            platform2.isVisible = false
+            platform3.isVisible = false
+            ball1.isVisible = false
+            goalie.isVisible = false
+            bad1.isVisible = false
+            bad2.isVisible = false
+            leftNet.isVisible = false
+            rightNet.isVisible = false
+            rightButton.isVisible = false
+            leftButton.isVisible = false
+            upButton.isVisible = false
+            
+
+
+            -- show overlay with math question
+            composer.showOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
+
+            -- Increment questions answered
+            --questionsAnswered = questionsAnswered + 1
+        end
+end
+
+
+local function ballCollision( self, event )
+    goal_ = goal_ + 1
+    if  (event.target.myName == "netBlock") then
+        
+        
+        youMiss.isVisible = true
+        timer.performWithDelay(500, ChangeScore2)
+
+        timer.performWithDelay(1500, Reset)
+    end
+            
+
+
+
+
+end
+
+
+local function Goal( )
+  
+  if (ball1.x > 895)and
+    (ball1.y < 700)then
+      
+      youHit.isVisible = true
+      --physics.removeBody( character )
+      --physics.removeBody( ball1 )
+     
+      timer.performWithDelay(500, ChangeScore)
+
+      timer.performWithDelay(1500, Reset)
+      --Runtime:removeEventListener(Goal)
+
+    end
+end
+
+
+
+local function Shoot1( )
+  titleShoot.isVisible = false
+  physics.addBody(netBlock, "static",  {density=0, friction=0, bounce=0} )
+  physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.6, rotation=0 } )
+  physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
+  upButton.isVisible = true
+  rightButton.isVisible = true
+  leftButton.isVisible = true
+
+end
+
+
+local function Shoot2( )
+  goal1 = goal1 + 1
+  titleShoot.isVisible = false
+  physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.6, rotation=0 } )
+  physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
+  upButton.isVisible = true
+  rightButton.isVisible = true
+  leftButton.isVisible = true
+
+
+
+end
+
+
+local function AddCollisionListeners()
+     
+    bad1.collision = onCollision
+    bad1:addEventListener( "collision" )
+    bad2.collision = onCollision
+    bad2:addEventListener( "collision" )
+    netBlock.collision = ballCollision
+    netBlock:addEventListener( "collision")
+
+ 
+end
+
+local function RemoveCollisionListeners()
+
+    bad1:removeEventListener( "collision" )
+    bad2:removeEventListener( "collision" )
+    netBlock:addEventListener( "collision")
+    
+  end
+
 
 
 
@@ -245,6 +393,52 @@ end
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
+function ResumeGame()
+            
+
+            physics.removeBody( ball1)
+            physics.removeBody( character)
+            character.isVisible = true
+            ball1.isVisible = true
+            ball1.x = display.contentWidth/2 + 150
+            ball1.y = display.contentHeight/2 + 150
+            goalie.isVisible = true
+            leftNet.isVisible = true
+            rightNet.isVisible = true
+            character.x = display.contentWidth/2
+            character.y = display.contentHeight/2 + 200
+            character.rotation = 0
+            titleShoot.isVisible = true
+            timer.performWithDelay(1000, Shoot2)
+            
+
+
+end
+
+
+function ResumeGame2()
+            
+
+            physics.removeBody( ball1)
+            physics.removeBody( character)
+            character.isVisible = true
+            ball1.isVisible = true
+            ball1.x = display.contentWidth/2 + 150
+            ball1.y = display.contentHeight/2 + 150
+            goalie.isVisible = true
+            leftNet.isVisible = true
+            rightNet.isVisible = true
+            character.x = display.contentWidth/2
+            character.y = display.contentHeight/2 + 200
+            character.rotation = 0
+            titleShoot.isVisible = true
+            timer.performWithDelay(1000, Shoot1)
+
+
+
+end
+
+
 
 -- The function called when the screen doesn't exist
 function scene:create( event )
@@ -256,19 +450,46 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------   background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 
-    background = display.newImageRect("Images/Level3ScreenNoah@2x.png", display.contentWidth, display.contentHeight)
+    background = display.newImageRect("Images/level3ScreenNoah@2x.png", display.contentWidth, display.contentHeight)
    background.x = display.contentCenterX
    background.y = display.contentCenterY
 
       sceneGroup:insert( background )
 
+   goalText = display.newText("0", display.contentWidth/1.5 + 20 , display.contentHeight/7 + 10 , nil, 150 )
+   goalText:setFillColor(255/255, 0/255, 0/255)
+   sceneGroup:insert( goalText )
    
+
+
+
+   goal_text = display.newText("-0", display.contentWidth/1.5 + 160 , display.contentHeight/7 + 10 , nil, 150 )
+   goal_text:setFillColor(255/255, 0/255, 0/255)
+   sceneGroup:insert( goal_text)
+
+   titleShoot = display.newText("Shoot!", display.contentWidth/2 , display.contentHeight/2 , nil, 300 )
+   titleShoot:setFillColor(0/255, 0/255, 0/255)
+   titleShoot.isVisible = false
+   sceneGroup:insert( titleShoot)
+
+   youMiss = display.newText("Saved!", display.contentWidth/2 , display.contentHeight/1.5 , nil, 80 )
+   youMiss:setFillColor(0/255, 0/255, 200/255)
+   youMiss.isVisible = false
+   sceneGroup:insert( youMiss)
+
+   youHit = display.newText("Goal!", display.contentWidth/2 , display.contentHeight/1.5 , nil, 80 )
+   youHit:setFillColor(0/255, 0/255, 200/255)
+   youHit.isVisible = false
+   sceneGroup:insert( youHit)
 
    bottomBorder = display.newRect(display.contentWidth/2, 708, display.contentWidth, 100)
    bottomBorder.alpha = 0
 
     sceneGroup:insert( bottomBorder )
 
+  netBlock = display.newRect( 895, 600, 20, 200)
+  netBlock.alpha = 0
+  netBlock.myName = "netBlock"
 
   topBorder = display.newRect(display.contentWidth/2, -90, display.contentWidth, 100)
      topBorder.alpha = 0
@@ -331,6 +552,7 @@ function scene:create( event )
   ball1 = display.newImage("Images/BallNoah@2x.png",  display.contentCenterX, 100)
   ball1.yScale = 0.125
   ball1.xScale = 0.125
+  ball1.myName = "ball"
 
 
     sceneGroup:insert( ball1 )
@@ -510,6 +732,7 @@ function scene:show( event )
         physics.setGravity( 0, 20 )
         Runtime:addEventListener("enterFrame", Character)
         Runtime:addEventListener("enterFrame", Character2)
+        Runtime:addEventListener("enterFrame", Goal)
         if ( soundOn == true) then
           channel = audio.play(music, {loop = -1})
         end
@@ -550,12 +773,12 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-             --RemoveCollisionListeners()
+             RemoveCollisionListeners()
+             --RemovePhysicsBodies()
         
 
         physics.stop()
-       -- RemoveArrowEventListeners()
-        --RemoveRuntimeListeners()
+
        
     end
 

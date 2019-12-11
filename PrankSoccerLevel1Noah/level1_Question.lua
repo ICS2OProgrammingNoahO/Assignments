@@ -25,6 +25,8 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
+numCorrect = 0
+
 
 -- The local variables for this scene
 local questionText
@@ -35,10 +37,10 @@ local wrongAnswerText3
 local answerPosition = 1
 local bkg
 local cover
-local X1 = display.contentWidth*2/7
-local X2 = display.contentWidth*4/7
-local Y1 = display.contentHeight*1/2
-local Y2 = display.contentHeight*5.5/7
+local X1 = display.contentWidth*2/7 + 50
+local X2 = display.contentWidth*4/7 + 50
+local Y1 = display.contentHeight*1/2 + 50
+local Y2 = display.contentHeight*5.5/7 + 50
 
 
 local userAnswer
@@ -48,6 +50,13 @@ local answerBox2
 local answerBox3
 local answerBox4
 local questionBox
+local firstNumber
+local question2Image
+
+local selectSound = audio.loadStream("Sounds/cheer.mp3")
+local selecSoundChannel
+ 
+
 
 
 
@@ -78,7 +87,8 @@ end
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerAnswer(touch)
     userAnswer = answerText1.text
-    
+    numCorrect = numCorrect + 1
+    selecSoundChannel = audio.play(selectSound)
     if (touch.phase == "ended") then
 
         BackToLevel1( )
@@ -89,7 +99,7 @@ end
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerWrongAnswer(touch)
     userAnswer = wrongText1.text
-    
+    selecSoundChannel = audio.play(selectSound)
     if (touch.phase == "ended") then
         
         BackToLevel12( )
@@ -101,7 +111,7 @@ end
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
-    
+    selecSoundChannel = audio.play(selectSound)
     if (touch.phase == "ended") then
 
         BackToLevel12( )
@@ -112,6 +122,7 @@ end
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerWrongAnswer3(touch)
     userAnswer = wrongText3.text
+    selecSoundChannel = audio.play(selectSound)
     
     if (touch.phase == "ended") then
 
@@ -134,13 +145,18 @@ local function RemoveTextListeners()
     wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer2)
     wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer3)
 end
+local function Question2( )
+  
+    question2Image.isVisible = true
+
+end
 
 local function DisplayQuestion()
     --creating random numbers
-    firstNumber = math.random (0,15)
-    secondNumber = math.random (0,15)
+    firstNumber = math.random (1,3)
+   
 
-
+if (firstNumber == 1) then
 
     --creating the question depending on the selcetion number
     questionText.text = " What do the leaves of a plant do? " 
@@ -149,9 +165,35 @@ local function DisplayQuestion()
     answerText1.text = " Collect energy "
     
     --creating wrong answers
-    wrongText1.text = " Supports the plant "
-    wrongText2.text = " Carries the nutrients "
-    wrongText3.text = " Carries the water "
+    wrongText1.text = " Support the plant "
+    wrongText2.text = " Carry the nutrients "
+    wrongText3.text = " Carry the water "
+elseif (firstNumber == 2)then
+     
+    Question2()
+     --creating the question depending on the selcetion number
+    questionText.text = " What is this? " 
+
+    --creating answer text from list it corispondes with the animals list
+    answerText1.text = " Stem "
+    
+    --creating wrong answers
+    wrongText1.text = " Root "
+    wrongText2.text = " Leaf "
+    wrongText3.text = " Seed "
+elseif (firstNumber == 3)then
+     --creating the question depending on the selcetion number
+    questionText.text = " What is Photosynthesis? " 
+
+    --creating answer text from list it corispondes with the animals list
+    answerText1.text = " Plants making Food "
+    
+    --creating wrong answers
+    wrongText1.text = " Animals eating plants "
+    wrongText2.text = " A species of plant "
+    wrongText3.text = " A flower "
+end
+
 end
 
 local function PositionAnswers()
@@ -204,6 +246,8 @@ local function PositionAnswers()
         wrongText3.y = Y2
             
     end
+
+
 end
 
 -----------------------------------------------------------------------------------------
@@ -232,25 +276,38 @@ function scene:create( event )
     sceneGroup:insert(bkg)
     sceneGroup:insert(cover)
 
-    questionBox = display.newRect(display.contentCenterX, 250, 500, 100)
-    questionBox:setFillColor(0, 0, 0)
+    question2Image = display.newImageRect("Images/WhatIsRoot.png", 200, 500)
+    question2Image.x = display.contentWidth/2 - 380
+    question2Image.y = display.contentHeight/2 + 50
+    question2Image.strokeWidth = 9
+    question2Image:setStrokeColor(255/255, 255/255, 51/255)
+    question2Image.isVisible = false
 
-    answerBox = display.newRect(display.contentCenterX - 120, 588, 250, 60)
+
+    answerBox = display.newRect(display.contentCenterX - 90, 650, 300, 60)
+    answerBox.strokeWidth = 9
+    answerBox:setStrokeColor(255/255, 255/255, 51/255)
      answerBox:setFillColor(0, 1, 0)
 
-    answerBox2 = display.newRect(display.contentCenterX - 120, 385, 250, 60)
+    answerBox2 = display.newRect(display.contentCenterX - 90, 430, 300, 60)
+    answerBox2.strokeWidth = 9
+    answerBox2:setStrokeColor(255/255, 255/255, 51/255)
      answerBox2:setFillColor(0, 1, 0)
 
-    answerBox3 = display.newRect(display.contentCenterX + 140, 588, 250, 60)
+    answerBox3 = display.newRect(display.contentCenterX + 250, 650, 280, 60)
+    answerBox3.strokeWidth = 9
+    answerBox3:setStrokeColor(255/255, 255/255, 51/255)
      answerBox3:setFillColor(0, 1, 0)
 
-    answerBox4 = display.newRect(display.contentCenterX + 140, 385, 250, 60)
+    answerBox4 = display.newRect(display.contentCenterX + 250, 430, 280, 60)
+    answerBox4.strokeWidth = 9
+    answerBox4:setStrokeColor(255/255, 255/255, 51/255)
      answerBox4:setFillColor(0, 1, 0)
     sceneGroup:insert(answerBox)
     sceneGroup:insert(answerBox2)
     sceneGroup:insert(answerBox3)
     sceneGroup:insert(answerBox4)
-    sceneGroup:insert(questionBox)
+    sceneGroup:insert(question2Image)
 
     
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 55)
