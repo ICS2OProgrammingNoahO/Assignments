@@ -171,16 +171,22 @@ end
 local function ChangeScore2( )
  
   if (goal_ == 2)then
-    goal_text.text = "-1"
+    goal_text.text = "- 1"
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
     
 
   elseif (goal_ == 4)then
-    goal_text.text = "-2"
+    goal_text.text = "- 2"
+     upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
   elseif (goal_ == 6)then
-    goal_text.text = "-3"
+    goal_text.text = "- 3"
+     upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
      composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
   end
 end
@@ -405,8 +411,6 @@ end
 local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "fade", time = 1000})
     audio.stop()
-    character.isVisible = false
-    ball1.isVisible = false
     channel2 = audio.play(transitionSound)
 end    
 ----------------------------------------------------------------------------------------
@@ -755,6 +759,7 @@ function scene:show( event )
         physics.start()
         --Rotate()
         -- set gravity
+        Reset()
         physics.setGravity( 0, 20 )
         Runtime:addEventListener("enterFrame", Character)
         Runtime:addEventListener("enterFrame", Character2)
