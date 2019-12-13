@@ -95,8 +95,9 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
   -- creating the background
-    background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-    background:setFillColor(255/255, 185/255, 104/255)
+    background = display.newImageRect("Images/LevelSelectScreenNoah@2x.png", display.contentWidth, display.contentHeight)
+    background.x = display.contentCenterX
+    background.y = display.contentCenterY
     
 
     sceneGroup:insert( background )
