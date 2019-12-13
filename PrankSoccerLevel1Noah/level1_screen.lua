@@ -37,7 +37,6 @@ local scene = composer.newScene( sceneName )
 
 local background
 local backButton
-local kickSoundChannel
 
 local rightNet
 local bottomBorder
