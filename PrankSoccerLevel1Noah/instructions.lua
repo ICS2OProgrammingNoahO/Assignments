@@ -101,12 +101,12 @@ function scene:create( event )
 
 
 
-    muteButton = display.newImageRect("Images/MuteButtonUnpressedNoah@2x.png", 100, 100)
+    muteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
     muteButton.x = 900
     muteButton.y = 620
     muteButton.isVisible = true
 
-    unMuteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
+    unMuteButton = display.newImageRect("Images/MuteButtonUnpressedNoah@2x.png", 100, 100)
     unMuteButton.x = 900
     unMuteButton.y = 620
     unMuteButton.isVisible = false
@@ -124,17 +124,18 @@ function scene:create( event )
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth - 910,
             y = display.contentHeight - 70,
+            width = 200,
+            height = 100,
             
 
             -- Insert the images here
             defaultFile = "Images/BackButtonUnpressedNoah@2x.png",
             overFile = "Images/BackButtonPressedNoah@2x.png",
 
-            -- When the button is released, call the Level1 screen transition function
+            -- When the button is released, call the main menu screen transition function
             onRelease = MainMenuTransition          
         } )
-        backButton.width = 200
-        backButton.height = 100
+        
 
        
     -----------------------------------------------------------------------------------------

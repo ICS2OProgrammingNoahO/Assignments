@@ -1,9 +1,9 @@
 ----------------------------------------------------------------------------------------
 --
--- main_menu.lua
--- Created by: Your Name
--- Date: Month Day, Year
--- Description: This is the level 1 screen, displaying level 1
+-- level3_screen.lua
+-- Created by: Noah Ouellette
+-- Date: December 11th, 2019
+-- Description: This is the level 3 screen, displaying level 3
 -----------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 -----------------------------------------------------------------------------------------
@@ -88,17 +88,12 @@ local youHit
 local home
 local away
 
-
-
-
-
-
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
-local function EndTransition()
+local function YouWinTransition()
 
-    composer.gotoScene( "level3_screen", {effect = "crossFade", time = 1000})
+    composer.gotoScene( "you_win", {effect = "crossFade", time = 1000})
   
 end
 
@@ -164,7 +159,9 @@ local function Reset( )
   ball1.x = display.contentCenterX
   ball1.y = 100
   ball1.isVisible = false
+  netBlock.isVisible = false
   goalSoundChannel = audio.play(goalSound)
+  physics.removeBody(ball1)
   
 
 end
@@ -175,16 +172,22 @@ end
 local function ChangeScore2( )
  
   if (goal_ == 2)then
-    goal_text.text = "-1"
+    goal_text.text = "1"
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
     
 
   elseif (goal_ == 4)then
-    goal_text.text = "-2"
+    goal_text.text = "2"
+     upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
   elseif (goal_ == 6)then
-    goal_text.text = "-3"
+    goal_text.text = "3"
+     upButton.isVisible = false
+    rightButton.isVisible = false
+    leftButton.isVisible = false
      composer.gotoScene( "you_lose", {effect = "crossFade", time = 1000})
   end
 end
@@ -202,7 +205,7 @@ local function ChangeScore( )
     goalText.text = "2"
   elseif (goal1 == 3)then
     goalText.text = "3"
-    timer.performWithDelay(2000, EndTransition)
+    timer.performWithDelay(2000, YouWinTransition)
     
 
   end
@@ -232,11 +235,10 @@ local function onCollision( self, event )
             
 
 
-            -- show overlay with math question
+            -- show overlay with question
             composer.showOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
 
-            -- Increment questions answered
-            --questionsAnswered = questionsAnswered + 1
+          
         end
 end
 
@@ -288,6 +290,7 @@ end
 local function Shoot1( )
   titleShoot.isVisible = false
   physics.addBody(netBlock, "static",  {density=0, friction=0, bounce=0} )
+  netBlock:addEventListener( "collision")
   physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.6, rotation=0 } )
   physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
   upButton.isVisible = true
@@ -300,6 +303,8 @@ end
 local function Shoot2( )
   goal1 = goal1 + 1
   titleShoot.isVisible = false
+  physics.removeBody(netBlock)
+  netBlock:removeEventListener( "collision")
   physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.6, rotation=0 } )
   physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
   upButton.isVisible = true
@@ -327,7 +332,7 @@ local function RemoveCollisionListeners()
 
     bad1:removeEventListener( "collision" )
     bad2:removeEventListener( "collision" )
-    netBlock:addEventListener( "collision")
+    netBlock:removeEventListener( "collision")
     
   end
 
@@ -410,22 +415,21 @@ end
 local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "fade", time = 1000})
     audio.stop()
-    character.isVisible = false
-    ball1.isVisible = false
     channel2 = audio.play(transitionSound)
 end    
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
-function ResumeGameLevel3()
+function ResumeGameLevel1()
             
 
-            physics.removeBody( ball1)
+            
             physics.removeBody( character)
             character.isVisible = true
             ball1.isVisible = true
             ball1.x = display.contentWidth/2 + 150
             ball1.y = display.contentHeight/2 + 150
+            --physics.removeBody( ball1)
             goalie.isVisible = true
             leftNet.isVisible = true
             rightNet.isVisible = true
@@ -441,10 +445,10 @@ function ResumeGameLevel3()
 end
 
 
-function ResumeGame2Level3()
+function ResumeGame2Level1()
             
 
-            physics.removeBody( ball1)
+          
             physics.removeBody( character)
             character.isVisible = true
             ball1.isVisible = true
@@ -475,20 +479,20 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------   background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 
-    background = display.newImageRect("Images/level3ScreenNoah@2x.png", display.contentWidth, display.contentHeight)
+    background = display.newImageRect("Images/Level3ScreenNoah@2x.png", display.contentWidth, display.contentHeight)
    background.x = display.contentCenterX
    background.y = display.contentCenterY
 
       sceneGroup:insert( background )
 
    goalText = display.newText("0", display.contentWidth/1.5 + 20 , display.contentHeight/7  , nil, 125 )
-   goalText:setFillColor(255/255, 0/255, 0/255)
+   goalText:setFillColor(0/255, 0/255, 255/255)
    sceneGroup:insert( goalText )
    
 
 
 
-   goal_text = display.newText("-0", display.contentWidth/1.5 + 160 , display.contentHeight/7  , nil, 125 )
+   goal_text = display.newText("0", display.contentWidth/1.5 + 190 , display.contentHeight/7  , nil, 125 )
    goal_text:setFillColor(255/255, 0/255, 0/255)
    sceneGroup:insert( goal_text)
 
@@ -507,13 +511,18 @@ function scene:create( event )
    youHit.isVisible = false
    sceneGroup:insert( youHit)
 
-   away = display.newText("Away", display.contentWidth/2 + 358, display.contentHeight/2 - 220 , nil, 20 )
+    away = display.newText("Away", display.contentWidth/2 + 358, display.contentHeight/2 - 220 , nil, 20 )
    away:setFillColor(255/255, 0/255, 0/255)
    sceneGroup:insert( away)
 
    home = display.newText("Home", display.contentWidth/2 + 192 , display.contentHeight/2 - 220, nil, 20 )
-   home:setFillColor(255/255, 0/255, 0/255)
+   home:setFillColor(0/255, 0/255, 255/255)
    sceneGroup:insert( home)
+
+   dash = display.newText("-", display.contentWidth/1.5 + 105 , display.contentHeight/7  , nil, 125 )
+   dash:setFillColor(0/255, 0/255, 0/255)
+   sceneGroup:insert( dash )
+
 
    bottomBorder = display.newRect(display.contentWidth/2, 708, display.contentWidth, 100)
    bottomBorder.alpha = 0
@@ -765,9 +774,10 @@ function scene:show( event )
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
                 -- start physics
-        physics.start()
+       
         --Rotate()
         -- set gravity
+        Reset()
         physics.setGravity( 0, 20 )
         Runtime:addEventListener("enterFrame", Character)
         Runtime:addEventListener("enterFrame", Character2)
@@ -781,6 +791,7 @@ function scene:show( event )
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
+           physics.start()
            AddPhysicsBodies()
           AddCollisionListeners()
    

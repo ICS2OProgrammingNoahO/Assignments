@@ -1,9 +1,9 @@
 ----------------------------------------------------------------------------------------
 --
---  level_select.lua
+--  you_win.lua
 -- Created by: Noah
 -- Date: December 11th, 2019
--- Description: This is the level select screen, displaying the level & back buttons.
+-- Description: This is you win screen tat the player sees if they win. There is a back button so the user can restart.
 -----------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 -----------------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "level_select"
+sceneName = "you_win"
 
 -----------------------------------------------------------------------------------------
 
@@ -33,8 +33,7 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 local background
 local backButton
-local level1Text
-local level3Text
+local youLoseText
 
 
 -----------------------------------------------------------------------------------------
@@ -43,8 +42,8 @@ local level3Text
 
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local transitionSoundChannel
-local music = audio.loadStream("Sounds/creditsMusic.mp3")
-local musicChannel = audio.play(music, {channel=4, loop = -1})
+local winSound = audio.loadStream("Sounds/youWin.mp3")
+local winSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -59,28 +58,33 @@ local function MainMenuTransition( )
     transitionChannel = audio.play(transitionSound)
 end    
 
-
-local function Level1Transition( )
-   composer.gotoScene( "level1_screen", {effect = "fade", time = 1000})
-    audio.stop()
-    
-    transitionSoundChannel = audio.play(transitionSound)
-end    
-
-local function Level3Transition( )
-   composer.gotoScene( "level3_screen", {effect = "fade", time = 1000})
-    audio.stop()
-    
-    transitionSoundChannel = audio.play(transitionSound)
-end    
--- fades in the buttons
+-- fades in the back button
 local function ButtonFade( event )
     backButton.alpha = backButton.alpha + 0.006
-    level1Button.alpha = level1Button.alpha + 0.006
-    level3Button.alpha = level3Button.alpha + 0.006
-
 end
+-- spins the tittle
+local function MoveTitle3( event )
+    youLoseText.alpha = youLoseText.alpha - 0.01
+    youLoseText.rotation = youLoseText.rotation + 0.1
+    if (youLoseText.alpha == 0) then
+        Runtime:addEventListener("enterFrame", ButtonFade)
+    end
+end
+-- listener that spins the tittle
+local function MoveTitle2( )
+    Runtime:addEventListener("enterFrame", MoveTitle3)
+end
+-- moves the tittle down
+local function MoveTitle( event )
+    if( youLoseText.y > display.contentHeight/2)then
+        youLoseText.y = display.contentHeight/2
+        Runtime:removeEventListener("enterFrame", MoveTitle)
+        timer.performWithDelay(1000, MoveTitle2)
 
+    else
+        youLoseText.y = youLoseText.y + 5
+    end
+end
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -96,30 +100,27 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
   -- creating the background
     background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-    background:setFillColor(255/255, 185/255, 104/255)
+    background:setFillColor(44/255, 227/255, 240/255)
     
 
     sceneGroup:insert( background )
 
-    level1Text = display.newText("Level 1", display.contentWidth/3 - 80 , display.contentHeight/2 - 150 , nil, 40 )
-    sceneGroup:insert( level1Text )
-    
-    level3Text = display.newText("Level 3", display.contentWidth/1.5 + 80 , display.contentHeight/2 - 150 , nil, 40 )
-    sceneGroup:insert( level3Text )
+    youLoseText = display.newText("You Win", display.contentWidth/2, display.contentHeight/2 - 600, nil, 250)
+    youLoseText.alpha = 1
 
-    
+
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
 
-    -- Creating Back Button
+    -- Creating Play Button
     backButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth/2,
             y = display.contentHeight - 100,
-            width = 200,
-            height = 100,
+            width = 400,
+            height = 200,
             
 
             -- Insert the images here
@@ -132,53 +133,11 @@ function scene:create( event )
        
         backButton.alpha = 0
 
--- Creating level1  Button
-    level1Button = widget.newButton( 
-        {   
-            -- Set its position on the screen relative to the screen size
-            x = display.contentWidth/3 - 100,
-            y = display.contentHeight/2,
-            width = 400,
-            height = 200,
-            
-
-            -- Insert the images here
-            defaultFile = "Images/level1ScreenTestNoah@2x.png",
-            overFile = "Images/level1ScreenTestNoah@2x.png",
-
-            -- When the button is released, call the level1 screen transition function
-            onRelease = Level1Transition          
-        } )
-       
-        level1Button.alpha = 0
-
-        -- Creating level3  Button
-    level3Button = widget.newButton( 
-        {   
-            -- Set its position on the screen relative to the screen size
-            x = display.contentWidth/1.5 + 100,
-            y = display.contentHeight/2,
-            width = 400,
-            height = 200,
-            
-
-            -- Insert the images here
-            defaultFile = "Images/Level3ScreenNoah@2x.png",
-            overFile = "Images/Level3ScreenNoah@2x.png",
-
-            -- When the button is released, call the level1 screen transition function
-            onRelease = Level3Transition          
-        } )
-       
-        level3Button.alpha = 0
-
        
     -----------------------------------------------------------------------------------------
     
     -----------------------------------------------------------------------------------------
     sceneGroup:insert( backButton )
-    sceneGroup:insert( level1Button )
-    sceneGroup:insert( level3Button )
 
 end  
 
@@ -203,17 +162,18 @@ function scene:show( event )
     if ( phase == "will" ) then
        
     -----------------------------------------------------------------------------------------
- Runtime:addEventListener("enterFrame", ButtonFade)
+ Runtime:addEventListener("enterFrame", MoveTitle)
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then 
        
         if (soundOn == true) then
-            audio.resume(musicChannel)
+            winSoundChannel = audio.play(winSound)
+  
            
         else
-            audio.pause(musicChannel)
+   
                        
         end
        
@@ -240,13 +200,12 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-        Runtime:removeEventListener( "enterFrame")
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-    
-        audio.pause(musicChannel)
+       
+  
     end
 
 end -- function scene:hide( event )

@@ -1,9 +1,9 @@
 ----------------------------------------------------------------------------------------
 --
---  instructions.lua
+--  you_lose.lua
 -- Created by: Noah
--- Date: November 20th, 2019
--- Description: This is the instructions screen, displaying the instructions & back buttons.
+-- Date: December 11th, 2019
+-- Description: This is the lose screen, displaying the lose text & back button.
 -----------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 -----------------------------------------------------------------------------------------
@@ -42,8 +42,8 @@ local youLoseText
 
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local transitionSoundChannel
-local music = audio.loadStream("Sounds/creditsMusic.mp3")
-local musicChannel = audio.play(music, {channel=4, loop = -1})
+local loseSound = audio.loadStream("Sounds/gameOver.mp3")
+local loseSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -58,11 +58,11 @@ local function MainMenuTransition( )
     transitionChannel = audio.play(transitionSound)
 end    
 
-
+-- fades in the back button
 local function ButtonFade( event )
     backButton.alpha = backButton.alpha + 0.006
 end
-
+-- spins the tittle
 local function MoveTitle3( event )
     youLoseText.alpha = youLoseText.alpha - 0.01
     youLoseText.rotation = youLoseText.rotation + 0.1
@@ -70,11 +70,11 @@ local function MoveTitle3( event )
         Runtime:addEventListener("enterFrame", ButtonFade)
     end
 end
-
+-- calls to spin the tittle
 local function MoveTitle2( )
     Runtime:addEventListener("enterFrame", MoveTitle3)
 end
-
+-- move tittle onto screen
 local function MoveTitle( event )
     if( youLoseText.y > display.contentHeight/2)then
         youLoseText.y = display.contentHeight/2
@@ -119,17 +119,18 @@ function scene:create( event )
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth/2,
             y = display.contentHeight - 100,
+            width = 400,
+            height = 200,
             
 
             -- Insert the images here
             defaultFile = "Images/BackButtonUnpressedNoah@2x.png",
             overFile = "Images/BackButtonPressedNoah@2x.png",
 
-            -- When the button is released, call the Level1 screen transition function
+            -- When the button is released, call the main menu screen transition function
             onRelease = MainMenuTransition          
         } )
-        backButton.width = 400
-        backButton.height = 200
+       
         backButton.alpha = 0
 
        
@@ -168,10 +169,9 @@ function scene:show( event )
     elseif ( phase == "did" ) then 
        
         if (soundOn == true) then
-            audio.resume(musicChannel)
-           
-        else
-            audio.pause(musicChannel)
+
+            loseSoundChannel = audio.play(loseSound)
+  
                        
         end
        
@@ -203,7 +203,7 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
        
-        audio.pause(musicChannel)
+       
     end
 
 end -- function scene:hide( event )

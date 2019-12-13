@@ -1,9 +1,9 @@
 ----------------------------------------------------------------------------------------
 --
--- main_menu.lua
+-- level1_screen.lua
 -- Created by: Your Name
 -- Date: Month Day, Year
--- Description: This is the level 1 screen, displaying level 1
+-- Description: This is the level 1 screen, displaying level 1 and all of it's things
 -----------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 -----------------------------------------------------------------------------------------
@@ -37,23 +37,8 @@ local scene = composer.newScene( sceneName )
 
 local background
 local backButton
-local channel
-local music = audio.loadStream("Sounds/level1Music.mp3")
-local channel2
-local transitionSound = audio.loadStream("Sounds/jump.mp3")
-local goalSound = audio.loadStream("Sounds/win.mp3")
-local goalSoundChannel
-local kickSound = audio.loadStream("Sounds/kick.mp3")
 local kickSoundChannel
-local winSound = audio.loadStream("Sounds/winwin.mp3")
-local winSoundChannel
-local jumpSound = audio.loadStream("Sounds/jump2.mp3")
-local jumpSoundChannel
-local leftNet
-local jumpSound2 = audio.loadStream("Sounds/jump3.mp3")
-local jumpSound2Channel
-local badSound
-local badSoundChannel
+
 local rightNet
 local bottomBorder
 local topBorder
@@ -87,6 +72,30 @@ local youMiss
 local youHit
 local home
 local away
+local dash
+
+-----------------------------------------------------------------------------------------
+--LOCAL SOUNDS
+-----------------------------------------------------------------------------------------
+
+
+local musicChannel
+local music = audio.loadStream("Sounds/level1Music.mp3")
+local channel2
+local transitionSound = audio.loadStream("Sounds/jump.mp3")
+local goalSound = audio.loadStream("Sounds/win.mp3")
+local goalSoundChannel
+local kickSound = audio.loadStream("Sounds/kick.mp3")
+local kickSoundChannel
+local winSound = audio.loadStream("Sounds/winwin.mp3")
+local winSoundChannel
+local jumpSound = audio.loadStream("Sounds/jump2.mp3")
+local jumpSoundChannel
+local leftNet
+local jumpSound2 = audio.loadStream("Sounds/jump3.mp3")
+local jumpSound2Channel
+local badSound
+local badSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -137,7 +146,7 @@ local function RemovePhysicsBodies()
 end
 
 
-
+-- resets the level
 local function Reset( )
   youMiss.isVisible = false
   youHit.isVisible = false
@@ -159,6 +168,7 @@ local function Reset( )
   ball1.x = display.contentCenterX
   ball1.y = 100
   ball1.isVisible = false
+  netBlock.isVisible = false
   goalSoundChannel = audio.play(goalSound)
   physics.removeBody(ball1)
   
@@ -167,23 +177,23 @@ end
 
 
 
-
+--changes score for opposite team
 local function ChangeScore2( )
  
   if (goal_ == 2)then
-    goal_text.text = "- 1"
+    goal_text.text = "1"
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
     
 
   elseif (goal_ == 4)then
-    goal_text.text = "- 2"
+    goal_text.text = "2"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
   elseif (goal_ == 6)then
-    goal_text.text = "- 3"
+    goal_text.text = "3"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
@@ -191,6 +201,8 @@ local function ChangeScore2( )
   end
 end
 
+
+-- changes score for user
 local function ChangeScore( )
   
   if (goal1 == 1)then
@@ -202,6 +214,7 @@ local function ChangeScore( )
 
   elseif (goal1 == 2)then
     goalText.text = "2"
+  
   elseif (goal1 == 3)then
     goalText.text = "3"
     timer.performWithDelay(2000, Level3Transition)
@@ -210,6 +223,8 @@ local function ChangeScore( )
   end
 end
 
+
+--Collision for questions
 local function onCollision( self, event )
     if  (event.target.myName == "bad1") or
             (event.target.myName == "bad2")or 
@@ -233,19 +248,19 @@ local function onCollision( self, event )
             upButton.isVisible = false
             
 
-
-            -- show overlay with math question
+            -- show overlay with question
             composer.showOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
 
-            -- Increment questions answered
-            --questionsAnswered = questionsAnswered + 1
+           
         end
 end
 
-
+-- collision for the ball and net
 local function ballCollision( self, event )
+    
     goal_ = goal_ + 1
-    --badSoundChannel = audio.play(badSound)
+    
+
     if  (event.target.myName == "netBlock") then
         
         ball1.x = display.contentCenterX
@@ -265,6 +280,8 @@ local function ballCollision( self, event )
 end
 
 
+
+--Displays goal text and gives goal
 local function Goal( )
   
   if (ball1.x > 895)and
@@ -286,10 +303,11 @@ local function Goal( )
 end
 
 
-
+-- shoots goal when answer is wrong
 local function Shoot1( )
   titleShoot.isVisible = false
   physics.addBody(netBlock, "static",  {density=0, friction=0, bounce=0} )
+  netBlock:addEventListener( "collision")
   physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.6, rotation=0 } )
   physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
   upButton.isVisible = true
@@ -298,10 +316,12 @@ local function Shoot1( )
 
 end
 
-
+--shoots goal when answer is right
 local function Shoot2( )
   goal1 = goal1 + 1
   titleShoot.isVisible = false
+  physics.removeBody(netBlock)
+  netBlock:removeEventListener( "collision")
   physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.6, rotation=0 } )
   physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
   upButton.isVisible = true
@@ -312,7 +332,7 @@ local function Shoot2( )
 
 end
 
-
+-- adds collision listeners
 local function AddCollisionListeners()
      
     bad1.collision = onCollision
@@ -325,21 +345,24 @@ local function AddCollisionListeners()
  
 end
 
+-- removes collision listeners
 local function RemoveCollisionListeners()
 
     bad1:removeEventListener( "collision" )
     bad2:removeEventListener( "collision" )
-    netBlock:addEventListener( "collision")
+    netBlock:removeEventListener( "collision")
     
   end
 
 
-
+-- standerd animation for character
 
 local function Change3( )
   characterRolling.isVisible = false
   character.isVisible = true
 end
+
+--Jumping animation for character
 local function Change4(  )
   characterRolling.isVisible = true
   characterJumping.isVisible = false
@@ -347,33 +370,41 @@ local function Change4(  )
   timer.performWithDelay(400, Change3)
 end
 
+-- standered character animation
 local function Change2( )
   characterJumping.isVisible = false
   characterRolling.isVisible = false
   character.isVisible = true
 end
+
+-- rolling character animation
 local function Change(  )
   characterJumping.isVisible = true
   characterRolling.isVisible = false
   character.isVisible = false
   timer.performWithDelay(650, Change2)
 end
+
+-- tracking
 local function Character( event )
   characterJumping.x = character.x
   characterJumping.y = character.y
   characterJumping.rotation = character.rotation
 end
+
+--more tracking
 local function Character2( event )
   characterRolling.x = character.x
   characterRolling.y = character.y
   characterRolling.rotation = character.rotation
 end
-  
+ 
+--stops movement 
 local function Stop(  )
   numUp = 0
 end
 
-
+--moves character up
 local function MoveCharacterUp()
 Change()
 jumpSoundChannel = audio.play(jumpSound)
@@ -389,6 +420,7 @@ end
 
 end
 
+--moves character right
 local function MoveCharacterRight()
   Change4()
 jumpSoundChannel2 = audio.play(jumpSound2)
@@ -397,6 +429,7 @@ character:rotate (10)
 character:setLinearVelocity( 120, 10 )
 end
 
+--moves character left
 local function MoveCharacterLeft()
   Change4()
   jumpSoundChannel2 = audio.play(jumpSound2)
@@ -408,7 +441,7 @@ end
 
 -----------------------------------------------------------------------------------------
 
--- Creating Transition to Level1 Screen
+-- Creating Transition to Main menu Screen
 local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "fade", time = 1000})
     audio.stop()
@@ -417,15 +450,17 @@ end
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
+--resumes game
 function ResumeGameLevel1()
             
 
-            physics.removeBody( ball1)
+            
             physics.removeBody( character)
             character.isVisible = true
             ball1.isVisible = true
             ball1.x = display.contentWidth/2 + 150
             ball1.y = display.contentHeight/2 + 150
+            --physics.removeBody( ball1)
             goalie.isVisible = true
             leftNet.isVisible = true
             rightNet.isVisible = true
@@ -440,16 +475,17 @@ function ResumeGameLevel1()
 
 end
 
-
+--resumes game
 function ResumeGame2Level1()
             
 
-            physics.removeBody( ball1)
+          
             physics.removeBody( character)
             character.isVisible = true
             ball1.isVisible = true
             ball1.x = display.contentWidth/2 + 150
             ball1.y = display.contentHeight/2 + 150
+             -- physics.removeBody( ball1)
             goalie.isVisible = true
             leftNet.isVisible = true
             rightNet.isVisible = true
@@ -482,13 +518,13 @@ function scene:create( event )
       sceneGroup:insert( background )
 
    goalText = display.newText("0", display.contentWidth/1.5 + 20 , display.contentHeight/7  , nil, 125 )
-   goalText:setFillColor(255/255, 0/255, 0/255)
+   goalText:setFillColor(0/255, 0/255, 255/255)
    sceneGroup:insert( goalText )
    
 
 
 
-   goal_text = display.newText("-0", display.contentWidth/1.5 + 160 , display.contentHeight/7  , nil, 125 )
+   goal_text = display.newText("0", display.contentWidth/1.5 + 190 , display.contentHeight/7  , nil, 125 )
    goal_text:setFillColor(255/255, 0/255, 0/255)
    sceneGroup:insert( goal_text)
 
@@ -512,8 +548,12 @@ function scene:create( event )
    sceneGroup:insert( away)
 
    home = display.newText("Home", display.contentWidth/2 + 192 , display.contentHeight/2 - 220, nil, 20 )
-   home:setFillColor(255/255, 0/255, 0/255)
+   home:setFillColor(0/255, 0/255, 255/255)
    sceneGroup:insert( home)
+
+   dash = display.newText("-", display.contentWidth/1.5 + 105 , display.contentHeight/7  , nil, 125 )
+   dash:setFillColor(0/255, 0/255, 0/255)
+   sceneGroup:insert( dash )
 
    bottomBorder = display.newRect(display.contentWidth/2, 708, display.contentWidth, 100)
    bottomBorder.alpha = 0
@@ -651,8 +691,8 @@ netBorder4:rotate (-62)
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
 
-    -- Creating Play Button
-    backButton = widget.newButton( 
+    -- Creating back Button
+          backButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth - 910,
@@ -683,7 +723,7 @@ netBorder4:rotate (-62)
             defaultFile = "Images/upButtonUnpressedNoah@2x.png",
             overFile = "Images/upButtonPressedNoah@2x.png",
 
-            -- When the button is released, call the Level1 screen transition function
+            -- When the button is released, call the move up function
             onRelease = MoveCharacterUp          
         } )
         upButton.width = 100
@@ -702,7 +742,7 @@ netBorder4:rotate (-62)
             defaultFile = "Images/clockwiseButtonUnpressedNoah@2x.png",
             overFile = "Images/clockwiseButtonPressedNoah@2x - Copy.png",
 
-            -- When the button is released, call the Level1 screen transition function
+            -- When the button is released, call the move right function
             onRelease = MoveCharacterRight          
         } )
         rightButton.width = 100
@@ -721,7 +761,7 @@ netBorder4:rotate (-62)
             defaultFile = "Images/counterclockwiseButtonUnpressedNoah@2x - Copy.png",
             overFile = "Images/counterclockwiseButtonPressedNoah@2x - Copy - Copy.png",
 
-            -- When the button is released, call the Level1 screen transition function
+            -- When the button is released, call the move left function
             onRelease = MoveCharacterLeft         
         } )
         leftButton.width = 100
@@ -732,17 +772,7 @@ netBorder4:rotate (-62)
     
     -----------------------------------------------------------------------------------------
 
-    -- Associating button widgets with this scene
-   
-
-
-
-    -----------------------------------------------------------------------------------------
-    -- BUTTON WIDGETS
-    -----------------------------------------------------------------------------------------   
-
-    
-    -- INSERT INSTRUCTIONS BUTTON INTO SCENE GROUP
+     
 
 end -- function scene:create( event )   
 
@@ -774,7 +804,7 @@ function scene:show( event )
         Runtime:addEventListener("enterFrame", Character2)
         
         if ( soundOn == true) then
-          channel = audio.play(music, {loop = -1})
+          musicChannel = audio.play(music, {loop = -1})
         end
     -----------------------------------------------------------------------------------------
 
@@ -784,6 +814,14 @@ function scene:show( event )
     elseif ( phase == "did" ) then       
            AddPhysicsBodies()
           AddCollisionListeners()
+           if (soundOn == true) then
+            audio.resume(musicChannel)
+          
+        else
+          
+            audio.pause(musicChannel)
+
+        end
    
     end
 

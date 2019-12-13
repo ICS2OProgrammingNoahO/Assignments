@@ -1,9 +1,9 @@
 ----------------------------------------------------------------------------------------
 --
---  instructions.lua
+--  credits.lua
 -- Created by: Noah
 -- Date: November 20th, 2019
--- Description: This is the instructions screen, displaying the instructions & back buttons.
+-- Description: This is the credits screen, displaying the credits & back buttons.
 -----------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 -----------------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "instructions"
+sceneName = "credits_screen"
 
 -----------------------------------------------------------------------------------------
 
@@ -100,13 +100,13 @@ function scene:create( event )
     sceneGroup:insert( background )
 
 
-
-    muteButton = display.newImageRect("Images/MuteButtonUnpressedNoah@2x.png", 100, 100)
+    -- creating the unmute button
+    muteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
     muteButton.x = 900
     muteButton.y = 620
     muteButton.isVisible = true
 
-    unMuteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
+    unMuteButton = display.newImageRect("Images/MuteButtonUnpressedNoah@2x.png", 100, 100)
     unMuteButton.x = 900
     unMuteButton.y = 620
     unMuteButton.isVisible = false
@@ -118,7 +118,7 @@ function scene:create( event )
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
 
-    -- Creating Play Button
+    -- Creating back Button
     backButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
@@ -129,12 +129,13 @@ function scene:create( event )
             -- Insert the images here
             defaultFile = "Images/BackButtonUnpressedNoah@2x.png",
             overFile = "Images/BackButtonPressedNoah@2x.png",
+            width = 200,
+            height = 100,
 
-            -- When the button is released, call the Level1 screen transition function
+            -- When the button is released, call the main menu screen transition function
             onRelease = MainMenuTransition          
         } )
-        backButton.width = 200
-        backButton.height = 100
+      
 
        
     -----------------------------------------------------------------------------------------
@@ -170,7 +171,7 @@ function scene:show( event )
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then 
-        
+        -- if soundon is true it will play music
         if (soundOn == true) then
             audio.resume(musicChannel)
             unMuteButton.isVisible = false
@@ -180,6 +181,7 @@ function scene:show( event )
             muteButton.isVisible = false
             unMuteButton.isVisible = true            
         end
+       
         muteButton:addEventListener("touch", Mute)
         unMuteButton:addEventListener("touch", UnMute)
 
