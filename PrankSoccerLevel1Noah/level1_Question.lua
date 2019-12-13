@@ -25,15 +25,14 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
-numCorrect = 0
-
 
 -- The local variables for this scene
 local questionText
 local answerText1 
-local wrongAnswerText1
-local wrongAnswerText2
-local wrongAnswerText3
+local wrongText1
+local wrongText2
+local wrongText3
+
 local answerPosition = 1
 local bkg
 local cover
@@ -56,11 +55,6 @@ local question2Image
 local selectSound = audio.loadStream("Sounds/cheer.mp3")
 local selecSoundChannel
  
-
-
-
-
-
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -72,7 +66,7 @@ local function BackToLevel1()
 composer.hideOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
 
           
-    ResumeGame()
+    ResumeGameLevel1()
 end 
 
 local function BackToLevel12() 
@@ -81,13 +75,12 @@ local function BackToLevel12()
 composer.hideOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
 
           
-    ResumeGame2()
+    ResumeGame2Level1()
 end 
 -----------------------------------------------------------------------------------------
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerAnswer(touch)
-    userAnswer = answerText1.text
-    numCorrect = numCorrect + 1
+    --userAnswer = answerText1.text
     selecSoundChannel = audio.play(selectSound)
     if (touch.phase == "ended") then
 
@@ -160,7 +153,6 @@ if (firstNumber == 1) then
 
     --creating the question depending on the selcetion number
     questionText.text = " What do the leaves of a plant do? " 
-
     --creating answer text from list it corispondes with the animals list
     answerText1.text = " Collect energy "
     
@@ -284,12 +276,12 @@ function scene:create( event )
     question2Image.isVisible = false
 
 
-    answerBox = display.newRect(display.contentCenterX - 90, 650, 300, 60)
+    answerBox = display.newRect(display.contentCenterX - 70, 650, 300, 60)
     answerBox.strokeWidth = 9
     answerBox:setStrokeColor(255/255, 255/255, 51/255)
      answerBox:setFillColor(0, 1, 0)
 
-    answerBox2 = display.newRect(display.contentCenterX - 90, 430, 300, 60)
+    answerBox2 = display.newRect(display.contentCenterX - 70, 430, 300, 60)
     answerBox2.strokeWidth = 9
     answerBox2:setStrokeColor(255/255, 255/255, 51/255)
      answerBox2:setFillColor(0, 1, 0)
@@ -312,15 +304,19 @@ function scene:create( event )
     
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 55)
     questionText:setFillColor(0/255, 0/255, 0/255)
+
     answerText1 = display.newText("", X1, Y2, Arial, 25)
     answerText1.anchorX = 0
     answerText1:setFillColor(0/255, 0/255, 0/255)
+
     wrongText1 = display.newText("", X2, Y2, Arial, 25)
     wrongText1.anchorX = 0
     wrongText1:setFillColor(0/255, 0/255, 0/255)
+
     wrongText2 = display.newText("", X1, Y1, Arial, 25)
     wrongText2:setFillColor(0/255, 0/255, 0/255)
     wrongText2.anchorX = 0
+
     wrongText3 = display.newText("", X2, Y1, Arial, 25)
     wrongText3.anchorX = 0
     wrongText3:setFillColor(0/255, 0/255, 0/255)
@@ -365,6 +361,7 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         DisplayQuestion()
         PositionAnswers()
+
         
 
 
@@ -394,6 +391,7 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
         RemoveTextListeners()
+        --composer.removeScene( "level1_Question" )
     end
 
 end --function scene:hide( event )

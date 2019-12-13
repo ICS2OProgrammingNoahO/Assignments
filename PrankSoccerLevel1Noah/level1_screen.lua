@@ -85,11 +85,8 @@ local netBlock
 local titleShoot
 local youMiss
 local youHit
-
-
-
-
-
+local home
+local away
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -117,6 +114,7 @@ local function AddPhysicsBodies()
     physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
     physics.addBody(bad1, "static",  {density=0, friction=0, bounce=0} )
     physics.addBody(bad2, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(bad3, "static",  {density=0, friction=0, bounce=0} )
    
 end
 
@@ -149,6 +147,7 @@ local function Reset( )
   goalie.isVisible = true
   bad1.isVisible = true
   bad2.isVisible = true
+  bad3.isVisible = true
   leftNet.isVisible = true
   rightNet.isVisible = true
   rightButton.isVisible = true
@@ -161,6 +160,7 @@ local function Reset( )
   ball1.y = 100
   ball1.isVisible = false
   goalSoundChannel = audio.play(goalSound)
+  physics.removeBody(ball1)
   
 
 end
@@ -225,6 +225,7 @@ local function onCollision( self, event )
             goalie.isVisible = false
             bad1.isVisible = false
             bad2.isVisible = false
+            bad3.isVisible = false
             leftNet.isVisible = false
             rightNet.isVisible = false
             rightButton.isVisible = false
@@ -416,7 +417,7 @@ end
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
-function ResumeGame()
+function ResumeGameLevel1()
             
 
             physics.removeBody( ball1)
@@ -440,7 +441,7 @@ function ResumeGame()
 end
 
 
-function ResumeGame2()
+function ResumeGame2Level1()
             
 
             physics.removeBody( ball1)
@@ -480,14 +481,14 @@ function scene:create( event )
 
       sceneGroup:insert( background )
 
-   goalText = display.newText("0", display.contentWidth/1.5 + 20 , display.contentHeight/7 + 10 , nil, 150 )
+   goalText = display.newText("0", display.contentWidth/1.5 + 20 , display.contentHeight/7  , nil, 125 )
    goalText:setFillColor(255/255, 0/255, 0/255)
    sceneGroup:insert( goalText )
    
 
 
 
-   goal_text = display.newText("-0", display.contentWidth/1.5 + 160 , display.contentHeight/7 + 10 , nil, 150 )
+   goal_text = display.newText("-0", display.contentWidth/1.5 + 160 , display.contentHeight/7  , nil, 125 )
    goal_text:setFillColor(255/255, 0/255, 0/255)
    sceneGroup:insert( goal_text)
 
@@ -496,15 +497,23 @@ function scene:create( event )
    titleShoot.isVisible = false
    sceneGroup:insert( titleShoot)
 
-   youMiss = display.newText("Saved!", display.contentWidth/2 , display.contentHeight/1.5 , nil, 80 )
+   youMiss = display.newText("Saved!", display.contentWidth/2 , display.contentHeight/1.5 , nil, 250 )
    youMiss:setFillColor(0/255, 0/255, 200/255)
    youMiss.isVisible = false
    sceneGroup:insert( youMiss)
 
-   youHit = display.newText("Goal!", display.contentWidth/2 , display.contentHeight/1.5 , nil, 80 )
+   youHit = display.newText("Goal!", display.contentWidth/2 , display.contentHeight/1.5 , nil, 250 )
    youHit:setFillColor(0/255, 0/255, 200/255)
    youHit.isVisible = false
    sceneGroup:insert( youHit)
+
+   away = display.newText("Away", display.contentWidth/2 + 358, display.contentHeight/2 - 220 , nil, 20 )
+   away:setFillColor(255/255, 0/255, 0/255)
+   sceneGroup:insert( away)
+
+   home = display.newText("Home", display.contentWidth/2 + 192 , display.contentHeight/2 - 220, nil, 20 )
+   home:setFillColor(255/255, 0/255, 0/255)
+   sceneGroup:insert( home)
 
    bottomBorder = display.newRect(display.contentWidth/2, 708, display.contentWidth, 100)
    bottomBorder.alpha = 0
