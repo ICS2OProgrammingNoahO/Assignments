@@ -90,23 +90,28 @@ end
 -- Creating Transition to Level1 Screen
 local function LevelSelectTransition( )
     composer.gotoScene( "level_select", {effect = "fade", time = 1000})
-    audio.stop()
-    
+ 
+    if(soundOn == true)then
     transitionSoundChannel = audio.play(transitionSound)
+    end
 end    
 
 -- Creating Transition to Instructions screen
 local function InstructionsTransition( )
     composer.gotoScene( "instructions", {effect = "slideUp", time = 1000})
+    if(soundOn == true)then
     transitionSoundChannel = audio.play(transitionSound)
+    end
 end    
 
 
 --Creating Transition Function to Credits Page
 local function CreditsTransition( )       
     composer.gotoScene( "credits_screen", {effect = "slideLeft", time = 500})
-    audio.stop()
-    transitionSoundChannel = audio.play(transitionSound) 
+  
+   if(soundOn == true)then
+    transitionSoundChannel = audio.play(transitionSound)
+    end
 end 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -244,18 +249,15 @@ function scene:show( event )
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
         -- plays music if sound on is true
+           muteButton:addEventListener("touch", Mute)
+        unMuteButton:addEventListener("touch", UnMute)
         if (soundOn == true) then
+         
             audio.resume(musicChannel)
             unMuteButton.isVisible = false
             muteButton.isVisible = true
-        else
-            unMuteButton.isVisible = true
-            muteButton.isVisible = false
-            audio.pause(musicChannel)
-
-        end
-        muteButton:addEventListener("touch", Mute)
-        unMuteButton:addEventListener("touch", UnMute)
+       
+    end
 
     end
 
@@ -279,18 +281,20 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-    if ( soundOn == true) then
-          musicChannel = audio.play(music, {loop = -1})
-    end
+    --if ( soundOn == true) then
+          --musicChannel = audio.play(music, {loop = -1})
+    --end
+    audio.pause(musicChannel)
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
 
-        -- removes mue button listeners
+        -- removes mute button listeners
+        
         muteButton:removeEventListener("touch", Mute)
         unMuteButton:removeEventListener("touch", UnMute)
-        audio.pause(musicChannel)
+        
     end
 
 end -- function scene:hide( event )

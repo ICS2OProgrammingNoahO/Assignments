@@ -33,8 +33,6 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 local background
 local backButton
-local level1Text
-local level3Text
 
 
 -----------------------------------------------------------------------------------------
@@ -44,7 +42,7 @@ local level3Text
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local transitionSoundChannel
 local music = audio.loadStream("Sounds/creditsMusic.mp3")
-local musicChannel = audio.play(music, {channel=4, loop = -1})
+local musicChannel = audio.play(music, {channel=5, loop = -1})
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -55,8 +53,9 @@ local musicChannel = audio.play(music, {channel=4, loop = -1})
 local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "slideDown", time = 1000})
     
-
-    transitionChannel = audio.play(transitionSound)
+if(soundOn == true)then
+    transitionSoundChannel = audio.play(transitionSound)
+   end
 end    
 
 
@@ -64,7 +63,9 @@ local function Level1Transition( )
    composer.gotoScene( "level1_screen", {effect = "fade", time = 1000})
     audio.stop()
     
+   if(soundOn == true)then
     transitionSoundChannel = audio.play(transitionSound)
+   end
 end    
 
 local function Level3Transition( )
@@ -102,11 +103,7 @@ function scene:create( event )
 
     sceneGroup:insert( background )
 
-    level1Text = display.newText("Level 1", display.contentWidth/3 - 80 , display.contentHeight/2 - 150 , nil, 40 )
-    sceneGroup:insert( level1Text )
-    
-    level3Text = display.newText("Level 3", display.contentWidth/1.5 + 80 , display.contentHeight/2 - 150 , nil, 40 )
-    sceneGroup:insert( level3Text )
+   
 
     
     -----------------------------------------------------------------------------------------
@@ -121,6 +118,8 @@ function scene:create( event )
             y = display.contentHeight - 100,
             width = 200,
             height = 100,
+          
+
             
 
             -- Insert the images here
@@ -133,14 +132,15 @@ function scene:create( event )
        
         backButton.alpha = 0
 
+
 -- Creating level1  Button
     level1Button = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth/3 - 100,
-            y = display.contentHeight/2,
-            width = 400,
-            height = 200,
+            x = display.contentWidth/3 - 40,
+            y = display.contentHeight/2 - 50,
+            width = 200,
+            height = 125,
             
 
             -- Insert the images here
@@ -157,10 +157,10 @@ function scene:create( event )
     level3Button = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth/1.5 + 100,
-            y = display.contentHeight/2,
-            width = 400,
-            height = 200,
+            x = display.contentWidth/3 - 40,
+            y = display.contentHeight/2 + 150,
+            width = 200,
+            height = 125,
             
 
             -- Insert the images here
@@ -172,7 +172,7 @@ function scene:create( event )
         } )
        
         level3Button.alpha = 0
-
+        
        
     -----------------------------------------------------------------------------------------
     
@@ -212,9 +212,8 @@ function scene:show( event )
        
         if (soundOn == true) then
             audio.resume(musicChannel)
-           
-        else
-            audio.pause(musicChannel)
+
+       
                        
         end
        

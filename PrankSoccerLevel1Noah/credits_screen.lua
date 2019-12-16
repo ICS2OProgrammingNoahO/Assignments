@@ -1,9 +1,9 @@
 ----------------------------------------------------------------------------------------
 --
---  credits.lua
+--  instructions.lua
 -- Created by: Noah
 -- Date: November 20th, 2019
--- Description: This is the credits screen, displaying the credits & back buttons.
+-- Description: This is the instructions screen, displaying the instructions & back buttons.
 -----------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 -----------------------------------------------------------------------------------------
@@ -76,8 +76,9 @@ end
 local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "slideDown", time = 1000})
     
-
-    transitionChannel = audio.play(transitionSound)
+  if(soundOn == true)then
+    transitionSoundChannel = audio.play(transitionSound)
+    end
 end    
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -100,7 +101,7 @@ function scene:create( event )
     sceneGroup:insert( background )
 
 
-    -- creating the unmute button
+
     muteButton = display.newImageRect("Images/MuteButtonPressedNoah@2x.png", 100, 100)
     muteButton.x = 900
     muteButton.y = 620
@@ -118,24 +119,24 @@ function scene:create( event )
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
 
-    -- Creating back Button
+    -- Creating Play Button
     backButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth - 910,
             y = display.contentHeight - 70,
+            width = 200,
+            height = 100,
             
 
             -- Insert the images here
             defaultFile = "Images/BackButtonUnpressedNoah@2x.png",
             overFile = "Images/BackButtonPressedNoah@2x.png",
-            width = 200,
-            height = 100,
 
             -- When the button is released, call the main menu screen transition function
             onRelease = MainMenuTransition          
         } )
-      
+        
 
        
     -----------------------------------------------------------------------------------------
@@ -171,7 +172,7 @@ function scene:show( event )
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then 
-        -- if soundon is true it will play music
+        
         if (soundOn == true) then
             audio.resume(musicChannel)
             unMuteButton.isVisible = false
@@ -181,7 +182,6 @@ function scene:show( event )
             muteButton.isVisible = false
             unMuteButton.isVisible = true            
         end
-       
         muteButton:addEventListener("touch", Mute)
         unMuteButton:addEventListener("touch", UnMute)
 
@@ -215,6 +215,7 @@ function scene:hide( event )
         muteButton:removeEventListener("touch", Mute)
         unMuteButton:removeEventListener("touch", UnMute)
         audio.pause(musicChannel)
+    
     end
 
 end -- function scene:hide( event )

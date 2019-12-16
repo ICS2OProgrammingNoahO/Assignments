@@ -44,7 +44,7 @@ local unMuteButton
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local transitionSoundChannel
 local music = audio.loadStream("Sounds/instructionsMusic.mp3")
-local musicChannel = audio.play(music, {channel=4, loop = -1})
+local musicChannel = audio.play(music, {channel=3, loop = -1})
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -77,7 +77,9 @@ local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "slideDown", time = 1000})
     
 
-    transitionChannel = audio.play(transitionSound)
+  if(soundOn == true)then
+    transitionSoundChannel = audio.play(transitionSound)
+    end
 end    
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS

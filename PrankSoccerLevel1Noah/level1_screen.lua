@@ -168,7 +168,9 @@ local function Reset( )
   ball1.y = 100
   ball1.isVisible = false
   netBlock.isVisible = false
+  if ( soundOn == true) then
   goalSoundChannel = audio.play(goalSound)
+  end
   physics.removeBody(ball1)
   
 
@@ -229,8 +231,10 @@ local function onCollision( self, event )
             (event.target.myName == "bad2")or 
             (event.target.myName == "bad3")then
             
-
+          if(soundOn == true)then
             kickSoundChannel = audio.play(kickSound)
+           end
+           
             character.isVisible = false
             platform1.isVisible = false
             platform2.isVisible = false
@@ -288,7 +292,10 @@ local function Goal( )
     
       
       youHit.isVisible = true
+       if(soundOn == true)then
      winSoundChannel = audio.play(winSound)
+    end
+
       
      
       timer.performWithDelay(500, ChangeScore)
@@ -406,7 +413,10 @@ end
 --moves character up
 local function MoveCharacterUp()
 Change()
-jumpSoundChannel = audio.play(jumpSound)
+   if(soundOn == true)then
+     jumpSoundChannel = audio.play(jumpSound)
+    end
+
 if (numUp == 5) then
   character.y = character.y
   timer.performWithDelay(500, Stop)
@@ -422,7 +432,10 @@ end
 --moves character right
 local function MoveCharacterRight()
   Change4()
-jumpSoundChannel2 = audio.play(jumpSound2)
+   if(soundOn == true)then
+     jumpSoundChannel2 = audio.play(jumpSound2)
+    end
+
 character:rotate (10)
 
 character:setLinearVelocity( 120, 10 )
@@ -431,7 +444,9 @@ end
 --moves character left
 local function MoveCharacterLeft()
   Change4()
-  jumpSoundChannel2 = audio.play(jumpSound2)
+  if(soundOn == true)then
+     jumpSoundChannel2 = audio.play(jumpSound2)
+    end
 character:rotate (-10)
 
 character:setLinearVelocity( -120, 10 )
@@ -444,7 +459,10 @@ end
 local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "fade", time = 1000})
     audio.stop()
-    channel2 = audio.play(transitionSound)
+    if(soundOn == true)then
+     channel2 = audio.play(transitionSound)
+    end
+    
 end    
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
