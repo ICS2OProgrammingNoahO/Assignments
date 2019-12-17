@@ -72,6 +72,7 @@ local youHit
 local home
 local away
 local dash
+local physics1 = true
 
 -----------------------------------------------------------------------------------------
 --LOCAL SOUNDS
@@ -119,7 +120,7 @@ local function AddPhysicsBodies()
     physics.addBody( platform1,  "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody( platform2,  "static", { density=1.0, friction=1, bounce=0 } )
     physics.addBody( platform3,  "static", { density=1.0, friction=1, bounce=0 } )
-    physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
+   -- physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
     physics.addBody(bad1, "static",  {density=0, friction=0, bounce=0} )
     physics.addBody(bad2, "static",  {density=0, friction=0, bounce=0} )
     physics.addBody(bad3, "static",  {density=0, friction=0, bounce=0} )
@@ -140,7 +141,7 @@ local function RemovePhysicsBodies()
       physics.removeBody( platform1 )
       physics.removeBody( platform2 )
       physics.removeBody( platform3 )
-      physics.removeBody( ball1)
+      --physics.removeBody( ball1)
      
 end
 
@@ -171,7 +172,7 @@ local function Reset( )
   if ( soundOn == true) then
   goalSoundChannel = audio.play(goalSound)
   end
-  physics.removeBody(ball1)
+  --physics.removeBody(ball1)
   
 
 end
@@ -313,6 +314,7 @@ end
 local function Shoot1( )
   titleShoot.isVisible = false
   physics.addBody(netBlock, "static",  {density=0, friction=0, bounce=0} )
+  physics1 = true
   netBlock:addEventListener( "collision")
   physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.6, rotation=0 } )
   physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
@@ -326,13 +328,16 @@ end
 local function Shoot2( )
   goal1 = goal1 + 1
   titleShoot.isVisible = false
-  physics.removeBody(netBlock)
+  if (physics1 == true) then
+    physics.removeBody(netBlock)
+  end
   netBlock:removeEventListener( "collision")
   physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.6, rotation=0 } )
   physics.addBody(ball1, {density=1.0, friction=0.5, bounce=0.7, radius=25})
   upButton.isVisible = true
   rightButton.isVisible = true
   leftButton.isVisible = true
+  physics1 = false
 
 
 
