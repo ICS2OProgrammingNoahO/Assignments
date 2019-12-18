@@ -3,7 +3,7 @@
 --  you_win.lua
 -- Created by: Noah
 -- Date: December 11th, 2019
--- Description: This is you win screen tat the player sees if they win. There is a back button so the user can restart.
+-- Description: This is the win screen, displaying the lose text & back button.
 -----------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 -----------------------------------------------------------------------------------------
@@ -33,7 +33,8 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 local background
 local backButton
-local youLoseText
+local sceneCover
+local sceneCover2
 
 
 -----------------------------------------------------------------------------------------
@@ -42,8 +43,8 @@ local youLoseText
 
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local transitionSoundChannel
-local winSound = audio.loadStream("Sounds/youWin.mp3")
-local winSoundChannel
+local loseSound = audio.loadStream("Sounds/gameOver.mp3")
+local loseSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -59,32 +60,17 @@ local function MainMenuTransition( )
 end    
 
 -- fades in the back button
-local function ButtonFade( event )
+local function ButtonFade( )
     backButton.alpha = backButton.alpha + 0.006
 end
--- spins the tittle
-local function MoveTitle3( event )
-    youLoseText.alpha = youLoseText.alpha - 0.01
-    youLoseText.rotation = youLoseText.rotation + 0.1
-    if (youLoseText.alpha == 0) then
-        Runtime:addEventListener("enterFrame", ButtonFade)
-    end
-end
--- listener that spins the tittle
-local function MoveTitle2( )
-    Runtime:addEventListener("enterFrame", MoveTitle3)
-end
--- moves the tittle down
-local function MoveTitle( event )
-    if( youLoseText.y > display.contentHeight/2)then
-        youLoseText.y = display.contentHeight/2
-        Runtime:removeEventListener("enterFrame", MoveTitle)
-        timer.performWithDelay(1000, MoveTitle2)
 
-    else
-        youLoseText.y = youLoseText.y + 5
-    end
+local function CoverMove( event )
+    sceneCover.x = sceneCover.x - 2
+    sceneCover2.x = sceneCover2.x + 2
+    timer.performWithDelay(1000, ButtonFade)
 end
+-- spins the tittle
+
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -99,14 +85,18 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
   -- creating the background
-    background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-    background:setFillColor(44/255, 227/255, 240/255)
-    
+   background = display.newImageRect("Images/fdf.png", display.contentWidth, display.contentHeight)
+   background.x = display.contentCenterX
+   background.y = display.contentCenterY
 
     sceneGroup:insert( background )
 
-    youLoseText = display.newText("You Win", display.contentWidth/2, display.contentHeight/2 - 600, nil, 250)
-    youLoseText.alpha = 1
+   sceneCover = display.newRect(display.contentWidth - 1024, display.contentHeight/2, display.contentWidth, display.contentHeight)
+   sceneCover2 = display.newRect(display.contentWidth, display.contentHeight/2, display.contentWidth, display.contentHeight)
+
+    sceneGroup:insert( sceneCover )
+    sceneGroup:insert( sceneCover2 )
+
 
 
     -----------------------------------------------------------------------------------------
@@ -118,9 +108,9 @@ function scene:create( event )
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth/2,
-            y = display.contentHeight - 100,
-            width = 400,
-            height = 200,
+            y = display.contentHeight - 50,
+            width = 200,
+            height = 100,
             
 
             -- Insert the images here
@@ -150,7 +140,9 @@ function scene:show( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-   
+     ButtonFade()
+   Runtime:addEventListener("enterFrame", CoverMove)
+
 
     -----------------------------------------------------------------------------------------
 
@@ -162,18 +154,16 @@ function scene:show( event )
     if ( phase == "will" ) then
        
     -----------------------------------------------------------------------------------------
- Runtime:addEventListener("enterFrame", MoveTitle)
+
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then 
        
         if (soundOn == true) then
-            winSoundChannel = audio.play(winSound)
+
+            loseSoundChannel = audio.play(loseSound)
   
-           
-        else
-   
                        
         end
        
@@ -205,7 +195,7 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
        
-  
+       
     end
 
 end -- function scene:hide( event )

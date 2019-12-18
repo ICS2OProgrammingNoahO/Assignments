@@ -33,7 +33,8 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 local background
 local backButton
-local youLoseText
+local sceneCover
+local sceneCover2
 
 
 -----------------------------------------------------------------------------------------
@@ -62,29 +63,13 @@ end
 local function ButtonFade( event )
     backButton.alpha = backButton.alpha + 0.006
 end
--- spins the tittle
-local function MoveTitle3( event )
-    youLoseText.alpha = youLoseText.alpha - 0.01
-    youLoseText.rotation = youLoseText.rotation + 0.1
-    if (youLoseText.alpha == 0) then
-        Runtime:addEventListener("enterFrame", ButtonFade)
-    end
-end
--- calls to spin the tittle
-local function MoveTitle2( )
-    Runtime:addEventListener("enterFrame", MoveTitle3)
-end
--- move tittle onto screen
-local function MoveTitle( event )
-    if( youLoseText.y > display.contentHeight/2)then
-        youLoseText.y = display.contentHeight/2
-        Runtime:removeEventListener("enterFrame", MoveTitle)
-        timer.performWithDelay(1000, MoveTitle2)
 
-    else
-        youLoseText.y = youLoseText.y + 5
-    end
+local function CoverMove( event )
+    sceneCover.x = sceneCover.x - 2
+    sceneCover2.x = sceneCover2.x + 2
 end
+-- spins the tittle
+
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -99,14 +84,18 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
   -- creating the background
-    background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-    background:setFillColor(44/255, 227/255, 240/255)
-    
+   background = display.newImageRect("Images/YouWinScreenNoah@2x.png", display.contentWidth, display.contentHeight)
+   background.x = display.contentCenterX
+   background.y = display.contentCenterY
 
     sceneGroup:insert( background )
 
-    youLoseText = display.newText("You Lose", display.contentWidth/2, display.contentHeight/2 - 600, nil, 250)
-    youLoseText.alpha = 1
+   sceneCover = display.newRect(display.contentWidth - 1024, display.contentHeight/2, display.contentWidth, display.contentHeight)
+   sceneCover2 = display.newRect(display.contentWidth, display.contentHeight/2, display.contentWidth, display.contentHeight)
+
+    sceneGroup:insert( sceneCover )
+    sceneGroup:insert( sceneCover2 )
+
 
 
     -----------------------------------------------------------------------------------------
@@ -150,7 +139,7 @@ function scene:show( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-   
+   Runtime:addEventListener("enterFrame", CoverMove)
 
     -----------------------------------------------------------------------------------------
 
@@ -162,7 +151,7 @@ function scene:show( event )
     if ( phase == "will" ) then
        
     -----------------------------------------------------------------------------------------
- Runtime:addEventListener("enterFrame", MoveTitle)
+ 
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
