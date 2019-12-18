@@ -69,6 +69,10 @@ local function CoverMove( event )
     sceneCover2.x = sceneCover2.x + 2
     timer.performWithDelay(1000, ButtonFade)
 end
+
+local function CoverMove2( )
+     Runtime:addEventListener("enterFrame", CoverMove)
+end
 -- spins the tittle
 
 ----------------------------------------------------------------------------------------
@@ -141,7 +145,8 @@ function scene:show( event )
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
      ButtonFade()
-   Runtime:addEventListener("enterFrame", CoverMove)
+ 
+   timer.performWithDelay(1000, CoverMove2)
 
 
     -----------------------------------------------------------------------------------------
@@ -194,6 +199,7 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+        Runtime:removeEventListener(enterFrame)
        
        
     end

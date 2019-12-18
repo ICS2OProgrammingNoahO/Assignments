@@ -73,6 +73,8 @@ local home
 local away
 local dash
 local physics1 = true
+local physics2 = false
+local topBorder2
 
 -----------------------------------------------------------------------------------------
 --LOCAL SOUNDS
@@ -169,6 +171,10 @@ local function Reset( )
   ball1.y = 100
   ball1.isVisible = false
   netBlock.isVisible = false
+  if (physics2 == true)then
+    physics.removeBody(topBorder2)
+  end
+  physics2 = false
   if ( soundOn == true) then
   goalSoundChannel = audio.play(goalSound)
   end
@@ -313,6 +319,8 @@ end
 -- shoots goal when answer is wrong
 local function Shoot1( )
   titleShoot.isVisible = false
+  physics.addBody(topBorder2, "static",  {density=0, friction=0, bounce=0} )
+  physics2 = true
   physics.addBody(netBlock, "static",  {density=0, friction=0, bounce=0} )
   physics1 = true
   netBlock:addEventListener( "collision")
@@ -328,8 +336,11 @@ end
 local function Shoot2( )
   goal1 = goal1 + 1
   titleShoot.isVisible = false
+  physics.addBody(topBorder2, "static",  {density=0, friction=0, bounce=0} )
+  physics2 = true
   if (physics1 == true) then
     physics.removeBody(netBlock)
+
   end
   netBlock:removeEventListener( "collision")
   physics.addBody( character, "dynamic", { density=1, friction=0.5, bounce=0.6, rotation=0 } )
@@ -642,6 +653,11 @@ function scene:create( event )
 
     
     sceneGroup:insert( platform3 )
+
+  topBorder2 = display.newRect( display.contentCenterX, 360, display.contentWidth, 100)
+
+  sceneGroup:insert(topBorder2)
+  topBorder2.isVisible = false
 
     
   ball1 = display.newImage("Images/BallNoah@2x.png",  display.contentCenterX, 100)
