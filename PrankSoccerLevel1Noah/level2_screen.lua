@@ -3,7 +3,7 @@
 -- level1_screen.lua
 -- Created by: Your Name
 -- Date: Month Day, Year
--- Description: This is the level 1 screen, displaying level 1 and all of it's things
+-- Description: This is the level 2 screen, displaying level 2 and all of it's things
 -----------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 -----------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "level1_screen"
+sceneName = "level2_screen"
 
 -----------------------------------------------------------------------------------------
 
@@ -104,9 +104,9 @@ local badSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
-local function Level2Transition()
+local function Level3Transition()
 
-    composer.gotoScene( "level2_screen", {effect = "crossFade", time = 1000})
+    composer.gotoScene( "level3_screen", {effect = "crossFade", time = 1000})
   
 end
 
@@ -190,8 +190,6 @@ end
 
 
 
-
-
 --changes score for opposite team
 local function ChangeScore2( )
  
@@ -232,7 +230,7 @@ local function ChangeScore( )
   
   elseif (goal1 == 3)then
     goalText.text = "3"
-    timer.performWithDelay(2000, Level2Transition)
+    timer.performWithDelay(2000, Level3Transition)
     
 
   end
@@ -271,7 +269,7 @@ local function onCollision( self, event )
             
 
             -- show overlay with question
-            composer.showOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
+            composer.showOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
 
            
         end
@@ -505,7 +503,7 @@ end
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
 --resumes game
-function ResumeGameLevel1()
+function ResumeGameLevel2()
             
 
             
@@ -531,7 +529,7 @@ function ResumeGameLevel1()
 end
 
 --resumes game
-function ResumeGame2Level1()
+function ResumeGame2Level2()
             
 
           
@@ -567,20 +565,22 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------   background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 
-    background = display.newImageRect("Images/level1ScreenTestNoah@2x.png", display.contentWidth, display.contentHeight)
+    -----------------------------------------------------------------------------------------   background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
+
+    background = display.newImageRect("Images/Level2ScreenDaniel@2x.png", display.contentWidth, display.contentHeight)
    background.x = display.contentCenterX
    background.y = display.contentCenterY
 
       sceneGroup:insert( background )
 
-   goalText = display.newText("0", display.contentWidth/1.5 + 20 , display.contentHeight/7  , nil, 125 )
+   goalText = display.newText("0", display.contentWidth/1.5- 490 , display.contentHeight/7 + 325 , nil, 125 )
    goalText:setFillColor(0/255, 0/255, 255/255)
    sceneGroup:insert( goalText )
    
 
 
 
-   goal_text = display.newText("0", display.contentWidth/1.5 + 190 , display.contentHeight/7  , nil, 125 )
+   goal_text = display.newText("0", display.contentWidth/1.5 + 150 , display.contentHeight/7 + 325 , nil, 125 )
    goal_text:setFillColor(255/255, 0/255, 0/255)
    sceneGroup:insert( goal_text)
 
@@ -599,17 +599,15 @@ function scene:create( event )
    youHit.isVisible = false
    sceneGroup:insert( youHit)
 
-   away = display.newText("Away", display.contentWidth/2 + 358, display.contentHeight/2 - 220 , nil, 20 )
+   away = display.newText("Away", display.contentWidth/2 + 320, display.contentHeight/2 - 4 , nil, 20 )
    away:setFillColor(255/255, 0/255, 0/255)
    sceneGroup:insert( away)
 
-   home = display.newText("Home", display.contentWidth/2 + 192 , display.contentHeight/2 - 220, nil, 20 )
+   home = display.newText("Home", display.contentWidth/1.5- 490 , display.contentHeight/2 - 4, nil, 20 )
    home:setFillColor(0/255, 0/255, 255/255)
    sceneGroup:insert( home)
 
-   dash = display.newText("-", display.contentWidth/1.5 + 105 , display.contentHeight/7  , nil, 125 )
-   dash:setFillColor(0/255, 0/255, 0/255)
-   sceneGroup:insert( dash )
+   
 
    bottomBorder = display.newRect(display.contentWidth/2, 708, display.contentWidth, 100)
    bottomBorder.alpha = 0
@@ -638,7 +636,7 @@ function scene:create( event )
 
    character = display.newImageRect("Images/character.png",75, 125)
    character.x = display.contentCenterX
-   character.y = display.contentCenterY
+   character.y = display.contentCenterY + 100
   character.myName = "character"
 
    character.isFixedRotation = true
@@ -660,21 +658,21 @@ function scene:create( event )
 
   platform1 = display.newImageRect("Images/platform.png",200, 25)
    platform1.x = display.contentCenterX
-   platform1.y = display.contentCenterY - 200
+   platform1.y = display.contentCenterY 
 
     
     sceneGroup:insert( platform1 )
 
   platform2 = display.newImageRect("Images/platform.png",200, 25)
    platform2.x = display.contentCenterX + 300
-   platform2.y = display.contentCenterY 
+   platform2.y = display.contentCenterY - 200
 
     
     sceneGroup:insert( platform2 )
 
   platform3 = display.newImageRect("Images/platform.png",200, 25)
    platform3.x = display.contentCenterX - 300
-   platform3.y = display.contentCenterY 
+   platform3.y = display.contentCenterY - 200
 
     
     sceneGroup:insert( platform3 )
@@ -702,17 +700,17 @@ goalie = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
 
 bad1 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
   bad1.x = display.contentCenterX - 300
-  bad1.y = display.contentCenterY - 75
+  bad1.y = display.contentCenterY - 275
   bad1.myName = "bad1"
 
 bad2 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
   bad2.x = display.contentCenterX + 300
-  bad2.y = display.contentCenterY - 75
+  bad2.y = display.contentCenterY - 275
   bad2.myName = "bad2"
 
 bad3 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
   bad3.x = display.contentCenterX 
-  bad3.y = display.contentCenterY - 275
+  bad3.y = display.contentCenterY - 75
   bad3.myName = "bad3"
   sceneGroup:insert( bad1 )
   sceneGroup:insert( bad2 )
@@ -749,8 +747,7 @@ netBorder4:rotate (-62)
 
     sceneGroup:insert( leftNet )
     sceneGroup:insert( rightNet )
-
-    -----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
 
@@ -854,15 +851,15 @@ function scene:show( event )
     local phase = event.phase
 
     -----------------------------------------------------------------------------------------
-
+physics.start()
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
                 -- start physics
-        physics.start()
+        
         --Rotate()
         -- set gravity
         --Reset()
-        physics.setGravity( 0, 20 )
+        physics.setGravity( 0, 15 )
         Runtime:addEventListener("enterFrame", Character)
         Runtime:addEventListener("enterFrame", Character2)
         

@@ -3,7 +3,7 @@
 -- level1_screen.lua
 -- Created by: Your Name
 -- Date: Month Day, Year
--- Description: This is the level 1 screen, displaying level 1 and all of it's things
+-- Description: This is the level 4 screen, displaying level 4 and all of it's things
 -----------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 -----------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "level1_screen"
+sceneName = "level4_screen"
 
 -----------------------------------------------------------------------------------------
 
@@ -104,9 +104,9 @@ local badSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
-local function Level2Transition()
+local function WinTransition()
 
-    composer.gotoScene( "level2_screen", {effect = "crossFade", time = 1000})
+    composer.gotoScene( "you_win", {effect = "crossFade", time = 1000})
   
 end
 
@@ -207,7 +207,7 @@ local function ChangeScore2( )
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-  elseif (goal_ == 12)then
+  elseif (goal_ == 8)then
     goal_text.text = "3"
      upButton.isVisible = false
     rightButton.isVisible = false
@@ -232,7 +232,7 @@ local function ChangeScore( )
   
   elseif (goal1 == 3)then
     goalText.text = "3"
-    timer.performWithDelay(2000, Level2Transition)
+    timer.performWithDelay(2000, WinTransition)
     
 
   end
@@ -271,7 +271,7 @@ local function onCollision( self, event )
             
 
             -- show overlay with question
-            composer.showOverlay( "level1_Question", { isModal = true, effect = "fade", time = 500})
+            composer.showOverlay( "level4_Question", { isModal = true, effect = "fade", time = 500})
 
            
         end
@@ -505,7 +505,7 @@ end
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
 --resumes game
-function ResumeGameLevel1()
+function ResumeGameLevel4()
             
 
             
@@ -531,7 +531,7 @@ function ResumeGameLevel1()
 end
 
 --resumes game
-function ResumeGame2Level1()
+function ResumeGame2Level4()
             
 
           
@@ -567,7 +567,7 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------   background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 
-    background = display.newImageRect("Images/level1ScreenTestNoah@2x.png", display.contentWidth, display.contentHeight)
+    background = display.newImageRect("Images/Level4ScreenDaniel@2x.png", display.contentWidth, display.contentHeight)
    background.x = display.contentCenterX
    background.y = display.contentCenterY
 
@@ -674,7 +674,7 @@ function scene:create( event )
 
   platform3 = display.newImageRect("Images/platform.png",200, 25)
    platform3.x = display.contentCenterX - 300
-   platform3.y = display.contentCenterY 
+   platform3.y = display.contentCenterY -200
 
     
     sceneGroup:insert( platform3 )
@@ -702,7 +702,7 @@ goalie = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
 
 bad1 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
   bad1.x = display.contentCenterX - 300
-  bad1.y = display.contentCenterY - 75
+  bad1.y = display.contentCenterY - 275
   bad1.myName = "bad1"
 
 bad2 = display.newImageRect("Images/OppositeTeamCharacterNoah@2x.png",75, 125)
@@ -758,7 +758,7 @@ netBorder4:rotate (-62)
           backButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth - 910,
+            x = display.contentWidth - 945,
             y = display.contentHeight - 710,
             
 
@@ -769,8 +769,8 @@ netBorder4:rotate (-62)
             -- When the button is released, call the Level1 screen transition function
             onRelease = MainMenuTransition          
         } )
-        backButton.width = 200
-        backButton.height = 100
+        backButton.width = 150
+        backButton.height = 75
 
         sceneGroup:insert( backButton )
 
@@ -854,15 +854,15 @@ function scene:show( event )
     local phase = event.phase
 
     -----------------------------------------------------------------------------------------
-
+ physics.start()
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
                 -- start physics
-        physics.start()
+       
         --Rotate()
         -- set gravity
         --Reset()
-        physics.setGravity( 0, 20 )
+        physics.setGravity( 0, 2 )
         Runtime:addEventListener("enterFrame", Character)
         Runtime:addEventListener("enterFrame", Character2)
         

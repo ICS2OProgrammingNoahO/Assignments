@@ -35,6 +35,7 @@ local scene = composer.newScene( sceneName )
 soundOn = true
 
 
+
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
@@ -281,9 +282,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-    --if ( soundOn == true) then
-          --musicChannel = audio.play(music, {loop = -1})
-    --end
+    
     audio.pause(musicChannel)
     -----------------------------------------------------------------------------------------
 

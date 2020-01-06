@@ -43,7 +43,7 @@ local sceneCover2
 
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local transitionSoundChannel
-local loseSound = audio.loadStream("Sounds/gameOver.mp3")
+local loseSound = audio.loadStream("Sounds/winwin.mp3")
 local loseSoundChannel
 
 -----------------------------------------------------------------------------------------

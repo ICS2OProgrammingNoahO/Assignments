@@ -1,9 +1,9 @@
 ----------------------------------------------------------------------------------------
 --
---  you_lose.lua
+--  you_win.lua
 -- Created by: Noah
 -- Date: December 11th, 2019
--- Description: This is the lose screen, displaying the lose text & back button.
+-- Description: This is the win screen, displaying the lose text & back button.
 -----------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 -----------------------------------------------------------------------------------------
@@ -60,13 +60,18 @@ local function MainMenuTransition( )
 end    
 
 -- fades in the back button
-local function ButtonFade( event )
+local function ButtonFade( )
     backButton.alpha = backButton.alpha + 0.006
 end
 
 local function CoverMove( event )
     sceneCover.x = sceneCover.x - 2
     sceneCover2.x = sceneCover2.x + 2
+    timer.performWithDelay(1000, ButtonFade)
+end
+
+local function CoverMove2( )
+     Runtime:addEventListener("enterFrame", CoverMove)
 end
 -- spins the tittle
 
@@ -84,7 +89,7 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
   -- creating the background
-   background = display.newImageRect("Images/YouWinScreenNoah@2x.png", display.contentWidth, display.contentHeight)
+   background = display.newImageRect("Images/fdf.png", display.contentWidth, display.contentHeight)
    background.x = display.contentCenterX
    background.y = display.contentCenterY
 
@@ -107,9 +112,9 @@ function scene:create( event )
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth/2,
-            y = display.contentHeight - 100,
-            width = 400,
-            height = 200,
+            y = display.contentHeight - 50,
+            width = 200,
+            height = 100,
             
 
             -- Insert the images here
@@ -139,7 +144,10 @@ function scene:show( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-   Runtime:addEventListener("enterFrame", CoverMove)
+     ButtonFade()
+ 
+   timer.performWithDelay(1000, CoverMove2)
+
 
     -----------------------------------------------------------------------------------------
 
@@ -151,7 +159,7 @@ function scene:show( event )
     if ( phase == "will" ) then
        
     -----------------------------------------------------------------------------------------
- 
+
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
@@ -191,6 +199,7 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+        Runtime:removeEventListener(enterFrame)
        
        
     end

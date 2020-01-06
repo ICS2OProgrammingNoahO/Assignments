@@ -42,7 +42,7 @@ local backButton
 local transitionSound = audio.loadStream("Sounds/jump.mp3")
 local transitionSoundChannel
 local music = audio.loadStream("Sounds/creditsMusic.mp3")
-local musicChannel = audio.play(music, {channel=5, loop = -1})
+local musicChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -68,17 +68,34 @@ local function Level1Transition( )
    end
 end    
 
+local function Level2Transition( )
+   composer.gotoScene( "level2_screen", {effect = "fade", time = 1000})
+    audio.stop()
+    
+    transitionSoundChannel = audio.play(transitionSound)
+end    
+
 local function Level3Transition( )
    composer.gotoScene( "level3_screen", {effect = "fade", time = 1000})
     audio.stop()
     
     transitionSoundChannel = audio.play(transitionSound)
-end    
+end  
+
+local function Level4Transition( )
+   composer.gotoScene( "level4_screen", {effect = "fade", time = 1000})
+    audio.stop()
+    
+    transitionSoundChannel = audio.play(transitionSound)
+end 
+
 -- fades in the buttons
 local function ButtonFade( event )
     backButton.alpha = backButton.alpha + 0.006
     level1Button.alpha = level1Button.alpha + 0.006
     level3Button.alpha = level3Button.alpha + 0.006
+    level2Button.alpha = level2Button.alpha + 0.006
+    level4Button.alpha = level4Button.alpha + 0.006
 
 end
 
@@ -153,6 +170,26 @@ function scene:create( event )
        
         level1Button.alpha = 0
 
+-- Creating level2  Button
+    level2Button = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth - 300,
+            y = display.contentHeight/2 - 50,
+            width = 200,
+            height = 125,
+            
+
+            -- Insert the images here
+            defaultFile = "Images/Level2ScreenDaniel@2x.png",
+            overFile = "Images/Level2ScreenDaniel@2x.png",
+
+            -- When the button is released, call the level1 screen transition function
+            onRelease = Level2Transition          
+        } )
+       
+        level2Button.alpha = 0
+
         -- Creating level3  Button
     level3Button = widget.newButton( 
         {   
@@ -172,6 +209,25 @@ function scene:create( event )
         } )
        
         level3Button.alpha = 0
+
+    level4Button = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth - 300,
+            y = display.contentHeight/2 + 150,
+            width = 200,
+            height = 125,
+            
+
+            -- Insert the images here
+            defaultFile = "Images/Level4ScreenDaniel@2x.png",
+            overFile = "Images/Level4ScreenDaniel@2x.png",
+
+            -- When the button is released, call the level1 screen transition function
+            onRelease = Level4Transition          
+        } )
+       
+        level4Button.alpha = 0
         
        
     -----------------------------------------------------------------------------------------
@@ -180,6 +236,10 @@ function scene:create( event )
     sceneGroup:insert( backButton )
     sceneGroup:insert( level1Button )
     sceneGroup:insert( level3Button )
+    sceneGroup:insert( level2Button )
+    sceneGroup:insert( level4Button )
+
+    
 
 end  
 
@@ -197,12 +257,17 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     local phase = event.phase
-
+    physics.start()
     -----------------------------------------------------------------------------------------
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
+       if (soundOn == true) then
+            audio.play(musicChannel)
+
        
+                       
+        end
     -----------------------------------------------------------------------------------------
  Runtime:addEventListener("enterFrame", ButtonFade)
     -- Called when the scene is now on screen.
@@ -210,12 +275,7 @@ function scene:show( event )
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then 
        
-        if (soundOn == true) then
-            audio.resume(musicChannel)
-
-       
-                       
-        end
+        
        
 
     end

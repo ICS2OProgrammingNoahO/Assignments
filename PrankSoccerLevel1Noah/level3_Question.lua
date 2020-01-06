@@ -3,7 +3,7 @@
 -- level2_question.lua
 -- Created by: Noah
 -- Date: December 11th, 2019
--- Description: This is the level 1 question 
+-- Description: This is the level 3 question 
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ local physics = require( "physics")
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "level1_Question"
+sceneName = "level3_Question"
 
 -----------------------------------------------------------------------------------------
 
@@ -78,254 +78,165 @@ local selecSoundChannel
 -----------------------------------------------------------------------------------------
 local function DisplayQuestion2()
     --creating random numbers
-    firstNumber = math.random (1,20)
- question2Image.isVisible = false  
+    firstNumber = math.random (1,12)
+   
+question2Image.isVisible = false
 answerBox.isVisible = true
 answerBox3.isVisible = true
 if (firstNumber == 1) then
 
-   
     --creating the question depending on the selcetion number
-    questionText.text = " What is photosnythesis? " 
+    questionText.text = " What are the two sides of a magnet? " 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Plants making food "
+    answerText1.text = " Negative and positive "
     
     --creating wrong answers
-    wrongText1.text = " Plants making water "
-    wrongText2.text = " A fancy word "
-    wrongText3.text = " Animals eating plants "
+    wrongText1.text = " Equal and positive "
+    wrongText2.text = " Good and bad "
+    wrongText3.text = " Up and down "
 elseif (firstNumber == 2)then
      
-    question2Image.isVisible = true
+
      --creating the question depending on the selcetion number
-    questionText.text = " What is this? " 
+    questionText.text = " What are clouds made of? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Stem "
+    answerText1.text = " Water "
     
     --creating wrong answers
-    wrongText1.text = " Root "
-    wrongText2.text = " Leaf "
-    wrongText3.text = " Seed "
+    wrongText1.text = " Cotton candy "
+    wrongText2.text = " Cotton "
+    wrongText3.text = " Air "
 elseif (firstNumber == 3)then
      --creating the question depending on the selcetion number
-    questionText.text = " Which is a desert plant? " 
+    questionText.text = " What type of animal is a human? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " A cactus "
+    answerText1.text = " A mammal "
     
     --creating wrong answers
-    wrongText1.text = " A palm tree "
-    wrongText2.text = " A rose "
-    wrongText3.text = " Maple tree "
+    wrongText1.text = " A reptile "
+    wrongText2.text = " A bird "
+    wrongText3.text = " An amphibian "
 
 elseif (firstNumber == 4)then
      --creating the question depending on the selcetion number
-    questionText.text = " How many moons does earth have? " 
+    questionText.text = " Can the world exsist without plants? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " 1 "
+    answerText1.text = " Absolutely not "
     
     --creating wrong answers
-    wrongText1.text = " 5 "
-    wrongText2.text = " 79 "
-    wrongText3.text = " 3 "
+    wrongText1.text = " Yes "
+    wrongText2.text = " Kind of "
+    wrongText3.text = " Only in the winter "
+
 
 elseif (firstNumber == 5)then
-      --creating the question depending on the selcetion number
-    questionText.text = " How many moons does earth have? " 
+     --creating the question depending on the selcetion number
+    questionText.text = " What do astronauts need in space? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " 1 "
+    answerText1.text = " A special suit "
     
     --creating wrong answers
-    wrongText1.text = " 5 "
-    wrongText2.text = " 79 "
-    wrongText3.text = " 3 "
+    wrongText1.text = " A friend "
+    wrongText2.text = " A laser blaster "
+    wrongText3.text = " A hyperdrive "
 
 elseif (firstNumber == 6)then
      --creating the question depending on the selcetion number
-    questionText.text = " What is the main colour of plants? " 
+    questionText.text = " What do bees make? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Green "
+    answerText1.text = " Honey "
     
     --creating wrong answers
-    wrongText1.text = " Blue "
-    wrongText2.text = " Purple "
-    wrongText3.text = " Yellow "
+    wrongText1.text = " Pollen "
+    wrongText2.text = " Metal "
+    wrongText3.text = " Sugar "
 
 elseif (firstNumber == 7)then
      --creating the question depending on the selcetion number
-    questionText.text = " What is the main colour of plants? " 
+    questionText.text = " Which of these plants grow apples? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Green "
+    answerText1.text = " Apple tree "
     
     --creating wrong answers
-    wrongText1.text = " Blue "
-    wrongText2.text = " Purple "
-    wrongText3.text = " Yellow "
+    wrongText1.text = " A bush "
+    wrongText2.text = " A cactus "
+    wrongText3.text = " Apple bush "
 
 elseif (firstNumber == 8)then
-   --creating the question depending on the selcetion number
-    questionText.text = " Which animals collect pollen? " 
+     --creating the question depending on the selcetion number
+    questionText.text = " What is ice? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Pollenators "
+    answerText1.text = " Frozen water "
     
     --creating wrong answers
-    wrongText1.text = " The pollen boys "
-    wrongText2.text = " Reptiles "
-    wrongText3.text = " Humans "
+    wrongText1.text = " Cold rock "
+    wrongText2.text = " Frozen air "
+    wrongText3.text = " Nothing "
 
 elseif (firstNumber == 9)then
      --creating the question depending on the selcetion number
-    questionText.text = " Which animals collect pollen? " 
+    questionText.text = " What should you do in a science lab? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Pollenators "
+    answerText1.text = " Follow the steps "
     
     --creating wrong answers
-    wrongText1.text = " The pollen boys "
-    wrongText2.text = " Reptiles "
-    wrongText3.text = " Humans "
+    wrongText1.text = " Joke around "
+    wrongText2.text = " Explode things "
+    wrongText3.text = " Sleep "
 
 elseif (firstNumber == 10)then
      --creating the question depending on the selcetion number
-    questionText.text = " What colour is the moon? " 
+    questionText.text = " Why are plants important? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Grey "
+    answerText1.text = " They let us breathe "
     
     --creating wrong answers
-    wrongText1.text = " White "
-    wrongText2.text = " Yellow "
-    wrongText3.text = " Black "
+    wrongText1.text = " They look cool "
+    wrongText2.text = " They are tasty "
+    wrongText3.text = " They are green "
+  
 
 elseif (firstNumber == 11)then
      --creating the question depending on the selcetion number
-    questionText.text = " What do leaves do? " 
+    questionText.text = " What do bees help plants do? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Make food for the plant "
+    answerText1.text = " Spread seeds "
     
     --creating wrong answers
-    wrongText1.text = " Look cool "
-    wrongText2.text = " Protect the plant "
-    wrongText3.text = " Nothing "
+    wrongText1.text = " Get food "
+    wrongText2.text = " Get water "
+    wrongText3.text = " Survive winter "
+
+
 
 elseif (firstNumber == 12)then
      --creating the question depending on the selcetion number
-    questionText.text = " What can water turn into? " 
+    questionText.text = " What is it called when water dries up? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Snow "
+    answerText1.text = " evporation "
     
     --creating wrong answers
-    wrongText1.text = " Food "
-    wrongText2.text = " Sand "
-    wrongText3.text = " Plastic "
+    wrongText1.text = " Drying "
+    wrongText2.text = " Condensation "
+    wrongText3.text = " Floating "
 
-elseif (firstNumber == 13)then
-     --creating the question depending on the selcetion number
-    questionText.text = " What part of the plant makes food? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " The leaves "
-    
-    --creating wrong answers
-    wrongText1.text = " The stem "
-    wrongText2.text = " The flowers "
-    wrongText3.text = " Nothing "
-
-elseif (firstNumber == 14)then
-      --creating the question depending on the selcetion number
-    questionText.text = " What part of the plant makes food? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " The leaves "
-    
-    --creating wrong answers
-    wrongText1.text = " The stem "
-    wrongText2.text = " The flowers "
-    wrongText3.text = " Nothing "
-
-elseif (firstNumber == 15)then
-     --creating the question depending on the selcetion number
-    questionText.text = " What happens to trees in the winter? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " The leaves fall "
-    
-    --creating wrong answers
-    wrongText1.text = " They die "
-    wrongText2.text = " They stay the same "
-    wrongText3.text = " The leaves turn blue "
-
-elseif (firstNumber == 16)then
-    --creating the question depending on the selcetion number
-    questionText.text = " What happens to trees in the winter? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " The leaves fall "
-    
-    --creating wrong answers
-    wrongText1.text = " They die "
-    wrongText2.text = " They stay the same "
-    wrongText3.text = " The leaves turn blue "
-
-elseif (firstNumber == 17)then
-     --creating the question depending on the selcetion number
-    questionText.text = " What happens when a volcanoe errupts? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Lava flows out of it "
-    
-    --creating wrong answers
-    wrongText1.text = " Everything freezes "
-    wrongText2.text = " Nothing "
-    wrongText3.text = " The world explodes "
-
-elseif (firstNumber == 18)then
-      --creating the question depending on the selcetion number
-    questionText.text = " What do leaves do? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Make food for the plant "
-    
-    --creating wrong answers
-    wrongText1.text = " Look cool "
-    wrongText2.text = " Protect the plant "
-    wrongText3.text = " Nothing "
-
-elseif (firstNumber == 19)then
-     --creating the question depending on the selcetion number
-    questionText.text = " What happens when a volcanoe errupts? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Lava flows out of it "
-    
-    --creating wrong answers
-    wrongText1.text = " Everything freezes "
-    wrongText2.text = " Nothing "
-    wrongText3.text = " The world explodes "
-
-elseif (firstNumber == 20)then
-     --creating the question depending on the selcetion number
-    questionText.text = " Which animals collect pollen? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Polenators "
-    
-    --creating wrong answers
-    wrongText1.text = " The pollen boys "
-    wrongText2.text = " Reptiles "
-    wrongText3.text = " Humans "
 
 end
 
 end
+
+
 
 local function PositionAnswers2()
 
@@ -385,16 +296,16 @@ end
 local function Calculate2( )
     if (numCorrect == 2)then
         
-        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
-        ResumeGameLevel1()
+        composer.hideOverlay( "level3_Question", { isModal = true, effect = "fade", time = 500})      
+        ResumeGameLevel3()
         
         numCorrect = 0
         numIncorrect = 0
 
     elseif (numIncorrect == 2)then
        
-        composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
-        ResumeGame2Level1()
+        composer.hideOverlay( "level3_Question", { isModal = true, effect = "fade", time = 500})
+        ResumeGame2Level3()
 
         numCorrect = 0
         numIncorrect = 0
@@ -439,94 +350,68 @@ local function DisplayQuestion()
 
 if (firstNumber == 1) then
 
-   
     --creating the question depending on the selcetion number
-    questionText.text = " What is photosnythesis? " 
+    questionText.text = " What are the two sides of a magnet? " 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Plants making food "
+    answerText1.text = " Negative and positive "
     
     --creating wrong answers
-    wrongText1.text = " Plants making water "
-    wrongText2.text = " A fancy word "
-    wrongText3.text = " Animals eating plants "
+    wrongText1.text = " Equal and positive "
+    wrongText2.text = " Good and bad "
+    wrongText3.text = " Up and down "
 elseif (firstNumber == 2)then
      
-    Question2()
+
      --creating the question depending on the selcetion number
-    questionText.text = " What is this? " 
+    questionText.text = " What are clouds made of? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Stem "
+    answerText1.text = " Water "
     
     --creating wrong answers
-    wrongText1.text = " Root "
-    wrongText2.text = " Leaf "
-    wrongText3.text = " Seed "
+    wrongText1.text = " Cotton candy "
+    wrongText2.text = " Cotton "
+    wrongText3.text = " Air "
 elseif (firstNumber == 3)then
      --creating the question depending on the selcetion number
-    questionText.text = " Which is a desert plant? " 
+    questionText.text = " What type of animal is a human? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " A cactus "
+    answerText1.text = " A mammal "
     
     --creating wrong answers
-    wrongText1.text = " A palm tree "
-    wrongText2.text = " A rose "
-    wrongText3.text = " Maple tree "
+    wrongText1.text = " A reptile "
+    wrongText2.text = " A bird "
+    wrongText3.text = " An amphibian "
 
 elseif (firstNumber == 4)then
      --creating the question depending on the selcetion number
-    questionText.text = " How many moons does earth have? " 
+    questionText.text = " Can the world exsist without plants? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " 1 "
+    answerText1.text = " Absolutely not "
     
     --creating wrong answers
-    wrongText1.text = " 5 "
-    wrongText2.text = " 79 "
-    wrongText3.text = " 3 "
+    wrongText1.text = " Yes "
+    wrongText2.text = " Kind of "
+    wrongText3.text = " Only in the winter "
 
 elseif (firstNumber == 5)then
      --creating the question depending on the selcetion number
-    questionText.text = " Have humans been to the moon? " 
+    questionText.text = " Do pine trees loose their colour in Winter? " 
 
     TrueOrFalse()
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Yes "
+    answerText1.text = " No "
     
     --creating wrong answers
-    wrongText1.text = " No "
+    wrongText1.text = " Yes "
     wrongText2.text = "  "
     wrongText3.text = "  "
 
 elseif (firstNumber == 6)then
     --creating the question depending on the selcetion number
-    questionText.text = " Can plants grow without water? " 
-
-    TrueOrFalse()
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " No "
-    
-    --creating wrong answers
-    wrongText1.text = " Yes "
-    wrongText2.text = "  "
-    wrongText3.text = "  "
-
-elseif (firstNumber == 7)then
-     --creating the question depending on the selcetion number
-    questionText.text = " What is the main colour of plants? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Green "
-    
-    --creating wrong answers
-    wrongText1.text = " Blue "
-    wrongText2.text = " Purple "
-    wrongText3.text = " Yellow "
-
-elseif (firstNumber == 8)then
-  --creating the question depending on the selcetion number
-    questionText.text = " Can plants live a long time? " 
+    questionText.text = " Can plants come back after winter? " 
 
     TrueOrFalse()
     --creating answer text from list it corispondes with the animals list
@@ -537,69 +422,21 @@ elseif (firstNumber == 8)then
     wrongText2.text = "  "
     wrongText3.text = "  "
 
-elseif (firstNumber == 9)then
+elseif (firstNumber == 7)then
      --creating the question depending on the selcetion number
-    questionText.text = " Which animals collect pollen? " 
+    questionText.text = " What do astronauts need in space? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Pollenators "
+    answerText1.text = " A special suit "
     
     --creating wrong answers
-    wrongText1.text = " The pollen boys "
-    wrongText2.text = " Reptiles "
-    wrongText3.text = " Humans "
+    wrongText1.text = " A friend "
+    wrongText2.text = " A laser blaster "
+    wrongText3.text = " A hyperdrive "
 
-elseif (firstNumber == 10)then
-     --creating the question depending on the selcetion number
-    questionText.text = " What colour is the moon? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Grey "
-    
-    --creating wrong answers
-    wrongText1.text = " White "
-    wrongText2.text = " Yellow "
-    wrongText3.text = " Black "
-
-elseif (firstNumber == 11)then
-     --creating the question depending on the selcetion number
-    questionText.text = " What do leaves do? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Make food for the plant "
-    
-    --creating wrong answers
-    wrongText1.text = " Look cool "
-    wrongText2.text = " Protect the plant "
-    wrongText3.text = " Nothing "
-
-elseif (firstNumber == 12)then
-     --creating the question depending on the selcetion number
-    questionText.text = " What can water turn into? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Snow "
-    
-    --creating wrong answers
-    wrongText1.text = " Food "
-    wrongText2.text = " Sand "
-    wrongText3.text = " Plastic "
-
-elseif (firstNumber == 13)then
-     --creating the question depending on the selcetion number
-    questionText.text = " What part of the plant makes food? " 
-
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " The leaves "
-    
-    --creating wrong answers
-    wrongText1.text = " The stem "
-    wrongText2.text = " The flowers "
-    wrongText3.text = " Nothing "
-
-elseif (firstNumber == 14)then
-     --creating the question depending on the selcetion number
-    questionText.text = " Is water a solid? " 
+elseif (firstNumber == 8)then
+  --creating the question depending on the selcetion number
+    questionText.text = " Can you breathe in space? " 
 
     TrueOrFalse()
     --creating answer text from list it corispondes with the animals list
@@ -610,21 +447,94 @@ elseif (firstNumber == 14)then
     wrongText2.text = "  "
     wrongText3.text = "  "
 
-elseif (firstNumber == 15)then
+elseif (firstNumber == 9)then
      --creating the question depending on the selcetion number
-    questionText.text = " What happens to trees in the winter? " 
+    questionText.text = " What do bees make? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " The leaves fall "
+    answerText1.text = " Honey "
     
     --creating wrong answers
-    wrongText1.text = " They die "
-    wrongText2.text = " They stay the same "
-    wrongText3.text = " The leaves turn blue "
+    wrongText1.text = " Pollen "
+    wrongText2.text = " Metal "
+    wrongText3.text = " Sugar "
+
+elseif (firstNumber == 10)then
+     --creating the question depending on the selcetion number
+    questionText.text = " Which of these plants grow apples? " 
+
+    --creating answer text from list it corispondes with the animals list
+    answerText1.text = " Apple tree "
+    
+    --creating wrong answers
+    wrongText1.text = " A bush "
+    wrongText2.text = " A cactus "
+    wrongText3.text = " Apple bush "
+
+elseif (firstNumber == 11)then
+     --creating the question depending on the selcetion number
+    questionText.text = " What is ice? " 
+
+    --creating answer text from list it corispondes with the animals list
+    answerText1.text = " Frozen water "
+    
+    --creating wrong answers
+    wrongText1.text = " Cold rock "
+    wrongText2.text = " Frozen air "
+    wrongText3.text = " Nothing "
+
+elseif (firstNumber == 12)then
+     --creating the question depending on the selcetion number
+    questionText.text = " What should you do in a science lab? " 
+
+    --creating answer text from list it corispondes with the animals list
+    answerText1.text = " Follow the steps "
+    
+    --creating wrong answers
+    wrongText1.text = " Joke around "
+    wrongText2.text = " Explode things "
+    wrongText3.text = " Sleep "
+
+elseif (firstNumber == 13)then
+     --creating the question depending on the selcetion number
+    questionText.text = " Why are plants important? " 
+
+    --creating answer text from list it corispondes with the animals list
+    answerText1.text = " They let us breathe "
+    
+    --creating wrong answers
+    wrongText1.text = " They look cool "
+    wrongText2.text = " They are tasty "
+    wrongText3.text = " They are green "
+
+elseif (firstNumber == 14)then
+     --creating the question depending on the selcetion number
+    questionText.text = " Do humans need water? " 
+
+    TrueOrFalse()
+    --creating answer text from list it corispondes with the animals list
+    answerText1.text = " Yes "
+    
+    --creating wrong answers
+    wrongText1.text = " No "
+    wrongText2.text = "  "
+    wrongText3.text = "  "
+
+elseif (firstNumber == 15)then
+     --creating the question depending on the selcetion number
+    questionText.text = " What do bees help plants do? " 
+
+    --creating answer text from list it corispondes with the animals list
+    answerText1.text = " Spread seeds "
+    
+    --creating wrong answers
+    wrongText1.text = " Get food "
+    wrongText2.text = " Get water "
+    wrongText3.text = " Survive winter "
 
 elseif (firstNumber == 16)then
     --creating the question depending on the selcetion number
-    questionText.text = " Do plants need soil? " 
+    questionText.text = " Can plants grow underwater? " 
 
     TrueOrFalse()
     --creating answer text from list it corispondes with the animals list
@@ -637,7 +547,21 @@ elseif (firstNumber == 16)then
 
 elseif (firstNumber == 17)then
     --creating the question depending on the selcetion number
-    questionText.text = " Is the moon hot? " 
+    questionText.text = " Is the sun bigger than earth? " 
+
+    TrueOrFalse()
+    --creating answer text from list it corispondes with the animals list
+    answerText1.text = " Yes "
+    
+    --creating wrong answers
+    wrongText1.text = " No "
+    wrongText2.text = "  "
+    wrongText3.text = "  "
+
+
+elseif (firstNumber == 18)then
+     --creating the question depending on the selcetion number
+    questionText.text = " Do dinosaurs still exsist? " 
 
     TrueOrFalse()
     --creating answer text from list it corispondes with the animals list
@@ -648,35 +572,21 @@ elseif (firstNumber == 17)then
     wrongText2.text = "  "
     wrongText3.text = "  "
 
-
-elseif (firstNumber == 18)then
-     --creating the question depending on the selcetion number
-    questionText.text = " Can you see the moon in the day? " 
-
-    TrueOrFalse()
-    --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Sometimes "
-    
-    --creating wrong answers
-    wrongText1.text = " No "
-    wrongText2.text = "  "
-    wrongText3.text = "  "
-
 elseif (firstNumber == 19)then
      --creating the question depending on the selcetion number
-    questionText.text = " What happens when a volcanoe errupts? " 
+    questionText.text = " What is it called when water dries up? " 
 
     --creating answer text from list it corispondes with the animals list
-    answerText1.text = " Lava flows out of it "
+    answerText1.text = " evporation "
     
     --creating wrong answers
-    wrongText1.text = " Everything freezes "
-    wrongText2.text = " Nothing "
-    wrongText3.text = " The world explodes "
+    wrongText1.text = " Drying "
+    wrongText2.text = " Condensation "
+    wrongText3.text = " Floating "
 
 elseif (firstNumber == 20)then
      --creating the question depending on the selcetion number
-    questionText.text = " Is math connected to science? " 
+    questionText.text = " Are humans animals? " 
 
     TrueOrFalse()
     --creating answer text from list it corispondes with the animals list
@@ -769,7 +679,7 @@ local function Calculate( )
     if (numCorrect == 2)then
         
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
-        ResumeGameLevel1()
+        ResumeGameLevel3()
         --questionImage.isVisible = false
         numCorrect = 0
         numIncorrect = 0
@@ -777,7 +687,7 @@ local function Calculate( )
     elseif (numIncorrect == 2)then
        
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
-        ResumeGame2Level1()
+        ResumeGame2Level3()
 
         numCorrect = 0
         numIncorrect = 0
@@ -895,7 +805,7 @@ function scene:create( event )
     sceneGroup:insert(questionmarkText)
 
 
-    question2Image = display.newImageRect("Images/WhatIsRoot.png", 200, 500)
+    question2Image = display.newImageRect("Images/WhatIsLeaf.png", 200, 500)
     question2Image.x = display.contentWidth/2 - 380
     question2Image.y = display.contentHeight/2 + 50
     question2Image.strokeWidth = 9
