@@ -681,7 +681,7 @@ local function Calculate( )
     if (numCorrect == 2)then
         
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})      
-        ResumeGameLevel3()
+        ResumeGameLevel4()
         --questionImage.isVisible = false
         numCorrect = 0
         numIncorrect = 0
@@ -689,7 +689,7 @@ local function Calculate( )
     elseif (numIncorrect == 2)then
        
         composer.hideOverlay( "level2_Question", { isModal = true, effect = "fade", time = 500})
-        ResumeGame2Level3()
+        ResumeGame2Level4()
 
         numCorrect = 0
         numIncorrect = 0

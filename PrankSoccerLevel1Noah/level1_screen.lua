@@ -195,19 +195,19 @@ end
 --changes score for opposite team
 local function ChangeScore2( )
  
-  if (goal_ == 2)then
+  if (goal_ == 1)then
     goal_text.text = "1"
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
     
 
-  elseif (goal_ == 6)then
+  elseif (goal_ == 2)then
     goal_text.text = "2"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-  elseif (goal_ == 12)then
+  elseif (goal_ == 3)then
     goal_text.text = "3"
      upButton.isVisible = false
     rightButton.isVisible = false
@@ -280,7 +280,7 @@ end
 -- collision for the ball and net
 local function ballCollision( self, event )
     
-    goal_ = goal_ + 1
+   
 
     
 
@@ -334,6 +334,7 @@ end
 
 -- shoots goal when answer is wrong
 local function Shoot1( )
+  goal_ = goal_ + 1
   titleShoot.isVisible = false
   physics.addBody(topBorder2, "static",  {density=0, friction=0, bounce=0} )
   physics2 = true
@@ -489,6 +490,54 @@ character:rotate (-10)
 character:setLinearVelocity( -120, 10 )
 end
 
+local function CharacterSelect( )
+  if ( characterf == 1)then
+    character = display.newImageRect("Images/character.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+    characterJumping = display.newImageRect("Images/characterRolling.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/characterJumping.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
+   
+
+  elseif ( characterf == 2)then
+     character = display.newImageRect("Images/DinoCharacter.png",75, 125)
+   character.x = display.contentCenterX
+   character.y = display.contentCenterY
+  character.myName = "character"
+
+   character.isFixedRotation = true
+
+   
+
+    characterJumping = display.newImageRect("Images/DinoCharacterJumping.png",75, 125)
+    characterJumping.x = character.x
+    characterJumping.y = character.y
+    characterJumping.isVisible = false
+
+     characterRolling = display.newImageRect("Images/DinoCharacterRolling.png",75, 125)
+    characterRolling.x = character.x
+    characterRolling.y = character.y
+    characterRolling.isVisible = false
+
+
+
+
+    
+  end
+end
+
 
 -----------------------------------------------------------------------------------------
 
@@ -636,28 +685,7 @@ function scene:create( event )
 
     sceneGroup:insert( leftBorder )
 
-   character = display.newImageRect("Images/character.png",75, 125)
-   character.x = display.contentCenterX
-   character.y = display.contentCenterY
-  character.myName = "character"
-
-   character.isFixedRotation = true
-
-    sceneGroup:insert( character )
-
-    characterJumping = display.newImageRect("Images/characterRolling.png",75, 125)
-    characterJumping.x = character.x
-    characterJumping.y = character.y
-    characterJumping.isVisible = false
-
-     characterRolling = display.newImageRect("Images/characterJumping.png",75, 125)
-    characterRolling.x = character.x
-    characterRolling.y = character.y
-    characterRolling.isVisible = false
-
-     sceneGroup:insert( characterRolling )
-    sceneGroup:insert( characterJumping )
-
+  
   platform1 = display.newImageRect("Images/platform.png",200, 25)
    platform1.x = display.contentCenterX
    platform1.y = display.contentCenterY - 200
@@ -749,6 +777,10 @@ netBorder4:rotate (-62)
 
     sceneGroup:insert( leftNet )
     sceneGroup:insert( rightNet )
+ 
+
+
+
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
@@ -858,7 +890,12 @@ function scene:show( event )
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
                 -- start physics
+
         physics.start()
+         CharacterSelect()
+          sceneGroup:insert( character )
+  sceneGroup:insert( characterRolling )
+  sceneGroup:insert( characterJumping )
         --Rotate()
         -- set gravity
         --Reset()

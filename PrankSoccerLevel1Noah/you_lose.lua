@@ -89,7 +89,7 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
   -- creating the background
-   background = display.newImageRect("Images/fdf.png", display.contentWidth, display.contentHeight)
+   background = display.newImageRect("Images/YouWinScreenNoah@2x.png", display.contentWidth, display.contentHeight)
    background.x = display.contentCenterX
    background.y = display.contentCenterY
 

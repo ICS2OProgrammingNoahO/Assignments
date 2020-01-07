@@ -195,19 +195,19 @@ end
 --changes score for opposite team
 local function ChangeScore2( )
  
-  if (goal_ == 2)then
+  if (goal_ == 1)then
     goal_text.text = "1"
     upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
     
 
-  elseif (goal_ == 6)then
+  elseif (goal_ == 2)then
     goal_text.text = "2"
      upButton.isVisible = false
     rightButton.isVisible = false
     leftButton.isVisible = false
-  elseif (goal_ == 8)then
+  elseif (goal_ == 3)then
     goal_text.text = "3"
      upButton.isVisible = false
     rightButton.isVisible = false
@@ -280,7 +280,7 @@ end
 -- collision for the ball and net
 local function ballCollision( self, event )
     
-    goal_ = goal_ + 1
+
 
     
 
@@ -334,6 +334,7 @@ end
 
 -- shoots goal when answer is wrong
 local function Shoot1( )
+  goal_ = goal_ + 1
   titleShoot.isVisible = false
   physics.addBody(topBorder2, "static",  {density=0, friction=0, bounce=0} )
   physics2 = true
